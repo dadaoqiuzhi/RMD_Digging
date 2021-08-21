@@ -1,1 +1,5 @@
 # RMD_Digging
+#1 RMD_digging is developed by the MATLAB language. It is aimed to provide pre-processing and post-processing tools for the reactive molecular dynamics (ReaxFF) simulations performed on the LAMMPS  platform. Its functions involve formatting the reactive force field parameters, statistic anasysis of structures, trajectories and mechanisms and output of the visualization files.
+#2 Please cite the following papers:
+(1) Liu, Q.; Liu, S.; Lv, Y.; Hu, P.; Huang, Y.; Kong, M.; Li, G. Atomic-scale insight into the pyrolysis of polycarbonate by ReaxFF-based reactive molecular dynamics simulation. Fuel 2021, 287, 119484, DOI: https://doi.org/10.1016/j.fuel.2020.119484.
+(2)  Liu, Q.; Huang, W.; Liu, B.; Wang, P.-C.; Chen, H.-B. Gamma Radiation Chemistry of Polydimethylsiloxane Foam in Radiation-Thermal Environments: Experiments and Simulations. ACS Appl. Mat. Interfaces 2021, DOI: 10.1021/acsami.1c10765.
