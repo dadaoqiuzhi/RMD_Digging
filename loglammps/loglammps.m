@@ -9,9 +9,9 @@ disp('Repository adress of the Source code on github: https://github.com/dadaoqi
 disp('load importdata, dlmread functions for pure numerical data; textread and textscan functions for text data, fopen for complex cases');
 disp('Please delete the text data in the beginning and end of the log.file, and only numerical data are left.')
 
-dataname=input('Input file name should be processed, with quotes: \n');
+dataname=input('Input file name should be processed: \n','s');
 rawdata=load(dataname,'-ascii');
-datacolumn=input('Column Number of the data that should be processed, multi numbers should be seperated by whitespace; 'all' for all data. with quotes: \n');
+datacolumn=input('Column Number of the data that should be processed, multi numbers should be seperated by whitespace; "all" for all data: \n','s');
 datainput=[];
 if strcmpi(datacolumn,'all')==1
     datainput=rawdata;
