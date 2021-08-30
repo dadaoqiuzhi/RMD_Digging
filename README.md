@@ -13,4 +13,4 @@
 
 3 Please cite the following papers:
 (1) Liu, Q.; Liu, S.; Lv, Y.; Hu, P.; Huang, Y.; Kong, M.; Li, G. Atomic-scale insight into the pyrolysis of polycarbonate by ReaxFF-based reactive molecular dynamics simulation. Fuel 2021, 287, 119484, DOI: https://doi.org/10.1016/j.fuel.2020.119484.
-(2)  Liu, Q.; Huang, W.; Liu, B.; Wang, P.-C.; Chen, H.-B. Gamma Radiation Chemistry of Polydimethylsiloxane Foam in Radiation-Thermal Environments: Experiments and Simulations. ACS Appl. Mat. Interfaces 2021, DOI: 10.1021/acsami.1c10765.
+(2)  Liu, Q.; Huang, W.; Liu, B.; Wang, P.-C.; Chen, H.-B. Gamma Radiation Chemistry of Polydimethylsiloxane Foam in Radiation-Thermal Environments: Experiments and Simulations. ACS Appl. Mat. Interfaces 2021, DOI: https://doi.org/10.1021/acsami.1c10765.
