@@ -8,7 +8,7 @@
 (3)species toolkit can process the simulation generated species files. It sort out the formed products with time sequence and can further refine them by molecular weight, elements and so on. Moreover, the evolution of number-average molecular weight and weight-average molecular weight can be calculated.
 (4)bonds_analysis toolkit can read and handle the bond order (BO) information, further mainly cope with the BO information with the following purpose: a)obtain the BO information of the specific molecule or fragment; b)give the chemical composition of all the molecules and fragments (molecular formula); c)rearrange molecular formula and trace the BO information of the interested species.
 (5)lammpstrj2car_mdf_arc toolkit can output the car and mdf file, which can be be used for visualization by virture of Materials studio. Note: VMD software will be intended as the Fundamentals of Visualization. 
-(6)chemi_mechanism toolkit can export the products in specific trajectories and analysis the reaction path/channel. More desired functions will be added in the furture.
+(6)chemi_mechanism toolkit can export the products in specific trajectories and analysis the reaction path/channel. More desired functions like orientation analysis will be added in the furture.
 (7)structure_analysis toolkit is aimed to analysis the complex molecular structure, such as benzene ring, phenolic hydroxylic group and other specific chemical bonds or groups. However, its function is incomplete. Much work will be carried out in the furture.
 
 3 Please cite the following papers:
