@@ -10,11 +10,11 @@ disp('Plwase run species_analysis first, then run MWevolution to obtain Mw and M
 MDans=input('\nPlease select the option No.: 1. only MW   2.only molecular weight distribution (MWD)  3.both 1 and 2: \n');
 
 if MDans==1 || MDans==3
-    massshresholdans=input('\n Limit the Mw threshold value of species used to calculate? y/n: \n','s');massshresholdans=lower(massshresholdans);
+    massshresholdans=input('\n Limit the Mw threshold value of species used to calculate? y/n: \n','s');
     if ~ismember(massshresholdans,{'y','n'})
         error('illegal argument for Mw threshold value, Please check it!!!');
     end
-    if strcmp(massshresholdans,'y')
+    if strcmpi(massshresholdans,'y')
         fprintf('\nPlease select the option No.: \n1.larger than a Mw threshold value\n2.less than a Mw threshold value\n3.between two Mw threshold values(closed set): \n');
         massshresholdans2=input('\nPlease select the option No.: \n');
         if massshresholdans2==1 || massshresholdans2==2
@@ -27,7 +27,7 @@ if MDans==1 || MDans==3
 end
 
 if MDans==2 || MDans==3
-    MWDans=input('\nIf export the MWD data? y/n: \n','s');MWDans=lower(MWDans);
+    MWDans=input('\nIf export the MWD data? y/n: \n','s');
     if strcmpi(MWDans,'y')
         MWDfram=input('\nPlease select the option No.: 1.Specify frames manually  2.monotonically increasing frames (closed set) : \n');
         if ~ismember(MWDfram,[1 2])
@@ -100,12 +100,12 @@ if MDans==1 || MDans==3
         end
         
         
-        if strcmp(massshresholdans,'n')
+        if strcmpi(massshresholdans,'n')
             for j=1:col-3
                 Mn=Mn+molenum(1,j)*matchdataMD(j)/sum(molenum(1,:));
                 Mw=Mw+molenum(2,j)*matchdataMD(j)/sum(molenum(2,:));
             end
-        elseif strcmp(massshresholdans,'y')
+        elseif strcmpi(massshresholdans,'y')
             if massshresholdans2==1
                 for j=1:col-3
                     if matchdataMD(j)>=massshreshold
@@ -137,10 +137,10 @@ if MDans==1 || MDans==3
         end
         
         
-        if strcmp(massshresholdans,'n')
+        if strcmpi(massshresholdans,'n')
             MD(i-1,1)=Mn;
             MD(i-1,2)=Mw;
-        elseif strcmp(massshresholdans,'y')
+        elseif strcmpi(massshresholdans,'y')
             if Mn_num==0
                 MD(i-1,1)=0;
             else

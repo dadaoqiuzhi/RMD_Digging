@@ -3,51 +3,39 @@
 %This program is used to analyze  bond order information of complex molecule
 %in a specific trajectory.
 %version 1;2018.6.29
+
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-
-fprintf('This program is will analyze the BO information in bondoutdata, classifiec by molecular formula')
-speciestrjnum=input('\nPlease input the trajectory timestep. It can be obtained from the analysis results of species files: \n');
-elementsequence=input('Please input the atom type, e.g.C H O N etc with space interval, should be in line with the in.* or data file, especially for these with elements mapping to different elements.: \n','s');
-disp('bondorder_deepmining is running, please wait...')
-element=upper(elementsequence);
-element=strtrim(element);element=strsplit(element);
-eleswapans=input('\nIs there elements mapping to different elements? y/n: \n','s');
-if strcmpi(eleswapans,'y')
-    fprintf('\nPlease input the cell array of mapped elements, e.g.{''Si'',''C'';''S'',''O''},single quotes in practical, meaning Si-->C and S-->O:\n');
-    eleswap=input('');
-    eleswap=upper(eleswap);
-else
-    eleswap={'Nan'};
-end
+fprintf('\nbondorder_deepmining is running, please wait...')
+element=elementsequence;
 numseq={};
 for i=1:length(element)
     numseq{1,i}=i;
 end
-[row,~]=size(bondoutdata);%find the trajectory in bondoutdata
+[row,~]=size(bondoutdata);
 bondrownum=0;
 for i=1:row
-    if strcmp(bondoutdata{i,1},'Timestep')
-        if bondoutdata{i,2}==speciestrjnum
-            tartrjnum=i;%Timestep num row
+    if strcmp(bondoutdata{i,1},'Timestep') 
+        if bondoutdata{i,2}==tartrajectory{1}
+            tartrjnum=i;
             break
         end
     end
 end
 tarbondnum=[];
 for i=tartrjnum+1:row
-    if strcmp(bondoutdata{i,1},'Timestep')
+    if strcmp(bondoutdata{i,1},'Timestep') 
         tarbondnum=i;
         break
     end
 end
 if ~isempty(tarbondnum)
-    tarbondnum=tarbondnum-tartrjnum-1;%obtain the BO information of the target trajectory
+    tarbondnum=tarbondnum-tartrjnum-1;
 else
     tarbondnum=row-tartrjnum;
 end
 
-separator={'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'};%to seperate the BO of different species
+separator={'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'};
 bondoutdata(row+1,:)=separator(1,:);
 tarelenummatch={};tarBOinform={};lineofelenum=1;
 while ~ischar(bondoutdata{tartrjnum+1,1})
@@ -119,10 +107,10 @@ while ~ischar(bondoutdata{tartrjnum+1,1})
     continue
 end
 
-fprintf('\nbondorder_deepmining is successfully finished\n')
-disp('Molecular formula is saved in tarelenummatch with corresponding BO information in tarBOinform')
+fprintf('\nbondorder_deepmining is successfully finished')
+fprintf('\nMolecular formula is saved in tarelenummatch, corresponding BO information is saved in tarBOinform')
 
-clear alter bondrownum BOrow col datapython element elementname elementsequence elementsequence
-clear elenummatch elenumrow i j k kk  lineofbo lineofelenum numseq row rowtarBO separator speciestrjnum
-clear tarbondnum tartrjnum trajectorynum
+clear alter bondrownum BOrow col datapython element elementname
+clear elenummatch elenumrow i j k kk  lineofbo lineofelenum numseq row rowtarBO separator
+clear tarbondnum tartrjnum trajectorynum 
 
