@@ -2,10 +2,11 @@
 %purpose:
 %This program is used to  statistically average a given file
 %version 1;2018.7.15
-
+disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('##################################################################################################################################')
 datasource=input('Where is the source data from: 1.Excel, 2.matrix in workspace. Input the No.: \n');
 if datasource==1
    datasource=xlsread('input_data.xlsx');

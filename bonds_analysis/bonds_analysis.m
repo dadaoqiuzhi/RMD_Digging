@@ -2,9 +2,11 @@
 %purpose:
 %This program is used to analyze bonds file
 %version 1;2018.6.25
+disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('##################################################################################################################################')
 fprintf('This program will read the BO information of a specified or all (not recommended) trajectories, the text in the 2-4 rows of each trajectory is omitted.\n')
 dataname=input('Please input the file name to be processed: \n','s');
 readmethod=input('Please select the way to read BO information: 1.specified trajectory 2.all trajectories. Select the No.: \n');

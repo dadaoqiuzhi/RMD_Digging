@@ -8,8 +8,8 @@ disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China 
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
 disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
 disp('##################################################################################################################################')
-fprintf('This program will read the BO information of a specified or all (not recommended) trajectories, the text in the 2-4 rows of each trajectory is omitted.\n')
-dataname=input('Please input the file name to be processed: \n','s');
+fprintf('This program only save Timestep and numerical value, omitting 2-4 lines in *.lammpstrj. \nA specifird trajectory will be read.\n')
+dataname=input('Filename of *.lammpstrj file: \n','s');
 trajper=input('Please input the output frequency of BO information (Positive integer): \n');
 tartrajectory=input('\nPlease input the timestep of the specified trajectory: \n');
 atomnum=input('Please input atom number: \n');
@@ -17,7 +17,7 @@ disp('bonds_analysis_speedup is running, please wait...')
 tartrajectory={tartrajectory(1)};
 if mod(tartrajectory{1},trajper)~=0
     control=0;
-    fprintf('\nThis trajectory is not existed, please check it!!!\n')
+    fprintf('\nnnonexistent trajectory, please check it!!!\n')
     return;
 else
     control=1;
@@ -84,9 +84,6 @@ while atomnum
     dataline=fgetl(rawdata);
     readline=readline+1;
     atomnum=atomnum-1;
-    if atomnum<=0
-        break;
-    end
     datacell=textscan(dataline,'%s','delimiter','\n');
     datacellchar=char(datacell{1});
     datarep=strtrim(datacellchar);
@@ -123,9 +120,8 @@ while atomnum
     line=line+1;
 end
 fclose(rawdata);
-fprintf('\nbonds_analysis is successfully finished, BO information is saved inbondoutdata')
-
-outputans=input('Export results? y/n?: \n','s');
+fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata, search line number is recorded in readline.')
+outputans=input('Export data to Excel? Much time is required for large data and the Excel should be closed.y/n: \n','s');
 outputans=lower(outputans);
 if outputans=='y'
     [dataoutrow,dataoutcol]=size(bondoutdata);
@@ -134,9 +130,8 @@ if outputans=='y'
     dataoutputcol=strcat(dataoutcolchar,num2str(dataoutrow));
     filename='output_mydata.xlsx';
     xlswrite(filename,bondoutdata,dataoutputrow:dataoutputcol)
-    fprintf('\nbonds_analysis is successfully finished. BO information is exported into the excel:output_mydata\n')
+    fprintf('\nbonds_analysis is successfully finished, BO information etc. are exported to Excel:output_mydata.\n')
 end
-fprintf('\nbonds_analysis is successfully finished. BO information is saved inbondoutdata.\n')
-
+fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata, search line number is recorded in readline.\n')
 clear ans atomnum bondnumdata control datacell datacellchar datadel dataline dataname datarep datasplit found gap i j k kk line 
 clear outputans rawdata tartrajectory trajper unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename

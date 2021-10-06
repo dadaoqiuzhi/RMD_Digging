@@ -4,9 +4,11 @@
 %statistics£¬some orther invoked auxiliary function like char26cor, delnull,
 %membercheck and molecuweight.
 %version 1;2018.6.25
+disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('##################################################################################################################################')
 fprintf('\nThis procedure integrate the following programs: \n1.species_analysis\n2.species_capture\n')
 fprintf('3.species_classfy\n4.statistics\n\n')
 

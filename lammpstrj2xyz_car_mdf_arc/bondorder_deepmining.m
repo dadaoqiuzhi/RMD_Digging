@@ -8,17 +8,18 @@ disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China 
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
 disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
 disp('##################################################################################################################################')
-fprintf('\nbondorder_deepmining is running, please wait...')
-element=elementsequence;
-numseq={};
-for i=1:length(element)
-    numseq{1,i}=i;
-end
+fprintf('This program will analyze the BO information in a specified trajectory in bondoutdata according to molecular formula.\nThe cheimical bond information can be infered')
+speciestrjnum=input('\nTimestep of the specified trajectory(can be obtained from species file): \n');
+elementsequence=input('Please input element mapping array corresponding to 1 2 3 ...in the in.* file, seperated by white space, eg.S C S O£º\n','s');
+disp('bondorder_deepmining is running, please wait...')
+element=upper(elementsequence);
+element=strtrim(element);element=strsplit(element);
+numseq={1,2,3,4};
 [row,~]=size(bondoutdata);
 bondrownum=0;
 for i=1:row
     if strcmp(bondoutdata{i,1},'Timestep') 
-        if bondoutdata{i,2}==tartrajectory{1}
+        if bondoutdata{i,2}==speciestrjnum
             tartrjnum=i;
             break
         end
@@ -51,10 +52,6 @@ while ~ischar(bondoutdata{tartrjnum+1,1})
     end
     [elenumrow,~]=size(elenummatch);
     elementname=charnum_match(element,numseq,bondoutdata{tartrjnum+1,2});
-    if ismember(elementname,eleswap(:,1)) 
-        [~,lib]=ismember(elementname,eleswap(:,1));
-        elementname=eleswap{lib,2};
-    end
     elenummatch=eleme_molecule(elenummatch,elementname);
     BOinform={};BOinform(1,:)=bondoutdata(tartrjnum+1,:);
     lineofbo=2;
@@ -80,10 +77,6 @@ while ~ischar(bondoutdata{tartrjnum+1,1})
                     datapython{1,1}='NaN';
                     datapython=cellrowcol_del(datapython,'delcol','NaN');
                     elementname=charnum_match(element,numseq,bondoutdata{i,2});
-                    if ismember(elementname,eleswap(:,1)) 
-                        [~,lib]=ismember(elementname,eleswap(:,1));
-                        elementname=eleswap{lib,2};
-                    end
                     elenummatch=eleme_molecule(elenummatch,elementname);
                     BOinform(lineofbo,:)=bondoutdata(i,:);
                     lineofbo=lineofbo+1;
@@ -109,10 +102,9 @@ while ~ischar(bondoutdata{tartrjnum+1,1})
     continue
 end
 
-fprintf('\nbondorder_deepmining is successfully finished')
-fprintf('\nMolecular formula is saved in tarelenummatch, corresponding BO information is saved in tarBOinform')
-
-clear alter bondrownum BOrow col datapython element elementname
-clear elenummatch elenumrow i j k kk  lineofbo lineofelenum numseq row rowtarBO separator
+fprintf('\nbondorder_deepmining is successfully finished.\n')
+disp('Obtained molecular formula information is saved in tarelenummatch, and corresponding BO information is saved in tarBOinform')
+clear alter bondrownum BOrow col datapython element elementname elementsequence elementsequence 
+clear elenummatch elenumrow i j k kk  lineofbo lineofelenum numseq row rowtarBO separator speciestrjnum
 clear tarbondnum tartrjnum trajectorynum 
 

@@ -3,9 +3,11 @@
 %calculate the evolution of number-average moleculae weight (Mn), weight-average molacular weight(Mw) and molecular weight distribution (MWD)
 %include species_analysis.m
 %version 1;2018.10.5
+disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('##################################################################################################################################')
 disp('Plwase run species_analysis first, then run MWevolution to obtain Mw and Mn data')
 MDans=input('\nPlease select the option No.: 1. only MW   2.only molecular weight distribution (MWD)  3.both 1 and 2: \n');
 

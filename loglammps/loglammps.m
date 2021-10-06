@@ -2,10 +2,11 @@
 %purpose:
 %This program is used to analysis the log.lammps file
 %version 1;2018.6.20
-
+disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('##################################################################################################################################')
 disp('load importdata, dlmread functions for pure numerical data; textread and textscan functions for text data, fopen for complex cases');
 disp('Please delete the text data in the beginning and end of the log.file, and only numerical data are left.')
 

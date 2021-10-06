@@ -3,9 +3,11 @@
 %This program is used to rearrange the molecule and corresponding bond boder information processed and generated
 %the by bondorder_deepmining program
 %version 1;2018.6.29
+disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('##################################################################################################################################')
 fprintf('\nThis program takes the following preferential options into consideration: elements (C,H,O, etc), total atom number (atsum). multi-step refinement can be performed\n')
 elementsort=input('\nPlease input the ranking priority, seperated by white space\n','s');
 elementsort=upper(elementsort);

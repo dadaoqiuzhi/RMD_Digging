@@ -3,9 +3,11 @@
 %This program is used to analyze  bond order information of simple molecule
 %in a specific trajectory.
 %version 1;2018.6.26
+disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('##################################################################################################################################')
 fprintf('This program will analysis the BO information in bondoutdata of specified trajectory, helping to obtain the structure information')
 fprintf('\nRepeated refine should considered for some complex case and the obtained last BO information should overwrite these in bondoutdata in advance')
 

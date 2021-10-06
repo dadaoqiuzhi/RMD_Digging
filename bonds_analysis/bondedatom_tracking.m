@@ -4,9 +4,11 @@
 %degradation of macromolecule.
 %include bonds_analysis, bondorder_deepmining and bond_classify program
 %version 1;2018.6.30
+disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('##################################################################################################################################')
 fprintf('\nThis program is intended to track the specific atom in a species, the BO information is returned\n')
 atomid=input('\nPlease input the interested atom id: \n');
 fprintf('\nbondedatom_tracking is running, please wait...')

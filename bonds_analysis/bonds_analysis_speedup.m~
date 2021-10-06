@@ -59,7 +59,7 @@ else
                 control=0;
             end
         else
-            disp('Not timestep row, please check it!!!')
+            disp('not timestep row, please check it!!!')
             return;
         end
     end

@@ -6,9 +6,11 @@
 %bonds_analysis_speedup, bondorder_deepmining, lammpstrj_analysis and
 %xyz_car_mdf_filemaker 
 %version 1;2018.10.24
+disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('##################################################################################################################################')
 fprintf('This program is used to\n1.Export products or reactants files\n2.Analyze and export reactants-products files\n3.Analyze special groups, bonds and species (in development)\n4.Analyze where the interested species go\n')
 choi=input('Please select the option No.: \n');
 if choi==1 || choi==2 || choi==4
@@ -109,9 +111,10 @@ if choi==1 || choi==2 || choi==4
     if choi==1
         if prompt>maxchoi
             fprintf('\n%d trajectory frame(s) can be exported in outputdatanew, which is larger the threshold trajectory frame value.\nPartial trajectory frame(s) are suggested to be exported',prompt);
+            fprintf('\n%d trajectory frame(s) can be exported in outputdatanew, which is larger the threshold trajectory frame value.\nPartial trajectory frame(s) are suggested to be exported',prompt);
             promptans=input('\nExport Partial trajectory frame(s),y/n: \n','s');
             if strcmpi(promptans,'y')
-                promptans2=input('Please select the export method No.:\n1.Monotonically increasing frame(s)\n2.Frame(s) in arithmetic sequence(closed interval)\n3.onotonically increasing frame(s) in arithmetic sequence(closed interval)\n4.Manually specify\n');
+                promptans2=input('Please select the export method No.:\n1.Monotonically increasing frame(s)\n2.Frame(s) in arithmetic sequence(closed interval)\n3.Monotonically increasing frame(s) in arithmetic sequence(closed interval)\n4.Manually specify\n');
             end
         else
             promptans='n';

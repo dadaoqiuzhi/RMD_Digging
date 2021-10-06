@@ -3,9 +3,11 @@
 %This program is used to analyze bonds file and is more fast than
 %bonds_analysis program
 %version 1;2018.6.25
+disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('##################################################################################################################################')
 tartrajectory={tartrajectory(1)};
 if mod(tartrajectory{1,1},trajper)~=0
     control=0;
@@ -115,7 +117,7 @@ while atomnumcopy
 end
 fclose(rawdata);
 
-fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved inbondoutdata, search line number is recorded in readline,')
+fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata, search line number is recorded in readline,')
 
 clear atomnumcopy ans bondnumdata control datacell datacellchar datadel dataline datarep datasplit found gap i j k kk line 
 clear outputans unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename

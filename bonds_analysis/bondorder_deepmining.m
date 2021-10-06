@@ -3,9 +3,11 @@
 %This program is used to analyze  bond order information of complex molecule
 %in a specific trajectory.
 %version 1;2018.6.29
+disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('##################################################################################################################################')
 fprintf('This program is will analyze the BO information in bondoutdata, classifiec by molecular formula')
 speciestrjnum=input('\nPlease input the trajectory timestep. It can be obtained from the analysis results of species files: \n');
 elementsequence=input('Please input the atom type, e.g.C H O N etc with space interval, should be in line with the in.* or data file, especially for these with elements mapping to different elements.: \n','s');
