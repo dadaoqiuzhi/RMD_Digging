@@ -151,7 +151,7 @@ for i=1:length(element)
     numseq{1,i}=i;
 end
 eleswapans=input('\nDoes there exist element mapping?y/n: \n','s');
-if strcmpii(eleswapans,'y')
+if strcmpi(eleswapans,'y')
     fprintf('\nPlease input element mapping cell, eg.{''Si'',''C'';''S'',''O''},\nsingle quotes are used in practical,element in data file--expected mapping elements: \n');
     eleswap=input('');
     eleswap=upper(eleswap);
