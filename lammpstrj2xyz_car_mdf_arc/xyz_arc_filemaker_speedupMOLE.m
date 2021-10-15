@@ -381,8 +381,12 @@ fprintf('\nStep1:Group %d trajectory %d is successfully processed by bonds_analy
         elseif ii>1
             fprintf(fid,'\n%d\n%s %s',atomnum,title,date);
         end
+        if strcmpi(BOXsize,'y')
+            PBCa=boxsize(1,2)-boxsize(1,1);
+            PBCb=boxsize(2,2)-boxsize(2,1);
+            PBCc=boxsize(3,2)-boxsize(3,1);
+        end
     elseif formatout==2
-
         if strcmp(PBCchoi,'ON')
             PBC='PBC=ON';
             PBCa=boxsize(1,2)-boxsize(1,1);
