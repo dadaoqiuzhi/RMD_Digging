@@ -89,14 +89,19 @@ datasplit=strsplit(datarep);
 for i=1:length(datasplit)
     boxsize(3,i)=str2num(datasplit{1,i});
 end
-if formatout==2
+if formatout==2 || formatout==3
     if strcmp(PBCchoi,'ON')
         PBC='PBC=ON';
         PBCa=boxsize(1,2)-boxsize(1,1);
         PBCb=boxsize(2,2)-boxsize(2,1);
         PBCc=boxsize(3,2)-boxsize(3,1);
     elseif strcmp(PBCchoi,'OFF')
-        PBC='PBC=OFF';
+        if formatout==2
+            PBC='PBC=OFF';
+        elseif formatout==3
+            PBCa=0.00;PBCb=PBCa;PBCc=PBCa;
+            PBCalpha=0.00;PBCbeta=PBCalpha;PBCgamma=PBCalpha;
+        end
     else
         disp('Illegal periodic boundary condition in PBCchoi, please check it!!!');
         return;

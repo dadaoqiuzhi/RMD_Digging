@@ -11,12 +11,14 @@ disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China 
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
 disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
 disp('##################################################################################################################################')
-fprintf('\nxyz_car_mdf_filemaker is running, please wait...')
+fprintf('\nxyz_car_pdb_filemaker is running, please wait...')
 if formatout==1
-    title='xyz_car_mdf_filemaker Program Generated XYZ File';
+    title='!xyz_car_pdb_filemaker Program Generated XYZ File';
 elseif formatout==2
     fileheader='!BIOSYM archive 3';
-    title='xyz_car_mdf_filemaker Program Generated CAR File';
+    title='!xyz_car_pdb_filemaker Program Generated CAR File';
+elseif formatout==3
+    title='!xyz_car_pdb_filemaker Program Generated PDB File';
 end
 date=datestr(now,31);date=strcat('!DATE',date);
 
@@ -37,6 +39,16 @@ elseif formatout==2
     else
         fprintf(fid,'%s\n%s\n%-64s\n%s',fileheader,PBC,title,date);
     end
+elseif formatout==3
+    [~,tarmatchcol]=size(tarelenummatch);numofmolecule=tarmatchcol/2;
+    if strcmp(PBCchoi,'ON')
+        fprintf(fid,'%-64s\n%s\n%-9s%-9.3f%-9.3f%-8.3f%-7.2f%-7.2f%-6.2f%-14s%d',title,date,'CRYST1',PBCa,PBCb,PBCc,PBCalpha,PBCbeta,PBCgamma,spacegroupname,numofmolecule);
+    elseif strcmp(PBCchoi,'OFF')
+        PBCa=0.00;PBCb=PBCa;PBCc=PBCa;
+        PBCalpha=0.00;PBCbeta=PBCalpha;PBCgamma=PBCalpha;
+        [~,tarmatchcol]=size(tarelenummatch);numofmolecule=tarmatchcol/2;
+        fprintf(fid,'%-64s\n%s\n%-9s%-9.3f%-9.3f%-8.3f%-7.2f%-7.2f%-6.2f%-14s%d',title,date,'CRYST1',PBCa,PBCb,PBCc,PBCalpha,PBCbeta,PBCgamma,'None',numofmolecule);
+    end
 end
 element=elementsequence;
 numseq={};
@@ -45,13 +57,17 @@ for i=1:length(element)
 end
 
 [tarBOrow,~]=size(tarBOinform);
-readline=1;
+readline=1;MOLE=1;
 while readline<=tarBOrow
     if strcmp(tarBOinform{readline,1},'#')
         if formatout==2
             fprintf(fid,'\n%s','end');
         end
+        if formatout==3%每个分子式有TER间隔
+            fprintf(fid,'\n%3s   %5d      %3s %s%4d%s','TER',MOLE,'MOL','A',MOLE,'A');
+        end
         readline=readline+1;
+        MOLE=MOLE+1;
     else
         elementname=charnum_match(element,numseq,tarBOinform{readline,2});
         if ismember(elementname,eleswap(:,1)) 
@@ -67,19 +83,16 @@ while readline<=tarBOrow
                 tartrjdata(1,:)=trjdata(i,:);
             end
         end
-        if formatout==1
+        if strcmpi(BOXsize,'n')
             xcoord=tartrjdata(3);ycoord=tartrjdata(4);zcoord=tartrjdata(5);
-        elseif formatout==2
-            if strcmpi(BOXsize,'n')
-                xcoord=tartrjdata(3);ycoord=tartrjdata(4);zcoord=tartrjdata(5);
-            elseif strcmpi(BOXsize,'y')
-                xcoord=boxsize(1,1)+tartrjdata(3)*PBCa;
-                ycoord=boxsize(2,1)+tartrjdata(4)*PBCb;
-                zcoord=boxsize(3,1)+tartrjdata(5)*PBCc;
-            else
-                disp('Illegal BOXsize parameters!!!')
-            end
-            
+        elseif strcmpi(BOXsize,'y')
+            xcoord=boxsize(1,1)+tartrjdata(3)*PBCa;
+            ycoord=boxsize(2,1)+tartrjdata(4)*PBCb;
+            zcoord=boxsize(3,1)+tartrjdata(5)*PBCc;
+        else
+            disp('Illegal BOXsize parameters!!!')
+        end
+        if formatout==2
             ff=forcefield(element,numseq,tarBOinform{readline,2});
             if ismember(upper(ff),eleswap(:,1)) 
                 [~,lib]=ismember(upper(ff),eleswap(:,1));
@@ -91,16 +104,43 @@ while readline<=tarBOrow
             fprintf(fid,'\n%-5s %14.09f %14.09f %14.09f',atomname,xcoord,ycoord,zcoord);
         elseif formatout==2
             fprintf(fid,'\n%-5s %14.09f %14.09f %14.09f %-12s%-7s %-2s %6.3f',atomname,xcoord,ycoord,zcoord,residueseqname,ff,elementname,charge);
+        elseif formatout==3
+            atomNO=tartrjdata(1);
+            charge=tarBOinform{readline,15};
+            fprintf(fid,'\n%4s  %5d %4s %3s  %4d    %8.03f%8.03f%8.03f%6.02f%6.02f          %2s%2.01f','ATOM',atomNO,atomname,'MOL',MOLE,xcoord,ycoord,zcoord,1.00,0.00,elementname,charge);
         end
         readline=readline+1;
-        atomcount=atomcount+1;
+        if formatout==1
+            atomcount=atomcount+1;
+        end
     end
 end
 if formatout==2
-    fprintf(fid,'\n%s\n','end');
+    fprintf(fid,'\n%s','end');
+end
+if formatout==3
+    %tarBOinform中查找连接信息
+    trjreadline=1;
+    while trjreadline<=tarBOrow
+        if tarBOinform{trjreadline,3}==0
+            fprintf(fid,'\n%6s%5d','CONECT',tarBOinform{trjreadline,1});
+        elseif tarBOinform{trjreadline,3}==1
+            fprintf(fid,'\n%6s%5d%5d','CONECT',tarBOinform{trjreadline,1},tarBOinform{trjreadline,4});
+        elseif tarBOinform{trjreadline,3}==2
+            fprintf(fid,'\n%6s%5d%5d%5d','CONECT',tarBOinform{trjreadline,1},tarBOinform{trjreadline,4},tarBOinform{trjreadline,5});
+        elseif tarBOinform{trjreadline,3}==3
+            fprintf(fid,'\n%6s%5d%5d%5d%5d','CONECT',tarBOinform{trjreadline,1},tarBOinform{trjreadline,4},tarBOinform{trjreadline,5},tarBOinform{trjreadline,6});
+        elseif tarBOinform{trjreadline,3}==4
+            fprintf(fid,'\n%6s%5d%5d%5d%5d%5d','CONECT',tarBOinform{trjreadline,1},tarBOinform{trjreadline,4},tarBOinform{trjreadline,5},tarBOinform{trjreadline,6},tarBOinform{trjreadline,7});
+        elseif ~isnumeric(tarBOinform{trjreadline,3}) && ~strcmpi(tarBOinform{trjreadline,3},'#')
+            error('Number of chemical bond is NOT between 0 and 4, please check it!!!');
+        end
+        trjreadline=trjreadline+1;
+    end
+    fprintf(fid,'\n%s','END');
 end
 fclose(fid);
-fprintf('\nxyz_car_mdf_filemaker is successfully finished.')
+fprintf('\nxyz_car_pdb_filemaker is successfully finished.')
 
 clear ans atomname charge element elementname ff fid numseq 
 clear tarrow xcoord  ycoord  zcoord topo topocol  atomcount

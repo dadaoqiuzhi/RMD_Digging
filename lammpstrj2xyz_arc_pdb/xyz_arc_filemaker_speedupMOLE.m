@@ -114,9 +114,9 @@ if ~ismember(BOXsize,{'y','n'})
     error('Illegal BOXsize parameters, please check it!!!');
 end
 if formatout==1
-    title='xyz_arc_filemaker_speedupMOLE Program Generated XYZ File';
+    title='!xyz_arc_filemaker_speedupMOLE Program Generated XYZ File';
 elseif formatout==2
-    title='xyz_arc_filemaker_speedupMOLE Program Generated ARC File';
+    title='!xyz_arc_filemaker_speedupMOLE Program Generated ARC File';
 end
 date=datestr(now,31);date=strcat('!DATE',date);
 
@@ -132,7 +132,7 @@ if formatout==2
         disp('Periodic boundary condition, eg."PBC   33.4531   33.4531   33.4531   90.0000   90.0000   90.0000 (P1)"');
         PBCgamma=input('Periodic boundary condition, gamma, four decimal digits:\n');
         disp('Periodic boundary condition, eg."PBC   33.4531   33.4531   33.4531   90.0000   90.0000   90.0000 (P1)"');
-        spacegroupname=input('\nPoint group name, eg."(P1)": \n,'s');spacegroupname=upper(spacegroupname);
+        spacegroupname=input('\nPoint group name, eg."(P1)": \n','s');spacegroupname=upper(spacegroupname);
         fprintf(fid,'%s\n%s',fileheader,PBC);
     elseif strcmp(PBCchoi,'OFF')
         PBC='PBC=OFF';
@@ -314,7 +314,6 @@ while ii<=length(trjcollection)
         continue
     end
     fprintf('\nStep2:Group %d trajectory %d is successfully processed by bondorder_deepmining, and tarBOinform is generated,\ncontinue running lammpstrj_analysis, please wait...\n',ii,trjcollection{1,ii});
-fprintf('\nStep1:Group %d trajectory %d is successfully processed by bonds_analysis_speedup and bondnumdata is generated,\n continue running bondorder_deepmining program, please wait...\n',ii,trjcollection{1,ii});
    
     
     
@@ -478,7 +477,7 @@ fprintf('\nStep1:Group %d trajectory %d is successfully processed by bonds_analy
         end
     end
     if formatout==2
-        fprintf(fid,'\n%s\n','end');
+        fprintf(fid,'\n%s','end');
     end
     
     

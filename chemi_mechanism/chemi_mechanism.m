@@ -4,7 +4,7 @@
 %molecular formula with the datafile of species and bonds
 %include modified species_analysis, species_capture,
 %bonds_analysis_speedup, bondorder_deepmining, lammpstrj_analysis and
-%xyz_car_mdf_filemaker 
+%xyz_car_pdb_filemaker 
 %version 1;2018.10.24
 disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
@@ -14,30 +14,26 @@ disp('##########################################################################
 fprintf('This program is used to\n1.Export products or reactants files\n2.Analyze and export reactants-products files\n3.Analyze special groups, bonds and species (in development)\n4.Analyze where the interested species go\n')
 choi=input('Please select the option No.: \n');
 if choi==1 || choi==2 || choi==4
-    formatout=input('\nPlease select the file format No.: 1.xyz 2.arc\n');
+    formatout=input('\nPlease select the file format No.: 1.xyz 2.arc  3.pdb\n');
     datanamespe=input('File name of species file: \n','s');
     species=input('Please input the molecular formula, element sequence should be consistent with the in.* file, multi input should be seperated by whith space: \n','s');
     species=upper(species);
 end
 
 datanamebond=input('File name of bonds file: \n','s');
+if choi==1 || choi==2 || choi==4
+    datanametrj=input('\nFile name of lammpstrj file: \n','s');
+end
 trajper=input('\nPlease input the output frequency of BO information and trajectory file (Positive integer, see bonds or lammpstrj file):  \n');
 atomnum=input('\nPlease input atom number: \n');
-fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
-if 262143>=atomnum && atomnum>32767
-    fprintf('64 base number system is recommended for atom id');base=64;
-elseif 32767>=atomnum && atomnum>4095
-    fprintf('32 base number system is recommended for atom id');base=32;
-elseif 4095>=atomnum && atomnum>999
-    fprintf('16 base number system is recommended for atom id');base=16;
-elseif 999>=atomnum
-    fprintf('10 base number system is recommended for atom id');
-elseif atomnum<0 || atomnum>32767
-    error('atom number is less than 0 or larger than  32767. If larger, please check it and modify code accordingly!')
-end
-base=input('\nPlease select number system for atom id, positive integer and not less than the recommended value: \n');
 elementsequence=input('\nPlease input atom type like C,H.O,N, seperated by white space, corresponding to 1,2,3,4...n (see *.data or in.*, \nespecially for element mapping:\n','s');
 elementsequence=strtrim(elementsequence);elementsequence=strsplit(elementsequence);elementsequence=upper(elementsequence);
+elemax=0;
+for i=1:length(elementsequence)
+    if length(elementsequence{i})>elemax
+        elemax=length(elementsequence{i});
+    end
+end
 eleswapans=input('\nDoes there exist element mapping?y/n: \n','s');
 if strcmpi(eleswapans,'y')
     fprintf('\nPlease input element mapping cell, eg.{''Si'',''C'';''S'',''O''},\nsingle quotes are used in practical,element in data file--expected mapping elements: \n');
@@ -46,10 +42,71 @@ if strcmpi(eleswapans,'y')
 else
     eleswap={'Nan'};
 end
-
-if choi==1 || choi==2 || choi==4
-    datanametrj=input('\nFile name of lammpstrj file: \n','s');
+if elemax==2
+    if formatout==1 || formatout==2
+        fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
+        if 262143>=atomnum && atomnum>32767
+            fprintf('64 base number system is recommended for atom id');base=64;
+        elseif 32767>=atomnum && atomnum>4095
+            fprintf('32 base number system is recommended for atom id');base=32;
+        elseif 4095>=atomnum && atomnum>999
+            fprintf('16 base number system is recommended for atom id');base=16;
+        elseif 999>=atomnum
+            fprintf('10 base number system is recommended for atom id');
+        elseif atomnum<0 || atomnum>32767
+            error('atom number is less than 0 or larger than  262143. If larger, please check it and modify code accordingly!')
+        end
+    elseif formatout==3
+        fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
+        if 65535>=atomnum && atomnum>16383
+            fprintf('256 base number system is recommended for atom id');base=256;
+        elseif 16383>=atomnum && atomnum>4095
+            fprintf('128 base number system is recommended for atom id');base=128;
+        elseif 4095>=atomnum && atomnum>1023
+            fprintf('64 base number system is recommended for atom id');base=64;
+        elseif 1023>=atomnum && atomnum>255
+            fprintf('32 base number system is recommended for atom id');base=32;
+        elseif 255>=atomnum && atomnum>99
+            fprintf('16 base number system is recommended for atom id');base=16;
+        elseif 99>=atomnum
+            fprintf('10 base number system is recommended for atom id');
+        elseif atomnum<0 || atomnum>65535
+            error('atom number is less than 0 or larger than 65535. If larger, please check it and modify code accordingly!')
+        end
+    end
+elseif elemax==1
+    if formatout==1 || formatout==2
+        fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
+        if 16777215>=atomnum && atomnum>1048575
+            fprintf('64 base number system is recommended for atom id');base=64;
+        elseif 1048575>=atomnum && atomnum>65535
+            fprintf('32 base number system is recommended for atom id');base=32;
+        elseif 65535>=atomnum && atomnum>9999
+            fprintf('16 base number system is recommended for atom id');base=16;
+        elseif 9999>=atomnum
+            fprintf('10 base number system is recommended for atom id');
+        elseif atomnum<0 || atomnum>16777215
+            error('atom number is less than 0 or larger than 16777215. If larger, please check it and modify code accordingly!')
+        end
+    elseif formatout==3
+        fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
+        if 262143>=atomnum && atomnum>32767
+            fprintf('64 base number system is recommended for atom id');base=64;
+        elseif 32767>=atomnum && atomnum>4095
+            fprintf('32 base number system is recommended for atom id');base=32;
+        elseif 4095>=atomnum && atomnum>999
+            fprintf('16 base number system is recommended for atom id');base=16;
+        elseif 999>=atomnum
+            fprintf('10 base number system is recommended for atom id');
+        elseif atomnum<0 || atomnum>262143
+            error('tom number is less than 0 or larger than 262143. If larger, please check it and modify code accordingly!')
+        end
+    end
+else
+    error('Length of atom type is NOT 1 or 2, please check it!');
 end
+base=input('\nPlease select number system for atom id, positive integer and not less than the recommended value: \n');
+
 if choi==1
     maxchoi=input('\nPleasw input threshold trajectory frame value, when exceeding it different methods are suggested to limit the exportation of files: \n');
 end
@@ -72,11 +129,22 @@ if choi==1 || choi==2 || choi==4
             disp('Illegal periodic boundary condition in PBCchoi, please check it!!!');
             return;
         end
-        fprintf('\nScaled coordination is not recommended (use "dump_modify scale no" to avoid)')
-        BOXsize=input('\nDoes the coordination is scaled in the *.lammpstrj file, y/n: \n','s');
-        if ~ismember(BOXsize,{'y','n'})
-            error('Illegal BOXsize parameters, please check it!!!');
+    elseif formatout==3
+        PBCchoi=input('\nPlease input periodic boundary condition, ON/OFF: \n','s');PBCchoi=upper(PBCchoi);
+        if strcmp(PBCchoi,'ON')
+            PBCalpha=input('Periodic boundary condition, alpha, four decimal digits: \n');
+            PBCbeta=input('Periodic boundary condition, beta, four decimal digits:\n');
+            PBCgamma=input('Periodic boundary condition, gamma, four decimal digits:\n');
+            spacegroupname=input('Point group name, eg."(P1)": \n','s');spacegroupname=upper(spacegroupname);
+            spacegroupname=input('\nPoint group name, eg."(P1)" for *.arc and "P 1" for *.pdb: \n','s');spacegroupname=upper(spacegroupname);
+        elseif strcmp(PBCchoi,'OFF')
+            warndlg('Nonperiodic constraint: PBC condition is not used and coordination is directly abstracted!')
         end
+    end
+    fprintf('\nScaled coordination is not recommended (use "dump_modify scale no" to avoid)')
+    BOXsize=input('\nDoes the coordination is scaled in the *.lammpstrj file, y/n: \n','s');BOXsize=lower(BOXsize);
+    if ~ismember(BOXsize,{'y','n'})
+        error('Illegal BOXsize parameters, please check it!!!');
     end
     
     if exist('outputdata','var')
@@ -304,8 +372,10 @@ if choi==1 && strcmpi(promptans,'y')
                 datanamecar=strcat(species{1},'-',num2str(frame{1,irow}),'-',num2str(frame{2,irow}),'.xyz');
             elseif formatout==2
                 datanamecar=strcat(species{1},'-',num2str(frame{1,irow}),'-',num2str(frame{2,irow}),'.car');
+            elseif formatout==3
+                datanamecar=strcat(species{1},'-',num2str(frame{1,irow}),'-',num2str(frame{2,irow}),'.pdb');
             end
-            xyz_car_mdf_filemaker
+            xyz_car_pdb_filemaker
             seekBOinform
         else
             fclose(rawdatatrj);
@@ -386,8 +456,10 @@ elseif choi==1 && strcmpi(promptans,'n')
                 datanamecar=strcat(species{1},'-',num2str(frame{1,irow}),'-',num2str(frame{2,irow}),'.xyz');
             elseif formatout==2
                 datanamecar=strcat(species{1},'-',num2str(frame{1,irow}),'-',num2str(frame{2,irow}),'.car');
+            elseif formatout==3
+                datanamecar=strcat(species{1},'-',num2str(frame{1,irow}),'-',num2str(frame{2,irow}),'.pdb');
             end
-            xyz_car_mdf_filemaker
+            xyz_car_pdb_filemaker
             seekBOinform
         else
             fclose(rawdatatrj);
@@ -634,32 +706,40 @@ elseif choi==2 || choi==4
                         datanamecar=strcat(species{1},'-',num2str(tartrajectory{1,1}),'-',num2str(tartrajectorycopy(1)),'-',num2str(pronum),'-','reactant','.xyz');
                     elseif formatout==2
                         datanamecar=strcat(species{1},'-',num2str(tartrajectory{1,1}),'-',num2str(tartrajectorycopy(1)),'-',num2str(pronum),'-','reactant','.car');
+                    elseif formatout==3
+                        datanamecar=strcat(species{1},'-',num2str(tartrajectory{1,1}),'-',num2str(tartrajectorycopy(1)),'-',num2str(pronum),'-','reactant','.pdb');
                     end
                 elseif choi==4
                     if formatout==1
                         datanamecar=strcat(species{1},'-',num2str(tartrajectory{1,1}),'-',num2str(tartrajectorycopy(1)),'-',num2str(pronum),'-','product','.xyz');
                     elseif formatout==2
                         datanamecar=strcat(species{1},'-',num2str(tartrajectory{1,1}),'-',num2str(tartrajectorycopy(1)),'-',num2str(pronum),'-','product','.car');
+                    elseif formatout==3
+                        datanamecar=strcat(species{1},'-',num2str(tartrajectory{1,1}),'-',num2str(tartrajectorycopy(1)),'-',num2str(pronum),'-','product','.pdb');
                     end
                 end
                 tarBOinform=tarBOinformcopy3;
-                xyz_car_mdf_filemaker
+                xyz_car_pdb_filemaker
                 
                 if choi==2
                     if formatout==1
                         datanamecar=strcat(species{1},'-',num2str(tartrajectory{1,1}),'-',num2str(tartrajectorycopy(1)),'-',num2str(pronum),'-','product','.xyz');
                     elseif formatout==2
                         datanamecar=strcat(species{1},'-',num2str(tartrajectory{1,1}),'-',num2str(tartrajectorycopy(1)),'-',num2str(pronum),'-','product','.car');
+                    elseif formatout==3
+                        datanamecar=strcat(species{1},'-',num2str(tartrajectory{1,1}),'-',num2str(tartrajectorycopy(1)),'-',num2str(pronum),'-','product','.pdb');
                     end
                 elseif choi==4
                     if formatout==1
                         datanamecar=strcat(species{1},'-',num2str(tartrajectory{1,1}),'-',num2str(tartrajectorycopy(1)),'-',num2str(pronum),'-','reactant','.xyz');
                     elseif formatout==2
                         datanamecar=strcat(species{1},'-',num2str(tartrajectory{1,1}),'-',num2str(tartrajectorycopy(1)),'-',num2str(pronum),'-','reactant','.car');
+                    elseif formatout==3
+                        datanamecar=strcat(species{1},'-',num2str(tartrajectory{1,1}),'-',num2str(tartrajectorycopy(1)),'-',num2str(pronum),'-','reactant','.pdb');
                     end
                 end
                 tarBOinform=tarBOinformcopy2;trjdata=trjdatacopy;
-                xyz_car_mdf_filemaker
+                xyz_car_pdb_filemaker
                 
                 seekBOinform
                 
