@@ -1,4 +1,4 @@
-# RMD_Digging: A toolkit to remove the barriers in the way of scientific calculations and analysis 
+# RMD_Digging: A Toolkit to Remove the Barriers in the Way o Scientific Calculations and Analysis 
 
 1 RMD_digging is developed by the MATLAB language. It is aimed to provide pre-processing and post-processing tools for the reactive molecular dynamics (ReaxFF) simulations performed on the LAMMPS  platform. Its functions involve formatting the reactive force field parameters, statistic anasysis of structures, trajectories and mechanisms and output of the visualization files. Besides, extra modelling by other softwares can be performed by preparing corresponding input files. The following softwares are used to realize these goals, including Materials studio, VMD and Gaussian. Let's make it more versatile, powerful and robust together!
 
