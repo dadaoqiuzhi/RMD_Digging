@@ -10,7 +10,7 @@ disp('##########################################################################
 fprintf('Paste data from literatures into the input.txt, one blank Line for each block without the initio lines of pure character string\n');
 fidin=fopen('input.txt','r');
 fidout=fopen('output.txt','w');
-charset=input('\ncell of elements involved, e.g.{'C','H','O'}:\n');
+charset=input('\ncell of elements involved, e.g.{"C","H","O"}:\n');
 
 while ~feof(fidin)%Number of general parameters
     str=fgetl(fidin);

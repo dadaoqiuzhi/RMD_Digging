@@ -123,7 +123,7 @@ while atomnum
     line=line+1;
 end
 fclose(rawdata);
-fprintf('\nbonds_analysis is successfully finished, BO information is saved inbondoutdata')
+fprintf('\nbonds_analysis is successfully finished, BO information is saved in bondoutdata')
 
 outputans=input('Export results? y/n?: \n','s');
 outputans=lower(outputans);
@@ -136,7 +136,7 @@ if outputans=='y'
     xlswrite(filename,bondoutdata,dataoutputrow:dataoutputcol)
     fprintf('\nbonds_analysis is successfully finished. BO information is exported into the excel:output_mydata\n')
 end
-fprintf('\nbonds_analysis is successfully finished. BO information is saved inbondoutdata.\n')
+fprintf('\nbonds_analysis is successfully finished. BO information is saved in bondoutdata.\n')
 
 clear ans atomnum bondnumdata control datacell datacellchar datadel dataline dataname datarep datasplit found gap i j k kk line 
 clear outputans rawdata tartrajectory trajper unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename

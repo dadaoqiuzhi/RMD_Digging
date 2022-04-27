@@ -71,7 +71,7 @@ for i=2:datarow
 end
 
 fprintf('\nSpecies is successfully sorted and imported in outputdata!')
-fprintf('species_analysis is successfully finished.')
+fprintf('species_analysis is successfully finished.\n')
 
 clear datacell datacellchar datacellnum datacol datadel datafirstrow dataline datalinenum datanow filename ans
 clear dataoutcol dataoutcolchar dataoutputcol dataoutputrow datarow datarep datarow datasec datasplit statans

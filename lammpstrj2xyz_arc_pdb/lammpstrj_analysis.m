@@ -89,7 +89,7 @@ fclose(rawdata);
 disp('\nlammpstrj_analysis is successfully finished.')
 fprintf('\nAtomic coordination information of the specified trajectory is saved in trjdata\n');
 
-outputans=input('\nExport data to Excel? Much time is required for large data and the Excel should be closed.y/n: \n');
+outputans=input('\nExport data to Excel? Much time is required for large data and the Excel should be closed.y/n: \n','s');
 outputans=lower(outputans);
 if outputans=='y'
     [dataoutrow,dataoutcol]=size(trjdata);

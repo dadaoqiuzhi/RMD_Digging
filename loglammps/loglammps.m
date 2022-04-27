@@ -38,7 +38,7 @@ for j=2:datacol
     end
 end
 
-dataoutput(:,1)=dataoutput(:,1)*timestep;
+dataoutput(:,1)=dataoutput(:,1)*timestep/1000;
 % [dataoutrow,dataoutcol]=size(dataoutput);%export data
 % dataoutputrow=strcat('A','1');
 % dataoutcolchar=char(65+dataoutcol-1);

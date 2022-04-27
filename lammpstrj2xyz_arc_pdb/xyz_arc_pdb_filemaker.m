@@ -508,6 +508,8 @@ while ii<=length(trjcollection)
         fprintf('\nStep3:Group %d trajectory %d is successfully processed b lammpstrj_analysis and trjdata is generated, \ncontinue running xyz_arc_filemaker_speedupMOLE to generate *.xyz file£¬please waits...\n',ii,trjcollection{1,ii})
     elseif formatout==2
         fprintf('\nStep3:Group %d trajectory %d is successfully processed b lammpstrj_analysis and trjdata is generated, \ncontinue running xyz_arc_filemaker_speedupMOLE to generate *.arc file£¬please waits...\n',ii,trjcollection{1,ii})
+    elseif formatout==3
+        fprintf('\nStep3:Group %d trajectory %d is successfully processed b lammpstrj_analysis and trjdata is generated, \ncontinue running xyz_arc_filemaker_speedupMOLE to generate *.pdb file£¬please waits...\n',ii,trjcollection{1,ii})
     end
     
     [~,tarmatchcol]=size(tarelenummatch);numofmolecule=tarmatchcol/2;

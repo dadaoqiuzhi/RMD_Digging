@@ -77,6 +77,7 @@ end
 
 msgbox('Species is successfully sorted and imported!');
 fprintf('\nspecies_capture can screen out the interested species data, species_classfy can obtain the interested species with specifically structure characterization\n')
+fprintf('\nData is saved in outputdata\n')
 fprintf('\nspecies_analysis is successfully finished\n\n')
 clear datacell datacellchar datacellnum datacol datadel datafirstrow dataline datalinenum datanow filename ans
 clear dataoutcol dataoutcolchar dataoutputcol dataoutputrow datarow datarep datarow datasec datasplit statans

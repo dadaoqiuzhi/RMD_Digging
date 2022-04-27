@@ -13,10 +13,10 @@ disp('Repository adress of the Source code on github: https://github.com/dadaoqi
 disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
 disp('##################################################################################################################################')
 disp('When species_analysis is executed, this procedure can obtain the interested species')
-fprintf('(1)C20 means species with 20 C,C42+ denotes species with C number larger than 42, C100- is species with C less than 100')
-fprintf('(2)M100 indicates species with Mw of 100, M125+ denotes Mw larger than 125, M400- is species less than 400')
-fprintf('(3)eleC are species have C, eleCO are species have C and O')
-fprintf('(4)eleonlyCH are species only have C and H, eleonlyCO are species only have C and O')
+fprintf('\n(1)C20 means species with 20 C,C42+ denotes species with C number larger than 42, C100- is species with C less than 100')
+fprintf('\n(2)M100 indicates species with Mw of 100, M125+ denotes Mw larger than 125, M400- is species less than 400')
+fprintf('\n(3)eleC are species have C, eleCO are species have C and O')
+fprintf('\n(4)eleonlyCH are species only have C and H, eleonlyCO are species only have C and O')
 fprintf('\n\nMethods to filter out the interested species: \na:C1,C20,C42+,C100-,+ means >=,- means <\n')
 fprintf('b:M100,M125+,M400-\n')
 fprintf('c:eleC,eleCO\n')
@@ -196,7 +196,7 @@ disp('Sum of data are saved in sumdata')
 
 
 
-disp('nResults of species_classfy are saved in dataexport, sum of data are saved in sumdata')
+fprintf('\nResults of species_classfy are saved in dataexport, sum of data are saved in sumdata')
 fprintf('\nMore complex data abstraction can be performed by copying data in dataexport to outputdata and go on!\n')
 msgbox('species_classfy is successfully finished!');
 

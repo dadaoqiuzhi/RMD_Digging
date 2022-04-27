@@ -110,7 +110,7 @@ while ~ischar(bondoutdata{tartrjnum+1,1})
 end
 
 fprintf('\nbondorder_deepmining is successfully finished')
-fprintf('\nMolecular formula is saved in tarelenummatch, corresponding BO information is saved in tarBOinform')
+fprintf('\nMolecular formula is saved in tarelenummatch, corresponding BO information is saved in tarBOinform\n')
 
 clear alter bondrownum BOrow col datapython element elementname
 clear elenummatch elenumrow i j k kk  lineofbo lineofelenum numseq row rowtarBO separator

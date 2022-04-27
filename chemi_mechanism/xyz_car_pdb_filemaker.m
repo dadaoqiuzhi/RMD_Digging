@@ -140,7 +140,7 @@ if formatout==3
     fprintf(fid,'\n%s','END');
 end
 fclose(fid);
-fprintf('\nxyz_car_pdb_filemaker is successfully finished.')
+fprintf('\nxyz_car_pdb_filemaker is successfully finished.\n')
 
 clear ans atomname charge element elementname ff fid numseq 
 clear tarrow xcoord  ycoord  zcoord topo topocol  atomcount

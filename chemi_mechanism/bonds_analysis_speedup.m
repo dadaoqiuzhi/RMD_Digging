@@ -117,7 +117,7 @@ while atomnumcopy
 end
 fclose(rawdata);
 
-fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata, search line number is recorded in readline,')
+fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata, search line number is recorded in readline\n')
 
 clear atomnumcopy ans bondnumdata control datacell datacellchar datadel dataline datarep datasplit found gap i j k kk line 
 clear outputans unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename

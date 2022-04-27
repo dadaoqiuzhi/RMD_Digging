@@ -1,4 +1,5 @@
 %scrit file name chemi_mechanism2
+%scrit file name chemi_mechanism2
 %purpose:
 %This program is used to analysis chemical reaction mechanism according to
 %molecular formula with the datafile of species and bonds
@@ -14,7 +15,7 @@ disp('##########################################################################
 fprintf('This program is used to\n1.Export products or reactants files\n2.Analyze and export reactants-products files\n3.Analyze special groups, bonds and species (in development)\n4.Analyze where the interested species go\n')
 choi=input('Please select the option No.: \n');
 if choi==1 || choi==2 || choi==4
-    formatout=input('\nPlease select the file format No.: 1.xyz 2.arc  3.pdb\n');
+    formatout=input('\nPlease select the file format No.: 1.xyz 2.car  3.pdb\n');
     datanamespe=input('File name of species file: \n','s');
     species=input('Please input the molecular formula, element sequence should be consistent with the in.* file, multi input should be seperated by whith space: \n','s');
     species=upper(species);
@@ -364,7 +365,7 @@ if choi==1 && strcmpi(promptans,'y')
                 tarraw=tarraw-1;
             end
         end
-        fprintf('\nSuccessfully delete the unexpected BO information in tarBOinform');
+        fprintf('\nSuccessfully delete the unexpected BO information in tarBOinform\n');
         lammpstrj_analysis
 
         if str2num(datarep)<=tartrajectory{1}
@@ -448,7 +449,7 @@ elseif choi==1 && strcmpi(promptans,'n')
                 tarraw=tarraw-1;
             end
         end
-        fprintf('\nSuccessfully delete the unexpected BO information in tarBOinform');
+        fprintf('\nSuccessfully delete the unexpected BO information in tarBOinform\n');
         lammpstrj_analysis
        
         if str2num(datarep)<=tartrajectory{1}
@@ -496,7 +497,7 @@ elseif choi==2 || choi==4
         numstop=input('\nPlease input the limited exported file number:\n');
     end
     fprintf('\nFor high efficiency, only search the trajectory frame with changed species number');
-    seekacc=input('\nLimit the trajectory frame to be searched? For method 2 the searched trajectory frame with degressive timestep.For method 4 is on the contrary. y/n: \n','s');
+    seekacc=input('\nLimit the trajectory frame to be searched? For method 2 the searched trajectory frame with degressive timestep.\nFor method 4 is on the contrary. y/n: \n','s');
     if ~strcmpi(seekacc,'y') && ~strcmpi(seekacc,'n')
         error('Illegal limitation method option. Please check it!!!');
     end
@@ -554,7 +555,7 @@ elseif choi==2 || choi==4
             tarraw=tarraw-1;
         end
     end
-    fprintf('\nSuccessfully delete the unexpected BO information in tarBOinform');
+    fprintf('\nSuccessfully delete the unexpected BO information in tarBOinform\n');
     rawdatatrj=fopen(datanametrj,'r');
     lammpstrj_analysis
     fclose(rawdatatrj);
@@ -638,9 +639,9 @@ elseif choi==2 || choi==4
             
             if sum(frameproact(:,5))~=0
                 if choi==2
-                    fprintf('\n\n\nNow is searching group %d reactants(%d)-products(%d), this is the hit group, already hits %d groups(including this group),%d groups in total to be processed, limited to export %d groups',loopnum,tartrajectory{1,1},tartrajectorycopy(1),pairnum+1,outputdata{(promptans3(1)-outputdata{2,1})/trajper+2,outcol},numstop);
+                    fprintf('\n\n\nNow is searching group %d reactants(%d)-products(%d), this is the hit group, already hits %d groups(including this group),\n%d groups in total to be processed, limited to export %d groups',loopnum,tartrajectory{1,1},tartrajectorycopy(1),pairnum+1,outputdata{(promptans3(1)-outputdata{2,1})/trajper+2,outcol},numstop);
                 elseif choi==4
-                    fprintf('\n\n\nNow is searching group %d products(%d)-reactants(%d),this is the hit group,already hits %d groups(including this group), at most %d froups, limited to export %d groups',loopnum,tartrajectory{1,1},tartrajectorycopy(1),pairnum+1,outputdata{(promptans3(1)-outputdata{2,1})/trajper+2,outcol},numstop);
+                    fprintf('\n\n\nNow is searching group %d products(%d)-reactants(%d),this is the hit group,already hits %d groups(including this group), \nat most %d froups, limited to export %d groups',loopnum,tartrajectory{1,1},tartrajectorycopy(1),pairnum+1,outputdata{(promptans3(1)-outputdata{2,1})/trajper+2,outcol},numstop);
                 end
                 loopnum=loopnum+1;
                 
