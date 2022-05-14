@@ -17,6 +17,12 @@ else
 end
 avesteps=input('Step/Span number used to average the data, should be a positive integer: \n');
 disp('statisave is running...')
+if iscell(datasource)
+    if ischar(datasource{1,1})
+        datasource(1,:)=[];
+        datasource=cell2mat(datasource);
+    end
+end
 [datarow,datacol]=size(datasource);
 imax=(datarow-mod(datarow,avesteps))/avesteps;
 datastatis=[];

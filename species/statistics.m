@@ -13,12 +13,12 @@ if statans=='y'
     datastat=input('data name in work space, in general outputdata, outputdatanew or dataexport: \n');
     timestep=input('Please input timestep, unit:fs: \n');
     avesteps=input('Please input frame span for data average, must be an integer: \n');
-    thermoper=input('Please input the output frequency of species information (Positive integer): namely fix reax/c/species command, Nfreq: \n');
-    thermomax=input('Please input the maximum steps of the species file, must be an integer: \n');
+    thermoper=datastat{3,1}-datastat{2,1};
+    thermomax=datastat{size(datastat,1),1};
     fprintf('\n\nstatistics is running, please wait...\n\n')
     imax=thermomax/thermoper+1;re=mod(imax,avesteps);
     imaxend=(imax-re)/avesteps;
-    [datarow,datacol]=size(datastat);outdatastat={};
+    [~,datacol]=size(datastat);outdatastat={};
     outdatastat(1,:)=datastat(1,:);
     if strcmp(datastat{1,1},'Timestep')
         for i=2:imaxend
@@ -45,6 +45,9 @@ if statans=='y'
             end
         end
     end
+end
+for i=2:size(outdatastat,1)
+    outdatastat{i,1}=outdatastat{i,1}*timestep/1000;
 end
 disp('Results of statistics is saved in outdatastat')
 
