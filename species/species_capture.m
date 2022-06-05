@@ -8,7 +8,7 @@ disp('Repository adress of the Source code on github: https://github.com/dadaoqi
 disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
 disp('##################################################################################################################################')
 disp('When species_analysis is executed, this procedure can obtain the interested species')
-species=input('Please input the molecular formula, should be lin line with the species file, especially the element sequence, \nmultiple molecular formula can be seperated by white space: \n','s');
+species=input('Please input the molecular formula, should be lin line with the species file, especially the element sequence, \nmultiple molecular formulas can be seperated by white space: \n','s');
 species=upper(species);
 fprintf('\n\nspecies_capture is running, please wait...\n\n')
 species=strtrim(species);

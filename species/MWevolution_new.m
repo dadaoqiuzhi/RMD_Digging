@@ -44,8 +44,8 @@ if MDans==2 || MDans==3
                     STEP(i)=str2num(MWDfram{1,i});
                 end
             case 2
-                minstep=input('\nPlease input the minimum timestpe: \n');
-                maxstep=input('\nPlease input the maximum timestpe: \n');
+                minstep=input('\nPlease input the minimum timestep: \n');
+                maxstep=input('\nPlease input the maximum timestep: \n');
                 dumpevery=input('\nPlease input the output frequency of species file by lammps: \n');
                 STEP(1)=maxstep(1);STEP(2)=minstep(1);
                 MWDfram=input('\nPlease input the common difference of monotonically increasing frames, must be the integral multiple of output frequency of species file: \n');

@@ -7,6 +7,7 @@ disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China 
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
 disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
 disp('##################################################################################################################################')
+fprintf('\nCell data is required\n');
 statans=input('Average data? y/n:\n','s');
 statans=lower(statans);
 if statans=='y'
