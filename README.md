@@ -1,4 +1,5 @@
 # RMD_Digging: A Toolkit to Remove the Barriers in the Way of Scientific Calculations and Analysis 
+=======
 
 ## Development History
 
@@ -23,7 +24,14 @@ RMD_Digging is developed by the MATLAB language. It is aimed to provide pre-proc
 ## Please Cite the Following Papers and RMD_Digging ToolKit Accordingly:
 (1) Liu, Q.; Liu, S.; Lv, Y.; Hu, P.; Huang, Y.; Kong, M.; Li, G. Atomic-scale insight into the pyrolysis of polycarbonate by ReaxFF-based reactive molecular dynamics simulation. Fuel 2021, 287, 119484, DOI: https://doi.org/10.1016/j.fuel.2020.119484.
 
+
 (2) Liu, Q.; Huang, W.; Liu, B.; Wang, P.-C.; Chen, H.-B. Gamma Radiation Chemistry of Polydimethylsiloxane Foam in Radiation-Thermal Environments: Experiments and Simulations. ACS Appl. Mat. Interfaces 2021, 13 (34), 41287-41302, DOI: https://doi.org/10.1021/acsami.1c10765.
+
+(2) Liu, Q.; Huang, W.; Liu, B.; Wang, P.-C.; Chen, H.-B. Gamma Radiation Chemistry of Polydimethylsiloxane Foam in Radiation-Thermal Environments: Experiments and Simulations. ACS Appl. Mat. Interfaces 2021, 13 (34), 41287-41302, DOI: https://doi.org/10.1021/acsami.1c10765
+
+(3) C. Li, Q. Liu, W. Gong, Z. Zhou, Z. Yao, X. Meng, Study on the atomic scale of thermal and thermo-oxidative degradation of polylactic acid via reactive molecular dynamics simulation, Thermochim. Acta 709 (2022) 179144.
+(4) Liu, Q., RMD_Digging ToolKit, 2020, https://github.com/dadaoqiuzhi/RMD_Digging.
+
 
 (3) C. Li, Q. Liu, W. Gong, Z. Zhou, Z. Yao, X. Meng, Study on the atomic scale of thermal and thermo-oxidative degradation of polylactic acid via reactive molecular dynamics simulation, Thermochim. Acta 709 (2022) 179144.
 
