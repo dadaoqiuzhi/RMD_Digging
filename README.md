@@ -1,24 +1,34 @@
-<<<<<<< Updated upstream
 # RMD_Digging: A Toolkit to Remove the Barriers in the Way of Scientific Calculations and Analysis 
-=======
-# RMD_Digging: A Toolkit to Remove the Barriers in the Way of Scientific Calculations and Analysis
->>>>>>> Stashed changes
 
-1 RMD_Digging is developed by the MATLAB language. It is aimed to provide pre-processing and post-processing tools for the reactive molecular dynamics (ReaxFF) simulations performed on the LAMMPS  platform. Its functions involve formatting the reactive force field parameters, statistic anasysis of structures, trajectories and mechanisms and output of the visualization files. Besides, extra modelling by other softwares can be performed by preparing corresponding input files. The following softwares are used to realize these goals, including Materials studio, VMD and Gaussian. Let's make it more versatile, powerful and robust together!
+## Development History
 
-2 A brief introduction to the RMD_Digging toolkit:
+RMD_Digging is developed by the MATLAB language. It is aimed to provide pre-processing and post-processing tools for the reactive molecular dynamics (ReaxFF) simulations performed on the LAMMPS  platform. Its functions involve formatting the reactive force field parameters, statistic anasysis of structures, trajectories and mechanisms and output of the visualization files. Besides, extra modelling by other softwares can be performed by preparing corresponding input files. The following softwares are used to realize these goals, including Materials studio, VMD and Gaussian. Let's make it more versatile, powerful and robust together!
+
+## A Brief Introduction to the RMD_Digging Toolkit
+
 (1)ReaxFF_Gen toolkit is used to generate standard file with ReaxFF force field parameters from literatures.
+
 (2)loglammps toolkit is mainly used to extract and process data with statistic average method.
+
 (3)species toolkit can process the simulation generated species files. It sorts out the formed products with time sequence and can further refine them by molecular weight, elements and so on. Moreover, the evolution of number-average molecular weight and weight-average molecular weight can be calculated.
+
 (4)bonds_analysis toolkit can read and handle the bond order (BO) information, further mainly cope with the BO information with the following purpose: a)obtain the BO information of the specific molecule or fragment; b)give the chemical composition of all the molecules and fragments (molecular formula); c)rearrange molecular formula and trace the BO information of the interested species.
+
 (5)lammpstrj2xyz_arc_pdb toolkit can output the *.xyz, *.arc and *.pdb file, which can be be used for visualization by virture of Materials studio and VMD software, both in the form of static image and dynamic trajectory. 
+
 (6)chemi_mechanism toolkit can export the products in specific trajectories and analysis the reaction path/channel. More desired functions like orientation analysis will be added in the furture.
+
 (7)structure_analysis toolkit is aimed to analysis the complex molecular structure, such as benzene ring, phenolic hydroxylic group and other specific chemical bonds or groups. However, its function is incomplete. Much work will be carried out in the furture.
 
-3 Please cite the following papers and RMD_Digging ToolKit accordingly:
+## Please Cite the Following Papers and RMD_Digging ToolKit Accordingly:
 (1) Liu, Q.; Liu, S.; Lv, Y.; Hu, P.; Huang, Y.; Kong, M.; Li, G. Atomic-scale insight into the pyrolysis of polycarbonate by ReaxFF-based reactive molecular dynamics simulation. Fuel 2021, 287, 119484, DOI: https://doi.org/10.1016/j.fuel.2020.119484.
-(2) Liu, Q.; Huang, W.; Liu, B.; Wang, P.-C.; Chen, H.-B. Gamma Radiation Chemistry of Polydimethylsiloxane Foam in Radiation-Thermal Environments: Experiments and Simulations. ACS Appl. Mat. Interfaces 2021, 13 (34), 41287-41302, DOI: https://doi.org/10.1021/acsami.1c10765.
-(3) Liu, Q., RMD_Digging ToolKit, https://github.com/dadaoqiuzhi/RMD_Digging.
 
-4 Disclaimer:
+(2) Liu, Q.; Huang, W.; Liu, B.; Wang, P.-C.; Chen, H.-B. Gamma Radiation Chemistry of Polydimethylsiloxane Foam in Radiation-Thermal Environments: Experiments and Simulations. ACS Appl. Mat. Interfaces 2021, 13 (34), 41287-41302, DOI: https://doi.org/10.1021/acsami.1c10765.
+
+(3) C. Li, Q. Liu, W. Gong, Z. Zhou, Z. Yao, X. Meng, Study on the atomic scale of thermal and thermo-oxidative degradation of polylactic acid via reactive molecular dynamics simulation, Thermochim. Acta 709 (2022) 179144.
+
+(4) Liu, Q., RMD_Digging ToolKit, https://github.com/dadaoqiuzhi/RMD_Digging.
+
+## Disclaimer:
+
 Using the software and the scripts in this repository is at your own risk. The software is freeware and it come without any (as in nothing, nada, niente, rien) WARRANTY. Therefore, Neither me nor the Institute of Nuclear Physics and Chemistry is responsible for the loss of data, time, bad results or anything else deriving by the use of my software or this repository. We do not make any warranty, express or implied, or assumes any legal liability or responsibility for the accuracy, completeness, or usefulness of any software, scipts, information, apparatus, product, disclosed process, or represents that its use would not infringe privately owned rights. Reference herein to any specific commercial software, product, process, or service by trade name, trademark, manufacturer, or otherwise, does not necessarily constitute or imply its endorsement, recommendation, or favoring by the People's Republic of China. The views and opinions of authors expressed herein do not necessarily state or reflect those of the People's Republic of China or the Institute of Nuclear Physics and Chemistry, and shall not be used for advertising or product endorsement purposes. 
