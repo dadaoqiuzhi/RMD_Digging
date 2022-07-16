@@ -16,7 +16,7 @@ RMD_Digging is developed by the MATLAB language. It is aimed to provide pre-proc
 (7)structure_analysis toolkit is aimed to analysis the complex molecular structure, such as benzene ring, phenolic hydroxylic group and other specific chemical bonds or groups. However, its function is incomplete. Much work will be carried out in the furture.
 
 ## Please Cite the Following Papers and RMD_Digging ToolKit Accordingly:
-(1) **Liu, Q.**, RMD_Digging ToolKit, 2020, https://github.com/dadaoqiuzhi/RMD_Digging.<br>
+(1) **Liu, Q.**, RMD_Digging ToolKit, 2020, https://github.com/dadaoqiuzhi/RMD_Digging, accessed date.<br>
 (2) **Liu, Q.**; Liu, S.; Lv, Y.; Hu, P.; Huang, Y.; Kong, M.; Li, G. Atomic-scale insight into the pyrolysis of polycarbonate by ReaxFF-based reactive molecular dynamics simulation. Fuel 2021, 287, 119484, DOI: https://doi.org/10.1016/j.fuel.2020.119484.<br>
 (3) **Liu, Q.**; Huang, W.; Liu, B.; Wang, P.-C.; Chen, H.-B. Gamma Radiation Chemistry of Polydimethylsiloxane Foam in Radiation-Thermal Environments: Experiments and Simulations. ACS Appl. Mat. Interfaces 2021, 13 (34), 41287-41302, DOI: https://doi.org/10.1021/acsami.1c10765.<br>
 (4) C. Li, **Q. Liu**, W. Gong, Z. Zhou, Z. Yao, X. Meng, Study on the atomic scale of thermal and thermo-oxidative degradation of polylactic acid via reactive molecular dynamics simulation, Thermochim. Acta 709 (2022) 179144, DOI: https://doi.org/10.1016/j.tca.2021.179144<br>
