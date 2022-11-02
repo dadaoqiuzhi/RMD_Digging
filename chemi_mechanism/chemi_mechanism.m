@@ -109,7 +109,7 @@ end
 base=input('\nPlease select number system for atom id, positive integer and not less than the recommended value: \n');
 
 if choi==1
-    maxchoi=input('\nPleasw input threshold trajectory frame value, when exceeding it different methods are suggested to limit the exportation of files: \n');
+    maxchoi=input('\nPlease input threshold trajectory frame value, when exceeding it different methods are suggested to limit the exportation of files: \n');
 end
 if choi==1 || choi==2 || choi==4
     if formatout==2
@@ -597,7 +597,7 @@ elseif choi==2 || choi==4
                         control=0;
                         break;
                     elseif tartrajectoryact/trajper<1
-                        error('Frame %d exceed the first timestep, meaning ninexistence, please check it!!!',tartrajectoryact);
+                        error('Frame %d exceed the first timestep, meaning nonexistence, please check it!!!',tartrajectoryact);
                     end
                 end
             end
@@ -617,7 +617,7 @@ elseif choi==2 || choi==4
                         control=0;
                         break;
                     elseif tartrajectoryact>outputdatanew{row,1}
-                        error('Frame %d exceed the last timestep, meaning ninexistence, please check it!!!',tartrajectoryact);
+                        error('Frame %d exceed the last timestep, meaning nonexistence, please check it!!!',tartrajectoryact);
                     end
                 end
             end
@@ -754,7 +754,7 @@ elseif choi==2 || choi==4
                 loopnum=loopnum+1;
             end  
         else
-            error('Frame exceed the first timestep, meaning ninexistence, please check it!!!');
+            error('Frame exceed the first timestep, meaning nonexistence, please check it!!!');
         end
         [tarraw,~]=size(tarBOinformcopy);
         if pairnum==numstop
