@@ -25,7 +25,7 @@ tarclass=input('Please select the option (a, b, c or d): \n','s');
 tarclass=lower(tarclass);
 sumans=input('Sum the data? y/n:\n','s');
 sumans=lower(sumans);
-datadelimiter={'C','H','O','N','+','-','M','ele','eleonly'};
+datadelimiter={'C','H','O','N','+','-','M','ele','eleonly','He','Li','Be','B','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Pd','Ag','Cd','In','Sn','Sb','I','Xe','Cs','Ba','Pt','Au','Hg','Pb'};
 outputdatast=outputdata(1,:);
 fprintf('\nif the exported data only have three column, not hit the interested species, please delet the irrelevant data in the work space\n')
 if tarclass=='a'||tarclass=='b'
@@ -33,6 +33,9 @@ if tarclass=='a'||tarclass=='b'
     classid=upper(classid);
     clear dataexport matchdatacol sumdata
     [C,matches]=strsplit(classid,datadelimiter,'CollapseDelimiters',false);
+    if isempty(matches)
+        error('未匹配到相关选项，请检查输入或补全datadelimiter参数中的元素')
+    end
     Clength=length(C);
     if Clength==2
         classidcell={};

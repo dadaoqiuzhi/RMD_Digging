@@ -14,14 +14,19 @@ fprintf('\n\nspecies_capture is running, please wait...\n\n')
 species=strtrim(species);
 species=strsplit(species);
 outputdatast=outputdata(1,:);
-datamatch=[];
+datamatch=[];find=0;
 for i=1:length(species)
     for j=1:length(outputdatast)
         if strcmpi(species{i},(outputdatast{j}))
-            datamatch(1,i)=i;
-            datamatch(2,i)=j;
+            find=1;
+            datamatch(1,size(datamatch,2)+1)=size(datamatch,2)+1;
+            datamatch(2,size(datamatch,2))=j;
         end
     end
+    if find~=1
+        fprintf('\n产物%s没有找到！',species{i});
+    end
+    find=0;
 end
 
 [checkrow,checkcol]=size(datamatch);
@@ -43,7 +48,7 @@ outputdatanew={};
 for k=1:3
     outputdatanew(:,k)=outputdata(:,k);
 end
-for j=1:length(species)
+for j=1:size(datamatch,2)
     outputdatanew(:,j+3)=outputdata(:,datamatch(2,j));
 end
 disp('Results of species_capture are saved in outputdatanew')
