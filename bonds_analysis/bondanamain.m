@@ -7,14 +7,15 @@
 disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. 3.ACS Appl. Mat. Interfaces 2022, 14.(4), 5959-5972.')
+disp('4.ACS Materials Letters 2023, 2174-2188. More work is coming!')
 disp('##################################################################################################################################')
 fprintf('\nThis program is the integration of: \n1.bonds_analysis (BO read)\n2.bonds_analysis with acceleration algorithm.')
 fprintf('\n3.bondorder_capture (simple analysis)\n4.bondorder_deepmining (deep mining and classification)')
 fprintf('\n5.speciesbond_classify (clustering and sorting)\n6.bondedatom_tracking (specific atom tracking)\n')
 
 while true
-    progchoi=input('Please input the analysis options(1,2,3,4,5 or 6): \n');
+    progchoi = input('Please input the analysis options(1,2,3,4,5 or 6): \n');
     switch progchoi
         case 1
             bonds_analysis

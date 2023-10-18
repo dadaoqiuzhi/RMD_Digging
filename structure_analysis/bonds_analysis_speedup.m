@@ -6,18 +6,16 @@
 disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. 3.ACS Appl. Mat. Interfaces 2022, 14.(4), 5959-5972.')
+disp('4.ACS Materials Letters 2023, 2174-2188. More work is coming!')
 disp('##################################################################################################################################')
-fprintf('This program will read the BO information of a specified or all (not recommended) trajectories, the text in the 2-4 rows of each trajectory is omitted.\n')
-dataname=input('Please input the file name to be processed: \n','s');
-trajper=input('Please input the output frequency of BO information (Positive integer): \n');
-tartrajectory=input('\nPlease input the timestep of the specified trajectory: \n');
-atomnum=input('Please input atom number: \n');
-disp('bonds_analysis_speedup is running, please wait...')
+fprintf('This program only save the information about Timestep and numberic data, ignoring the data in line 2-4. A special trajectory can be read\n')
+
+disp('bonds_analysis_speedup is running,please wait...')
 tartrajectory={tartrajectory(1)};
 if mod(tartrajectory{1},trajper)~=0
     control=0;
-    fprintf('\nThis trajectory is not existed, please check it!!!\n')
+    fprintf('\nnonexist trajectory number, please check it!\n')
     return;
 else
     control=1;
@@ -26,8 +24,8 @@ end
 
 readline=0;
 gap=8+atomnum;
-rawdata=fopen(dataname,'r');
-dataline=fgetl(rawdata);
+rawdatabond=fopen(dataname,'r');
+dataline=fgetl(rawdatabond);
 readline=readline+1;
 datacell=textscan(dataline,'%s','delimiter','\n');
 datacellchar=char(datacell{1});
@@ -41,7 +39,7 @@ else
         i=1;
         unfound=1;
         while unfound
-            dataline=fgetl(rawdata);
+            dataline=fgetl(rawdatabond);
             readline=readline+1;
             i=i+1;
             if i==gap+1
@@ -59,7 +57,7 @@ else
                 control=0;
             end
         else
-            disp('not timestep row, please check it!!!')
+            disp('Not a timestep line£¬please check the file or code!')
             return;
         end
     end
@@ -67,7 +65,7 @@ end
 
 found=6;
 while found
-    dataline=fgetl(rawdata);
+    dataline=fgetl(rawdatabond);
     readline=readline+1;
     found=found-1;
 end
@@ -79,14 +77,11 @@ for i=3:15
     bondoutdata{1,i}=[];
 end
 
-line=2;
-while atomnum
-    dataline=fgetl(rawdata);
+line=2;atomnumcopy=atomnum;
+while atomnumcopy;%
+    dataline=fgetl(rawdatabond);
     readline=readline+1;
-    atomnum=atomnum-1;
-    if atomnum<=0
-        break;
-    end
+    atomnumcopy=atomnumcopy-1;
     datacell=textscan(dataline,'%s','delimiter','\n');
     datacellchar=char(datacell{1});
     datarep=strtrim(datacellchar);
@@ -122,21 +117,8 @@ while atomnum
     end
     line=line+1;
 end
-fclose(rawdata);
-fprintf('\nbonds_analysis is successfully finished, BO information is saved inbondoutdata')
+fclose(rawdatabond);
+fprintf('\nbonds_analysis_speedup is end, bond order information is saved in bondoutdata\n')
 
-outputans=input('Export results? y/n?: \n','s');
-outputans=lower(outputans);
-if outputans=='y'
-    [dataoutrow,dataoutcol]=size(bondoutdata);
-    dataoutputrow=strcat('A','1');
-    dataoutcolchar=char(65+dataoutcol-1);
-    dataoutputcol=strcat(dataoutcolchar,num2str(dataoutrow));
-    filename='output_mydata.xlsx';
-    xlswrite(filename,bondoutdata,dataoutputrow:dataoutputcol)
-    fprintf('\nbonds_analysis is successfully finished. BO information is exported into the excel:output_mydata\n')
-end
-fprintf('\nbonds_analysis is successfully finished. BO information is saved inbondoutdata.\n')
-
-clear ans atomnum bondnumdata control datacell datacellchar datadel dataline dataname datarep datasplit found gap i j k kk line 
-clear outputans rawdata tartrajectory trajper unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename
+% clear ans atomnum bondnumdata control datacell datacellchar datadel dataline dataname datarep datasplit found gap i j k kk line 
+% clear outputans rawdatabond tartrajectory trajper unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename
