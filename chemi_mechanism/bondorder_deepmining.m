@@ -3,12 +3,16 @@
 %This program is used to analyze  bond order information of complex molecule
 %in a specific trajectory.
 %version 1;2018.6.29
+
+
 disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
-disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('githup≤÷ø‚µÿ÷∑: https://github.com/dadaoqiuzhi/RMD_Digging');
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. 3.ACS Appl. Mat. Interfaces 2022, 14.(4), 5959-5972.')
+disp('4.ACS Materials Letters 2023, 2174-2188. More work is coming!')
 disp('##################################################################################################################################')
-fprintf('\nbondorder_deepmining is running, please wait...')
+
+fprintf('\nspecies_analysis is running, Please wait...')
 element=elementsequence;
 numseq={};
 for i=1:length(element)
@@ -68,7 +72,7 @@ while ~ischar(bondoutdata{tartrjnum+1,1})
     while ~isempty(datapython) && ~ischar(bondoutdata{tartrjnum+1,1})
         alter=datapython{1,1};kk=0;
         for i=tartrjnum+1:tartrjnum+tarbondnum
-            if alter==datapython{1,1}
+            if alter==datapython{1,1};
                 kk=kk+1;
                 if datapython{1,1}==bondoutdata{i,1}
                     j=length(datapython)+1;

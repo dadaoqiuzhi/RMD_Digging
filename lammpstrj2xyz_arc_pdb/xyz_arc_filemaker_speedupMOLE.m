@@ -9,7 +9,8 @@
 disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. 3.ACS Appl. Mat. Interfaces 2022, 14.(4), 5959-5972.')
+disp('4.ACS Materials Letters 2023, 2174-2188. More work is coming!')
 disp('##################################################################################################################################')
 fprintf('\nThis program will turn BO information in tarBOinform and trjdata into.xyz or.arc file, which can be visualized by VMD or Materials studio.\nCaution: Write in attach mode!!!\n')
 formatout=input('\nPlease select the option No. of file format: 1.xyz 2.arc\n');
@@ -109,7 +110,7 @@ if formatout==2
     fileheader='!BIOSYM archive 3';
     PBCchoi=input('\nPlease input periodic boundary condition, ON/OFF: \n','s');PBCchoi=upper(PBCchoi);
 end
-BOXsize=input('\nDoes the coordination is scaled in the *.lammpstrj file, y/n: \n','s');BOXsize=lower(BOXsize);
+BOXsize=input('\nDoes the coordinate is scaled in the *.lammpstrj file, y/n: \n','s');BOXsize=lower(BOXsize);
 if ~ismember(BOXsize,{'y','n'})
     error('Illegal BOXsize parameters, please check it!!!');
 end

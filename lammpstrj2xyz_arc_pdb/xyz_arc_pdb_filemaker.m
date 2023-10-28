@@ -9,9 +9,12 @@
 disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. 3.ACS Appl. Mat. Interfaces 2022, 14.(4), 5959-5972.')
+disp('4.ACS Materials Letters 2023, 2174-2188. More work is coming!')
 disp('##################################################################################################################################')
+
 fprintf('\nThis program will turn BO information in tarBOinform and trjdata into.xyz,.arc or .pdb file, which can be visualized by VMD or Materials studio.\nCaution: Write in attach mode!!!\n')
+
 formatout=input('\nPlease select the option No. of file format: 1.xyz 2.arc 3.pdb\n');
 if formatout==1
     dataname=input('\nPlease give the file name *.xyz, e.g."PCdeg.xyz"：\n','s');
@@ -26,7 +29,26 @@ bonddataname=input('\nFilename of bond file: \n','s');
 bondper=input('\nPlease input the output frequency of BO information (Positive integer, can be confirmed in bond file): \n');
 trjdataname=input('\nFilename of *.lammpstrj file: \n','s');
 trjper=input('\nPlease input the output frequency of BO information and trajectory file (Positive integer, see bonds or lammpstrj file):\n');
-atomnum=input('Please input atom number: \n');
+fprintf('Automatically read atom number from the *.lammpstrj file, please wait...')
+atomnum=atom_num_autoread(trjdataname); 
+check_control_origin=input('\nPlease input the number for frame No. check of bonds.* and *.lammpstrj files compared with species file，\navoiding mismatch induced error, >=5 is suggested: \n');%考察帧编号数量
+if check_control_origin <4
+    warning('Maybe impossible to detect the dismatch problem for bonds.* and *.lammpstrj files compared with species file, >=5 is suggested!')
+end
+if exist('fram_num_check','var')
+    rerun_ans2=input('The frame No. check file for bonds.* and lammpstrj.* files exists, if to rerun check and modify process (need extra time) y/n: \n','s');
+    if strcmpi(rerun_ans2,'y')
+        rerun_ans='y';
+    elseif strcmpi(rerun_ans2,'n')
+        fprintf('According to your choice, pleae input orrect frame No. for reactant or product later on, eliminating the possible error about frame No. record and damaged arithmetic progression problem\n')
+        msgbox('According to your choice, pleae input orrect frame No.!')
+    elseif ~ismember(rerun_ans2,{'y','Y','n','N'})
+        error('Illegal input, please check it!')
+    end
+else
+    rerun_ans=input('If to run check process for the consistency of frame No. in the bonds.*, lammpstrj.* and species.* (need extra time)y/n: \n','s');
+end
+bonds_lammpstrj_framecheck
 
 elementsequence=input('\nPlease input atom type like C,H.O,N, seperated by white space, corresponding to 1,2,3,4...n (see *.data or in.*, \nespecially for element mapping:\n','s');
 element=upper(elementsequence);element=strtrim(element);element=strsplit(element);
@@ -48,70 +70,70 @@ end
 
 if elemax==2
     if formatout==1 || formatout==2
-        fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
+        fprintf('\nDifferent coding system is adopted according to the atom number (ASCII)\n');
         if 262143>=atomnum && atomnum>32767
-            fprintf('64 base number system is recommended for atom id');base=64;
+            fprintf('64 base coding system is recommended for atom id');base=64;%
         elseif 32767>=atomnum && atomnum>4095
-            fprintf('32 base number system is recommended for atom id');base=32;
+            fprintf('32 base coding system is recommended for atom id');base=32;%
         elseif 4095>=atomnum && atomnum>999
-            fprintf('16 base number system is recommended for atom id');base=16;
+            fprintf('16 base coding system is recommended for atom id');base=16;%
         elseif 999>=atomnum
-            fprintf('10 base number system is recommended for atom id');
+            fprintf('10 base coding system is recommended for atom id');
         elseif atomnum<0 || atomnum>32767
-            error('atom number is less than 0 or larger than  262143. If larger, please check it and modify code accordingly!')
+            error('Atom number is less than 0 or larger than  262143. If larger, please check it and modify code accordingly!')
         end
     elseif formatout==3
-        fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
+        fprintf('\nDifferent coding system is adopted according to the atom number (ASCII)\n');
         if 65535>=atomnum && atomnum>16383
-            fprintf('256 base number system is recommended for atom id');base=256;
+            fprintf('256 base coding system is recommended for atom id');base=256;
         elseif 16383>=atomnum && atomnum>4095
-            fprintf('128 base number system is recommended for atom id');base=128;
+            fprintf('128 base coding system is recommended for atom id');base=128;
         elseif 4095>=atomnum && atomnum>1023
-            fprintf('64 base number system is recommended for atom id');base=64;
+            fprintf('64 base coding system is recommended for atom id');base=64;
         elseif 1023>=atomnum && atomnum>255
-            fprintf('32 base number system is recommended for atom id');base=32;
+            fprintf('32 base coding system is recommended for atom id');base=32;
         elseif 255>=atomnum && atomnum>99
-            fprintf('16 base number system is recommended for atom id');base=16;
+            fprintf('16 base coding system is recommended for atom id');base=16;
         elseif 99>=atomnum
-            fprintf('10 base number system is recommended for atom id');
+            fprintf('10 base coding system is recommended for atom id');
         elseif atomnum<0 || atomnum>65535
-            error('atom number is less than 0 or larger than 65535. If larger, please check it and modify code accordingly!')
+            error('Atom number is less than 0 or larger than 65535. If larger, please check it and modify code accordingly!')
         end
     end
 elseif elemax==1
     if formatout==1 || formatout==2
-        fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
+        fprintf('nDifferent coding system is adopted according to the atom number (ASCII)\n');
         if 16777215>=atomnum && atomnum>1048575
-            fprintf('64 base number system is recommended for atom id');base=64;
+            fprintf('64 base coding system is recommended for atom id');base=64;
         elseif 1048575>=atomnum && atomnum>65535
-            fprintf('32 base number system is recommended for atom id');base=32;
+            fprintf('32 base coding system is recommended for atom id');base=32;
         elseif 65535>=atomnum && atomnum>9999
-            fprintf('16 base number system is recommended for atom id');base=16;
+            fprintf('16 base coding system is recommended for atom id');base=16;
         elseif 9999>=atomnum
-            fprintf('10 base number system is recommended for atom id');
+            fprintf('10 base coding system is recommended for atom id');
         elseif atomnum<0 || atomnum>16777215
-            error('atom number is less than 0 or larger than 16777215. If larger, please check it and modify code accordingly!')
+            error('Atom number is less than 0 or larger than 16777215. If larger, please check it and modify code accordingly!')
         end
     elseif formatout==3
-        fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
+        fprintf('\nDifferent coding system is adopted according to the atom number (ASCII)\n');
         if 262143>=atomnum && atomnum>32767
-            fprintf('64 base number system is recommended for atom id');base=64;
+            fprintf('64 base coding system is recommended for atom id');base=64;
         elseif 32767>=atomnum && atomnum>4095
-            fprintf('32 base number system is recommended for atom id');base=32;
+            fprintf('32 base coding system is recommended for atom id');base=32;
         elseif 4095>=atomnum && atomnum>999
-            fprintf('16 base number system is recommended for atom id');base=16;
+            fprintf('16 base coding system is recommended for atom id');base=16;
         elseif 999>=atomnum
-            fprintf('10 base number system is recommended for atom id');
+            fprintf('10 base coding system is recommended for atom id');
         elseif atomnum<0 || atomnum>262143
-            error('tom number is less than 0 or larger than 262143. If larger, please check it and modify code accordingly!')
+            error('Atom number is less than 0 or larger than 262143. If larger, please check it and modify code accordingly!')
         end
     end
 else
     error('Length of atom type is NOT 1 or 2, please check it!');
 end
-base=input('\nPlease select number system for atom id, positive integer and not less than the recommended value: \n');
+base=input('\nPlease select coding system for atom id, positive integer and not less than the recommended value: \n');
 trjatomnum=atomnum;
-trjcollection=input('\nPlease select the export method No.: \n1.Manually specify multi-trajectories   \n2.Monotonically increasing frame(s) in arithmetic sequence(closed interval)   \n3.Both method 1 and2 (1 first, 2 last)\n');
+trjcollection=input('\nPlease select the export method No.: \n1.Manually specify multi-trajectories   \n2.Monotonically increasing frame(s) in arithmetic sequence(closed interval)   \n3.Both method 1 and 2 (1 first, 2 last)\n');
 if trjcollection==1
     trjcollection=input('\nTrajectories in ascending order, seperated by white space：\n','s');
     trjcollection=strtrim(trjcollection);trjcollection=strsplit(trjcollection);
@@ -160,7 +182,7 @@ elseif trjcollection==3
     if trjmod~=0
         trjcollect{1,lengthtrj-1+trjnnum}=trjmax;
     end
-    trjcollection=trjcollect;
+    trjcollection=trjcollect; 
 else
     error('Illegal method No., please check it!!!');
 end
@@ -172,7 +194,7 @@ for i=1:length(trjcollection)
     if mod(trjcollection{1,i},bondper)~=0
         error('Nonexistent trajectory in bond file, please check it!!!')
     end
-    if mod(trjcollection{1,i},trjper)~=0
+    if mod(trjcollection{1,i},trjper)~=0%
         error('Nonexistent trajectory in *.lammpstrj, please check it!!!')
     end
 end
@@ -184,13 +206,15 @@ end
 if formatout==3
     PBCchoi=input('\nPlease input periodic boundary condition, ON/OFF: \n','s');PBCchoi=upper(PBCchoi);
     if strcmpi(PBCchoi,'OFF')
-        warndlg('Nonperiodic constraint: PBC condition is not used and coordination is directly abstracted!')
+        warndlg('Nonperiodic constraint: PBC condition is not used and coordinate is directly abstracted!')
     end
 end
-BOXsize=input('\nDoes the coordination is scaled in the *.lammpstrj file, y/n: \n','s');BOXsize=lower(BOXsize);
+BOXsize=input('\nDoes the coordinate is scaled in the *.lammpstrj file, y/n: \n\n','s');BOXsize=lower(BOXsize);
 if ~ismember(BOXsize,{'y','n'})
     error('Illegal BOXsize parameters, please check it!!!');
 end
+unwrapans=input('If to perform unwrap for atoms with coordinate affected by ghost position, causing discontinuity of structure,y/n? (Unusable Now!): \n','s');
+
 if formatout==1
     title='!xyz_arc_pdb_filemaker Program Generated XYZ File';
 elseif formatout==2
@@ -203,7 +227,7 @@ date=datestr(now,31);date=strcat('!DATE',date);
 fid=fopen(dataname,'at');
 
 if formatout==2 || formatout==3
-    if strcmp(PBCchoi,'ON')
+    if strcmp(PBCchoi,'ON')%
         PBC='PBC=ON';
         PBCalpha=input('Periodic boundary condition, alpha, four decimal digits: \n');
         PBCbeta=input('Periodic boundary condition, beta, four decimal digits:\n');
@@ -224,6 +248,8 @@ if formatout==2 || formatout==3
 end
 
 fprintf('\nxyz_arc_pdb_filemaker is running, p;ease wait...\n')
+
+tic;
 
 ii=1;
 rawdata=fopen(bonddataname,'r');
@@ -248,7 +274,7 @@ while ii<=length(trjcollection)
         control=0;
     else
         while control
-            dataline=textscan(rawdata,'%q',1,'headerlines',gap-1,'delimiter','\n');%跳过指定行
+            dataline=textscan(rawdata,'%q',1,'headerlines',gap-1,'delimiter','\n');
             readline=readline+gap;
             if mod(readline-1,gap)==0
                 datacell=dataline;
@@ -308,7 +334,7 @@ while ii<=length(trjcollection)
         end
         line=line+1;
     end
-    fprintf('\nStep1:Group %d trajectory %d is successfully processed by bonds_analysis_speedup and bondnumdata is generated,\n continue running bondorder_deepmining program, please wait...\n',ii,trjcollection{1,ii});
+    fprintf('\nStep1:Group %d trajectory %d is successfully processed by bonds_analysis_speedup and bondnumdata is generated,\n continue running bondorder_deepmining program, please wait...\n',ii,trjcollection{1,ii});%bonds_analysis_speedup完成
    
     
     separator={'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'};
@@ -377,8 +403,8 @@ while ii<=length(trjcollection)
         [rowtarBO,~]=size(tarBOinform);
         tarBOinform(rowtarBO+1:rowtarBO+BOrow+1,:)=BOinform(1:BOrow+1,:);
         continue
-    end%bondorder_deepmining结束
-    fprintf('\nStep2:Group %d trajectory %d is successfully processed by bondorder_deepmining, and tarBOinform is generated,\ncontinue running lammpstrj_analysis, please wait...\n',ii,trjcollection{1,ii});
+    end
+    fprintf('\nStep2:Group %d trajectory %d is successfully processed by bondorder_deepmining, and tarBOinform is generated,\ncontinue running lammpstrj_analysis, please wait...\n',ii,trjcollection{1,ii});%bonds_analysis_speedup完成
 
     
     
@@ -394,7 +420,7 @@ while ii<=length(trjcollection)
     datacell=textscan(dataline,'%s','delimiter','\n');
     datacellchar=char(datacell{1});
     datarep=strtrim(datacellchar);
-    if str2num(datarep)==trjcollection{1,ii}
+    if str2num(datarep)==trjcollection{1,ii}+num_modify
         control=0;
     else
         while control
@@ -404,7 +430,7 @@ while ii<=length(trjcollection)
                 datacell=dataline;
                 datacellchar=char(datacell{1});
                 datarep=strtrim(datacellchar);
-                if str2num(datarep)==trjcollection{1,ii}
+                if str2num(datarep)==trjcollection{1,ii}+num_modify
                     control=0;
                 end
             else
@@ -412,7 +438,7 @@ while ii<=length(trjcollection)
             end
         end
     end
-
+    %
     dataline=textscan(trjrawdata,'%q',1,'headerlines',2,'delimiter','\n');
     boxsize=[];
     dataline=fgetl(trjrawdata);
@@ -451,7 +477,7 @@ while ii<=length(trjcollection)
             PBCc=boxsize(3,2)-boxsize(3,1);
         end
     elseif formatout==2
-
+        %
         if strcmp(PBCchoi,'ON')
             PBC='PBC=ON';
             PBCa=boxsize(1,2)-boxsize(1,1);
@@ -490,7 +516,7 @@ while ii<=length(trjcollection)
     
     dataline=textscan(trjrawdata,'%q',1,'headerlines',0,'delimiter','\n');
     trjdata=[];line=1;
-    while atomnum%读取坐标信息
+    while atomnum
         dataline=fgetl(trjrawdata);
         readline=readline+1;
         trjreadline=trjreadline+1;
@@ -505,35 +531,40 @@ while ii<=length(trjcollection)
         line=line+1;
     end
     if formatout==1
-        fprintf('\nStep3:Group %d trajectory %d is successfully processed b lammpstrj_analysis and trjdata is generated, \ncontinue running xyz_arc_filemaker_speedupMOLE to generate *.xyz file，please waits...\n',ii,trjcollection{1,ii})
+        fprintf('\nStep3:Group %d trajectory %d is successfully processed b lammpstrj_analysis and trjdata is generated, \ncontinue running xyz_arc_pdb_filemaker to generate *.xyz file，please waits...\n',ii,trjcollection{1,ii})
     elseif formatout==2
-        fprintf('\nStep3:Group %d trajectory %d is successfully processed b lammpstrj_analysis and trjdata is generated, \ncontinue running xyz_arc_filemaker_speedupMOLE to generate *.arc file，please waits...\n',ii,trjcollection{1,ii})
-    elseif formatout==3
-        fprintf('\nStep3:Group %d trajectory %d is successfully processed b lammpstrj_analysis and trjdata is generated, \ncontinue running xyz_arc_filemaker_speedupMOLE to generate *.pdb file，please waits...\n',ii,trjcollection{1,ii})
+        fprintf('\nStep3:Group %d trajectory %d is successfully processed b lammpstrj_analysis and trjdata is generated, \ncontinue running xyz_arc_pdb_filemaker to generate *.arc file，please waits...\n',ii,trjcollection{1,ii})
+     elseif formatout==3
+        fprintf('\nStep3:Group %d trajectory %d is successfully processed b lammpstrj_analysis and trjdata is generated, \ncontinue running xyz_arc_pdb_filemaker to generate *.pdb file，please waits...\n',ii,trjcollection{1,ii})
+    end
+    
+    %unwrap
+    if strcmpi(unwrapans,'y')
+        trjdata=PBC_Unwrap(unwrapans,tarBOinform,trjdata,BOXsize,boxsize,element);
     end
     
     [~,tarmatchcol]=size(tarelenummatch);numofmolecule=tarmatchcol/2;
     [tarBOrow,~]=size(tarBOinform);line=1;trjreadline=1;
-    MOLE=1;
+    MOLE=1;%
     while trjreadline<=tarBOrow
         if strcmp(tarBOinform{trjreadline,1},'#')
             if formatout==2
                 fprintf(fid,'\n%s','end');
             end
-            if formatout==3
+            if formatout==3%
                 fprintf(fid,'\n%3s   %5d      %3s %s%4d%s','TER',MOLE,'MOL','A',MOLE,'A');
             end
             trjreadline=trjreadline+1;
             readline=readline+1;
             MOLE=MOLE+1;
         else
-          elementname=charnum_match(element,numseq,tarBOinform{trjreadline,2});
+          elementname=charnum_match(element,numseq,tarBOinform{trjreadline,2});%
           if ismember(elementname,eleswap(:,1)) 
               [~,lib]=ismember(elementname,eleswap(:,1));
               elementname=eleswap{lib,2};
           end
           atomid_conv=SysConvert(tarBOinform{trjreadline,1},base);
-          atomname=strcat(elementname,atomid_conv);
+          atomname=strcat(elementname,atomid_conv);%
           
           [trjrow,~]=size(trjdata);tartrjdata=[];
           for i=1:trjrow
@@ -541,6 +572,7 @@ while ii<=length(trjcollection)
                   tartrjdata(1,:)=trjdata(i,:);
               end
           end
+          
           if strcmpi(BOXsize,'n')
               xcoord=tartrjdata(3);ycoord=tartrjdata(4);zcoord=tartrjdata(5);
           elseif strcmpi(BOXsize,'y')
@@ -562,8 +594,8 @@ while ii<=length(trjcollection)
                   ff=lower(eleswap{lib,2});
               end
               charge=tarBOinform{trjreadline,15};
-
-              fprintf(fid,'\n%-5s %14.09f %14.09f %14.09f %-12s%-7s %-2s %6.3f',atomname,xcoord,ycoord,zcoord,residueseqname,ff,elementname,charge);
+              
+              fprintf(fid,'\n%-5s %14.09f %14.09f %14.09f %-12s%-7s %-2s %6.3f',atomname,xcoord,ycoord,zcoord,residueseqname,ff,elementname,charge);%%-(+)5d,5字节宽左(右)对齐整数，不足在前方补空格，%12.09f=%12.9f:12字节宽，9位小数精度，不足用0补足小数位。%07d,7字节宽整数，不足补0
           elseif formatout==3
               atomNO=tartrjdata(1);
               charge=tarBOinform{trjreadline,15};
@@ -593,7 +625,7 @@ while ii<=length(trjcollection)
             elseif tarBOinform{trjreadline,3}==4
                 fprintf(fid,'\n%6s%5d%5d%5d%5d%5d','CONECT',tarBOinform{trjreadline,1},tarBOinform{trjreadline,4},tarBOinform{trjreadline,5},tarBOinform{trjreadline,6},tarBOinform{trjreadline,7});
             elseif ~isnumeric(tarBOinform{trjreadline,3}) && ~strcmpi(tarBOinform{trjreadline,3},'#')
-                error('化学键数目不在0-4之间，请检查！！！');
+                error('Bond order is not between 0-4, please check it!!!');
             end
             trjreadline=trjreadline+1;
         end
@@ -608,7 +640,7 @@ end
 fclose(rawdata);
 fclose(trjrawdata);
 fclose(fid);
-fprintf('\nxyz_arc_pdb_filemaker is successfully finished.\n\n')
+fprintf('\nxyz_arc_pdb_filemaker is successfully finished\n')
 if formatout==1
     fprintf('\n*.xyz file is generated: %s\n',dataname)
 elseif formatout==2
@@ -616,16 +648,19 @@ elseif formatout==2
 elseif formatout==3
     fprintf('\n*.pdb file is generated: %s\n',dataname)
 end
-msgbox('Done！xyz_arc_pdb_filemaker is successfully finished.');
+msgbox('Done！xyz_arc_pdb_filemaker is successfully finished');
 
-clear ans atomnum bondnumdata control datacell datacellchar datadel dataline dataname datarep datasplit found gap i j k kk line 
-clear outputans rawdata tartrajectory trajper unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename
-clear alter bondrownum BOrow col datapython element elementname elementsequence elementsequence readline atomNO elemax
-clear elenummatch elenumrow i j k kk  lineofbo lineofelenum numseq row rowtarBO separator speciestrjnum spacegroupname
-clear tarbondnum tartrjnum trajectorynum bonddataname bondper ii PBCa PBCalpha PBCb PBCbeta PBCc PBCgamma tarelenummatch
-clear ans atomname BOXsize charge dataname date element elementname elementsequence ff fid fileheader numseq PBC PBCchoi PBCcond 
-clear residuename residueseqname tarrow title xcoord xhi xlo xlength ycoord yhi ylo ylength zcoord zhi zlo zlength date topo topocol  
-clear molecule comatomname mdfans symmetry groupname connect row connectivity i j k line trjatomnum trjcollection atomid_conv
-clear BOinform lineofmolecule numofmolecule tarBOrow tarmatchcol tartrjdata trjrow trjdataname trjlength trjmax trjmin
-clear trjmod trjnnum trjnum trjones trjper trjrawdata trjreadline trjstep MOLE lib base eleswapans eleswap boxsize formatout
-            
+toc 
+fprintf('\nTotal task time: %.2f s\n',toc)
+
+% clear ans atomnum bondnumdata control datacell datacellchar datadel dataline dataname datarep datasplit found gap i j k kk line 
+% clear outputans rawdata tartrajectory trajper unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename
+% clear alter bondrownum BOrow col datapython element elementname elementsequence elementsequence readline atomNO elemax
+% clear elenummatch elenumrow i j k kk  lineofbo lineofelenum numseq row rowtarBO separator speciestrjnum spacegroupname
+% clear tarbondnum tartrjnum trajectorynum bonddataname bondper ii PBCa PBCalpha PBCb PBCbeta PBCc PBCgamma tarelenummatch
+% clear ans atomname BOXsize charge dataname date element elementname elementsequence ff fid fileheader numseq PBC PBCchoi PBCcond 
+% clear residuename residueseqname tarrow title xcoord xhi xlo xlength ycoord yhi ylo ylength zcoord zhi zlo zlength date topo topocol  
+% clear molecule comatomname mdfans symmetry groupname connect row connectivity i j k line trjatomnum trjcollection atomid_conv
+% clear BOinform lineofmolecule numofmolecule tarBOrow tarmatchcol tartrjdata trjrow trjdataname trjlength trjmax trjmin
+% clear trjmod trjnnum trjnum trjones trjper trjrawdata trjreadline trjstep MOLE lib base eleswapans eleswap boxsize formatout
+% clear trjdata tarBOinform unwrapans

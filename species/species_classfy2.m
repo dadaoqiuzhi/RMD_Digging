@@ -10,12 +10,9 @@
 disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
 disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. 3.ACS Appl. Mat. Interfaces 2022, 14.(4), 5959-5972.')
-disp('4.ACS Materials Letters 2023, 2174-2188. More work is coming!')
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
 disp('##################################################################################################################################')
-
 disp('When species_analysis is executed, this procedure can obtain the interested species')
-
 fprintf('\n(1)C20 means species with 20 C,C42+ denotes species with C number larger than 42, C100- is species with C less than 100')
 fprintf('\n(2)M100 indicates species with Mw of 100, M125+ denotes Mw larger than 125, M400- is species less than 400')
 fprintf('\n(3)eleC are species have C, eleCO are species have C and O')
@@ -37,7 +34,7 @@ if tarclass=='a'||tarclass=='b'
     clear dataexport matchdatacol sumdata
     [C,matches]=strsplit(classid,datadelimiter,'CollapseDelimiters',false);
     if isempty(matches)
-        error('Not match the option, please check input or complete the parameter in datadelimiter')
+        error('未匹配到相关选项，请检查输入或补全datadelimiter参数中的元素')
     end
     Clength=length(C);
     if Clength==2

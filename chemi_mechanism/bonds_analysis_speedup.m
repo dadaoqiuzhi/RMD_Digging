@@ -3,15 +3,19 @@
 %This program is used to analyze bonds file and is more fast than
 %bonds_analysis program
 %version 1;2018.6.25
+
 disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
-disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. 3.ACS Appl. Mat. Interfaces 2022, 14.(4), 5959-5972.')
+disp('4.ACS Materials Letters 2023, 2174-2188. More work is coming!')
 disp('##################################################################################################################################')
+
+fprintf('\nbonds_analysis_speedup is running, please wait...')
+
 tartrajectory={tartrajectory(1)};
-if mod(tartrajectory{1,1},trajper)~=0
+if ~ismember(tartrajectory{1,1},cell2mat(outputdatanew(2:end,1)))
     control=0;
-    error('\nnonexistent trajectory, please check it!!!\n')
+    error('\nnonexistent trajectory frame No., please check it!!!\n')
 else
     control=1;
 end
@@ -29,7 +33,7 @@ datasplit=strsplit(datarep);
 if str2num(datasplit{1,2})==tartrajectory{1}
     control=0;
 else
-    while control
+    while control 
         i=1;
         unfound=1;
         while unfound
@@ -42,6 +46,10 @@ else
             end
         end
         if mod(readline-1,gap)==0
+            if feof(rawdata)
+                fprintf('\nThe last line of bonds.* file is reached. Please check if the atom number or timestep is correct.\n The timestep in species.* and bond.* maybe inconsistent, eg. 29,429...\n')
+                error('As above, please check it!')
+            end
             datacell=textscan(dataline,'%s','delimiter','\n');
             datacellchar=char(datacell{1});
             datadel=strrep(datacellchar,'#','');
@@ -49,6 +57,8 @@ else
             datasplit=strsplit(datarep);
             if str2num(datasplit{1,2})==tartrajectory{1}
                 control=0;
+            elseif str2num(datasplit{1,2})>tartrajectory{1}
+                error('The frame No. appointed according to species.* file exceeds that in bonds.* file, please check it!')
             end
         else
             disp('This is not a line with timestep, please check it!!!')
@@ -64,7 +74,7 @@ while found
     found=found-1;
 end
 
-bondoutdata={};%
+bondoutdata={};
 bondoutdata{1,1}='Timestep';
 bondoutdata{1,2}=tartrajectory{1};
 for i=3:15
@@ -117,7 +127,7 @@ while atomnumcopy
 end
 fclose(rawdata);
 
-fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata, search line number is recorded in readline\n')
 
+fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata, search line number is recorded in readline\n')
 clear atomnumcopy ans bondnumdata control datacell datacellchar datadel dataline datarep datasplit found gap i j k kk line 
 clear outputans unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename

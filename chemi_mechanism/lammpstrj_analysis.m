@@ -2,12 +2,14 @@
 %purpose:
 %This program is used to analysis *.lammpstrj file of REAXC
 %version 1;2018.7.16
+%fprintf('本程序用于读取*.lammpstrj文件中某一轨迹\n')
 disp('##################################################################################################################################')
 disp('Welcome!--by Qiang Liu @Institute of Nuclear Physics and Chemistry, China Academy of Engineering Physics; Email: liubinqiang@163.com');
-disp('Repository adress of the Source code on github: https://github.com/dadaoqiuzhi/RMD_Digging');
-disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
+disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. 3.ACS Appl. Mat. Interfaces 2022, 14.(4), 5959-5972.')
+disp('4.ACS Materials Letters 2023, 2174-2188. More work is coming!')
 disp('##################################################################################################################################')
-if mod(tartrajectory{1,1},trajper)~=0
+
+if ~ismember(tartrajectory{1,1},cell2mat(outputdatanew(2:end,1)))
     control=0;
     fprintf('\nNonexisent trajectory, please check it!!!\n')
     return;
@@ -31,9 +33,9 @@ if str2num(datarep)==tartrajectory{1}
 elseif str2num(datarep)>tartrajectory{1}
     if choi==2 || choi==4
         fprintf('\nMinimum timestep in lammpstrj %d is >= target timestep%d, mainly due to the beginning timestep in lammpstrj is not 0,\nplease check it\n',str2num(datarep),tartrajectory{1});
-        error('Timestep of reactants is exceed the first trajectory in lammpstrj, which is nonexixtent. Please check it!!!');
+        error('Timestep exceed the first frame No. in lammpstrj.* file, which is nonexixtent. Please check it!!!');
     end
-    fprintf('\nMinimum timestep in dump.*%d > target timestep %d, mainly due to the beginning timestep in dump.* (species) is not 0. Skip and continue to search the next one\n',str2num(datarep),tartrajectory{1});
+    fprintf('nMinimum timestep in dump.*%d > target timestep %d, mainly due to the beginning timestep in dump.* (species) is not 0. Skip and continue to search the next one\n',str2num(datarep),tartrajectory{1});
     warndlg('Warning: dMinimum timestep in dump.* > target timestep!Skip and continue');
     return;
 elseif str2num(datarep)<tartrajectory{1}
@@ -50,25 +52,31 @@ elseif str2num(datarep)<tartrajectory{1}
             end
         end
         if mod(readline-2,gap)==0
+            if feof(rawdatatrj)
+                fprintf('\nThe last line of lammpstrj.* file is reached. Please check if the atom number or timestep is correct.\n The timestep in species.* and lammpstrj.* maybe inconsistent, eg. 29,429...\n')
+                error('As above, please check it!')
+            end
             datacell=textscan(dataline,'%s','delimiter','\n');
             datacellchar=char(datacell{1});
             datarep=strtrim(datacellchar);
             if str2num(datarep)==tartrajectory{1}
                 control=0;
+            elseif str2num(datarep)>tartrajectory{1}
+                error('The frame No. appointed according to species.* file exceeds that in lammpstrj.* file, please check it!')
             end
         else
-            disp('This is not a line with timestep, please check it!!!')
+            disp('This is not a line with timestep information, please check it!!!')
             return;
         end
     end
 end
-
+%
 dataline=textscan(rawdatatrj,'%q',1,'headerlines',2,'delimiter','\n');
 boxsize=[];
 dataline=fgetl(rawdatatrj);
 datacell=textscan(dataline,'%s','delimiter','\n');
 datacellchar=char(datacell{1});
-datarep=strtrim(datacellchar);
+datarep=strtrim(datacellchar);%
 datasplit=strsplit(datarep);
 for i=1:length(datasplit)
     boxsize(1,i)=str2num(datasplit{1,i});
@@ -90,6 +98,7 @@ for i=1:length(datasplit)
     boxsize(3,i)=str2num(datasplit{1,i});
 end
 if formatout==2 || formatout==3
+    %
     if strcmp(PBCchoi,'ON')
         PBC='PBC=ON';
         PBCa=boxsize(1,2)-boxsize(1,1);
@@ -126,8 +135,8 @@ while atomnumcopy
     end
     line=line+1;
 end
-fprintf('\nlammpstrj_analysis is successfully finished.')
-fprintf('\nBO of the target trajecrory is saved in trjdata.');
+fprintf('\nlammpstrj_analysis is successfully finished')
+fprintf('\nAtom coordinate of the target trajecrory is saved in trjdata');
 
 
 clear atomnumcopy control datacell datacellchar dataline datasplit found gap i line unfound ans
