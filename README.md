@@ -1,5 +1,5 @@
 # RMD_Digging: A Toolkit to Remove the Barriers in the Way of Scientific Calculations and Analysis  
-# <span style="color: red"> Notice: An upgrade version RMD_Digging_v3.0_dev is comming! This version is more fast and robust, with more practical functions and little bugs. It is also aimed to alleviate the memory consumption in many tasks. Both versions with respective English and Chinese language will be provided. </span>
+# <span style="color: red"> Notice: An upgrade version RMD_Digging_v3.0_dev is comming! This version is more fast and robust, with more practical functions and little bugs. It is also aimed to alleviate the memory consumption in many tasks. Both versions with respective English and Chinese language will be provided. Enjoy it. </span>
 =
 :star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star:
 ## Development Target
