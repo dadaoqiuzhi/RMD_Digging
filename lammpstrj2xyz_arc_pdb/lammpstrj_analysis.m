@@ -8,6 +8,7 @@ disp('Repository adress of the Source code on github: https://github.com/dadaoqi
 disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. 3.ACS Appl. Mat. Interfaces 2022, 14.(4), 5959-5972.')
 disp('4.ACS Materials Letters 2023, 2174-2188. More work is coming!')
 disp('##################################################################################################################################')
+
 fprintf('This program is used to read a specified trajectory in *.lammpstrj\n')
 dataname=input('\nFilename name of *.lammpstrj file: \n','s');
 trajper=input('\nPlease input the output frequency of BO information and trajectory file (Positive integer, see bonds or lammpstrj file):\n');
@@ -101,5 +102,7 @@ if outputans=='y'
     xlswrite(filename,trjdata,dataoutputrow:dataoutputcol)
     fprintf('\nlammpstrj_analysis is successfully finished, BO information etc. are exported to Excel:output_mydata.\n')
 end
+
+
 clear atomnum control datacell datacellchar dataline dataname datarep datasplit found gap i line rawdata tartrajectory trajper unfound ans
 clear outputans dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename 

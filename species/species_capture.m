@@ -55,7 +55,7 @@ if exist('outputdata','var')
     for j=1:size(datamatch,2)
         outputdatanew(:,j+3)=outputdata(:,datamatch(2,j));
     end
-    fprintf('\Results of species_capture are saved in outputdatanew')
+    fprintf('\nResults of species_capture are saved in outputdatanew')
     
     
     

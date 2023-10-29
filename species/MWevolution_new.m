@@ -361,3 +361,5 @@ fprintf('\nTotal task time: %.2f s\n',toc)
 
 clear C col i j k matches Mn Mw row MWDans dumpevery maxstep minstep MWDfram MWDans MWDdatacopy Mw_num Mn_num massshresholdans
 clear m datadelimiter classmatch MDans molenum matchdataMD filename rerunans tic toc
+clear datacell datacellchar datacellnum datadel dataline datalinenum dataname datarep datasplit indexapp massshreshold massshresholdans2
+clear rawdata ans
