@@ -5,9 +5,9 @@
 %version 1;2023.9.4
 
 if strcmpi(rerun_ans,'y')
-    fprintf('Check the consistency of frame No. between species.* (outputnew中), bonds.* and lammpstrj.* files.\nSometimes energy minimization causes the inconsistent record problem\n')
+    fprintf('Check the consistency of frame No. between bonds.* and lammpstrj.* files.\nSometimes energy minimization causes the inconsistent record problem\n')
     fprintf('species_bonds_lammpstrj_framecheck is running, please wait...\n')
-    fprintf('Firstly, check frame No. between bonds.* and species.* files, please wait...\n')
+    fprintf('Firstly, check frame No. in bonds.* file, please wait...\n')
     fram_num_check=[];
     check_control=check_control_origin;
     control=1;
@@ -68,7 +68,7 @@ if strcmpi(rerun_ans,'y')
     clear atomnumcopy ans bondnumdata control datacell datacellchar datadel dataline datarep datasplit found gap i j k kk line
     clear outputans unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename check_control
 
-    fprintf('Then, check frame No. between lammpstrj.* and species.* files, please wait...\n')
+    fprintf('Then, check frame No. in lammpstrj.* file, please wait...\n')
     fram_num_check2=[];
     check_control=check_control_origin;
     control=1;
@@ -123,7 +123,7 @@ if strcmpi(rerun_ans,'y')
     fprintf('bonds_lammpstrj_framecheck is end\n')
     
     
-    fprintf('%d frame No. in the bonds.*, lammpstrj.* and species.* files are as follows: \n',check_control_origin)
+    fprintf('%d frame No. in the bonds.* and lammpstrj.* are as follows: \n',check_control_origin)
     disp(fram_num_check)
     checkframe1=0;
     for checkframe=1:check_control_origin
@@ -135,7 +135,7 @@ if strcmpi(rerun_ans,'y')
     %
     if checkframe1>=3 || checkframe1>=check_control_origin/2
         fprintf('As above, frame No. in the bonds.* and lammpstrj.* files are inconsistent, \nplease treat the frame No. of lammpstrj.* file by the following method:\n')
-        msgbox('lease treat the frame No. of lammpstrj.* file by the following method')
+        msgbox('Treat the frame No. of lammpstrj.* file by the following method')
         framecheck=input('Please treat the frame No. of lammpstrj.* file (outputnew) by the following method: \n1.Substract an integer 2.Add an integer 3.No action\n');
         num_modify=input('Please input the unsigned number, eg.8, 29, or 377, etc.: \n');
     else

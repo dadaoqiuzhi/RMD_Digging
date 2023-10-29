@@ -176,7 +176,7 @@ if choi==1 || choi==2 || choi==4
         sperunans=input('\nspecies_analysis is not running due to the existence of outputdata in work space.\nRerun species_analysis to import species file?y/n: \n','s');
         if strcmpi(sperunans,'y')
             if strcmpi(rerun_ans,'n')
-                sperunans2=input('If to modify the frame No. from species.* file (outputnew), the same species.* file it's not recommended! y/n£º\n','s');
+                sperunans2=input('If to modify the frame No. from species.* file (outputnew), the same species.* file it is not recommended! y/n£º\n','s');
             else
                 sperunans2='y';
             end
@@ -405,7 +405,7 @@ if choi==1 && strcmpi(promptans,'y')
                 fprintf('\nCaution:target species number (%d) is not consistent with that of species recordation(%d)!!!\n',bondsetdata,frame{2,irow});
             end
         else
-            fprintf('Target species number(%d) is consistent with that of species recordation(%d)',bondsetdata,frame{2,irow});
+            fprintf('Target species number (%d) is consistent with that of species recordation(%d)',bondsetdata,frame{2,irow});
         end
         [tarraw,~]=size(tarBOinform);ii=1;jj=1;
         while tarraw
@@ -497,7 +497,7 @@ elseif choi==1 && strcmpi(promptans,'n')
                 fprintf('\n\nWarning!!!No species is found through bonds file, but species file record it(number:%d).Possible reason:\nNevery parameter of "fix reax/c/bonds" in the in.* file is not match with the Nrepeat"fix reax/c/species"\n. Another possible reason element mapping or type error',outputdatanew{irow,4});
                 fprintf('\nSolution:Nrepeat of "fix reax/c/species" in the in.* file should be 1, and Nevery(species)=Nfreq(species)=Nevery(bonds)\nReplace the mapping element to the expected one before data processing\n');
                 errorexe=input('Ignore this problem and continue?y/n: \n','s');
-				msgbox('Target species is not found!How to cope with this problem?');
+				msgbox('Target species is not found! How to cope with this problem?');
                 if strcmpi(errorexe,'y')
                     continue;
                 elseif strcmpi(errorexe,'n')
@@ -565,7 +565,7 @@ elseif choi==2 || choi==4
         end
     end
     if choi==2
-        fprintf('\nTarget species %s amount to %d in total',species{1},outputdatanew{floor((promptans3(1)-outputdatanew{2,1})/trajper+2),outcol},outputdatanew{2,outcol});
+        fprintf('\nTarget species %s amount to %d in total (original number %d)',species{1},outputdatanew{floor((promptans3(1)-outputdatanew{2,1})/trajper+2),outcol},outputdatanew{2,outcol});
         numstop=input('\nLimit the exportation of reactants-products? If yes, program will be forced to terminate. y/n: \n','s');
         if strcmpi(numstop,'y')
             fprintf('\nPlease input limited file number, <%d',outputdatanew{floor((promptans3(1)-outputdatanew{2,1})/trajper+2),outcol})

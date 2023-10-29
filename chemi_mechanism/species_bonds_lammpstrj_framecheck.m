@@ -5,7 +5,7 @@
 %version 1;2023.9.4
 
 if ~exist('fram_num_check','var') && strcmpi(rerun_ans,'y')
-    fprintf('Check the consistency of frame No. between species.* (outputnew中), bonds.* and lammpstrj.* files.\nSometimes energy minimization causes the inconsistent record problem\n')
+    fprintf('Check the consistency of frame No. between species.* (outputnew), bonds.* and lammpstrj.* files.\nSometimes energy minimization causes the inconsistent record problem\n')
     fprintf('species_bonds_lammpstrj_framecheck is running, please wait...\n')
     fprintf('Firstly, check frame No. between bonds.* and species.* files, please wait...\n')
     fram_num_check=[];
@@ -163,13 +163,13 @@ if ~exist('fram_num_check','var') && strcmpi(rerun_ans,'y')
         else
             error('Illegal method selection, please check it!')
         end
-        fprintf('The frame No. problem in species.* file (outputnew中) has been disposed\n')
+        fprintf('The frame No. problem in species.* file (outputnew) has been disposed\n')
     end
     
     clear atomnumcopy control datacell datacellchar dataline datasplit found gap i line unfound ans checkframe1 checkframe2 framecheck
     clear outputans dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol check_control checkframe num_modify fram_num_check2
 else
-    fprintf('The frame No. of species.* file (outputnew中) has been disposed and reused\n')
+    fprintf('The frame No. of species.* file (outputnew) has been disposed and reused\n')
 end
 
 if rerun_ans2==1 

@@ -46,7 +46,7 @@ if exist('fram_num_check','var')
         error('Illegal input, please check it!')
     end
 else
-    rerun_ans=input('If to run check process for the consistency of frame No. in the bonds.*, lammpstrj.* and species.* (need extra time)y/n: \n','s');
+    rerun_ans=input('If to run check process for the consistency of frame No. in the bonds.* and lammpstrj.* (need extra time and memory)y/n: \n','s');
 end
 bonds_lammpstrj_framecheck
 
@@ -102,7 +102,7 @@ if elemax==2
     end
 elseif elemax==1
     if formatout==1 || formatout==2
-        fprintf('nDifferent coding system is adopted according to the atom number (ASCII)\n');
+        fprintf('\nDifferent coding system is adopted according to the atom number (ASCII)\n');
         if 16777215>=atomnum && atomnum>1048575
             fprintf('64 base coding system is recommended for atom id');base=64;
         elseif 1048575>=atomnum && atomnum>65535
@@ -653,14 +653,14 @@ msgbox('Done£¡xyz_arc_pdb_filemaker is successfully finished');
 toc 
 fprintf('\nTotal task time: %.2f s\n',toc)
 
-% clear ans atomnum bondnumdata control datacell datacellchar datadel dataline dataname datarep datasplit found gap i j k kk line 
-% clear outputans rawdata tartrajectory trajper unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename
-% clear alter bondrownum BOrow col datapython element elementname elementsequence elementsequence readline atomNO elemax
-% clear elenummatch elenumrow i j k kk  lineofbo lineofelenum numseq row rowtarBO separator speciestrjnum spacegroupname
-% clear tarbondnum tartrjnum trajectorynum bonddataname bondper ii PBCa PBCalpha PBCb PBCbeta PBCc PBCgamma tarelenummatch
-% clear ans atomname BOXsize charge dataname date element elementname elementsequence ff fid fileheader numseq PBC PBCchoi PBCcond 
-% clear residuename residueseqname tarrow title xcoord xhi xlo xlength ycoord yhi ylo ylength zcoord zhi zlo zlength date topo topocol  
-% clear molecule comatomname mdfans symmetry groupname connect row connectivity i j k line trjatomnum trjcollection atomid_conv
-% clear BOinform lineofmolecule numofmolecule tarBOrow tarmatchcol tartrjdata trjrow trjdataname trjlength trjmax trjmin
-% clear trjmod trjnnum trjnum trjones trjper trjrawdata trjreadline trjstep MOLE lib base eleswapans eleswap boxsize formatout
-% clear trjdata tarBOinform unwrapans
+clear ans atomnum bondnumdata control datacell datacellchar datadel dataline dataname datarep datasplit found gap i j k kk line 
+clear outputans rawdata tartrajectory trajper unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename
+clear alter bondrownum BOrow col datapython element elementname elementsequence elementsequence readline atomNO elemax
+clear elenummatch elenumrow i j k kk  lineofbo lineofelenum numseq row rowtarBO separator speciestrjnum spacegroupname
+clear tarbondnum tartrjnum trajectorynum bonddataname bondper ii PBCa PBCalpha PBCb PBCbeta PBCc PBCgamma tarelenummatch
+clear ans atomname BOXsize charge dataname date element elementname elementsequence ff fid fileheader numseq PBC PBCchoi PBCcond 
+clear residuename residueseqname tarrow title xcoord xhi xlo xlength ycoord yhi ylo ylength zcoord zhi zlo zlength date topo topocol  
+clear molecule comatomname mdfans symmetry groupname connect row connectivity i j k line trjatomnum trjcollection atomid_conv
+clear BOinform lineofmolecule numofmolecule tarBOrow tarmatchcol tartrjdata trjrow trjdataname trjlength trjmax trjmin
+clear trjmod trjnnum trjnum trjones trjper trjrawdata trjreadline trjstep MOLE lib base eleswapans eleswap boxsize formatout
+clear trjdata tarBOinform unwrapans
