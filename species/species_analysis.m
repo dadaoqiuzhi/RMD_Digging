@@ -8,7 +8,9 @@ disp('Repository adress of the Source code on github: https://github.com/dadaoqi
 disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. More work is coming!')
 disp('##################################################################################################################################')
 disp('This procedure sorts the species evolution with time according to species file')
+
 dataname=input('Please input the file name to be processed: \n','s');
+tic
 disp('species_analysis is running, please wait...')
 outputdata={};line=1;
 rawdata=fopen(dataname,'r');
@@ -79,6 +81,9 @@ msgbox('Species is successfully sorted and imported!');
 fprintf('\nspecies_capture can screen out the interested species data, species_classfy can obtain the interested species with specifically structure characterization\n')
 fprintf('\nData is saved in outputdata\n')
 fprintf('\nspecies_analysis is successfully finished\n\n')
+toc 
+fprintf('\nTotal task time: %.2f s\n',toc)
+
 clear datacell datacellchar datacellnum datacol datadel datafirstrow dataline datalinenum datanow filename ans
 clear dataoutcol dataoutcolchar dataoutputcol dataoutputrow datarow datarep datarow datasec datasplit statans
 clear i j k line rawdata charcor datadelimiter dataoutrow matches outputans dataname indexapp indexcol indexovlp
