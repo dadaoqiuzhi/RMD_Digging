@@ -14,7 +14,7 @@ dataname=input('\nFilename name of *.lammpstrj file: \n','s');
 trajper=input('\nPlease input the output frequency of BO information and trajectory file (Positive integer, see bonds or lammpstrj file):\n');
 tartrajectory=input('\nPlease input the timestep of the specified trajectory: \n');
 tartrajectory={tartrajectory(1)};
-atomnum=input('Please input atom number: \n');
+atomnum==atom_num_autoread(dataname);
 if mod(tartrajectory{1},trajper)~=0
     control=0;
     fprintf('\nnonexistent trajectory, please check it!!!\n')
@@ -22,6 +22,13 @@ if mod(tartrajectory{1},trajper)~=0
 else
     control=1;
 end
+fprintf('\n强烈建议不要缩放坐标（使用dump_modify scale no)，容易导致计算误差，增大成图的瑕疵')
+fprintf('\nScaled coordinate is not recommended (use "dump_modify scale no" to avoid)')
+BOXsize=input('\nDoes the coordinate is scaled in the *.lammpstrj file, y/n: \n','s');BOXsize=lower(BOXsize);
+if ~ismember(BOXsize,{'y','n'})
+    error('Illegal BOXsize parameters, please check it!!!');
+end
+
 disp('lammpstrj_analysis is running, please wait...')
 
 readline=0;
@@ -64,10 +71,59 @@ else
 end
 
 found=7;
+boxsize=[];
 while found
     dataline=fgetl(rawdata);
     readline=readline+1;
     found=found-1;
+	if found<=3 && found>=1 
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datarep=strtrim(datacellchar);
+        datasplit=strsplit(datarep);
+        for i=1:2
+            boxsize(4-found,i)=str2num(datasplit{1,i});
+        end
+    end
+end
+PBCa=boxsize(1,2)-boxsize(1,1);
+PBCb=boxsize(2,2)-boxsize(2,1);
+PBCc=boxsize(3,2)-boxsize(3,1);
+
+datacell=textscan(dataline,'%s','delimiter','\n');
+datacellchar=char(datacell{1});
+datarep=strtrim(datacellchar);
+datasplit=strsplit(datarep);
+coord_position=[];
+if strcmpi('y',BOXsize) && sum(ismember({'ATOMS', 'id','type','xs','ys','zs'},datasplit))==6
+    coord_tag={'ATOMS','type','xs','ys','zs'};
+else
+    coord_tag={'ATOMS','type','x','y','z'};
+end
+for i=1:5
+    if sum(ismember(datasplit,coord_tag(i)))==1
+        coord_position(length(coord_position)+1)=find(strcmp(datasplit,coord_tag(i)));
+    end
+end
+if length(coord_position)~=5
+    error('Something about atom id，type，x，y，z is lost, please check if the scale answer is right!')
+end
+if min(coord_position)==coord_position(1)
+    coord_position(1)=coord_position(1)-1;
+    for j=2:5
+        coord_position(j)=coord_position(j)-2;
+    end
+elseif coord_position(1)>coord_position(2) && coord_position(1)<coord_position(3)
+    for j=1:2
+        coord_position(j)=coord_position(j)-1;
+    end
+    for j=3:5
+        coord_position(j)=coord_position(j)-2;
+    end
+elseif max(coord_position)==coord_position(1)
+    for j=1:5
+        coord_position(j)=coord_position(j)-1;
+    end
 end
 
 trjdata=[];line=1;
@@ -82,8 +138,11 @@ while atomnum
     datacellchar=char(datacell{1});
     datarep=strtrim(datacellchar);
     datasplit=strsplit(datarep);
-    for i=1:length(datasplit)
-        trjdata(line,i)=str2num(datasplit{1,i});
+	trjdata(line,:)=coord_position_get(coord_position,datasplit);
+    if strcmpi('y',BOXsize)
+        trjdata(line,3)=boxsize(1,1)+trjdata(line,3)*PBCa;
+        trjdata(line,4)=boxsize(2,1)+trjdata(line,4)*PBCb;
+        trjdata(line,5)=boxsize(3,1)+trjdata(line,5)*PBCc;
     end
     line=line+1;
 end
@@ -105,4 +164,5 @@ end
 
 
 clear atomnum control datacell datacellchar dataline dataname datarep datasplit found gap i line rawdata tartrajectory trajper unfound ans
-clear outputans dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename 
+clear outputans dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename BOXsize boxsize PBCa PBCb PBCc coord_tag coord_position
+clear j

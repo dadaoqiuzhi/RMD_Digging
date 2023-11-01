@@ -118,6 +118,42 @@ if formatout==2 || formatout==3
 end
 
 dataline=textscan(rawdatatrj,'%q',1,'headerlines',0,'delimiter','\n');
+datacell=dataline;
+datacellchar=char(datacell{1});
+datarep=strtrim(datacellchar);
+datasplit=strsplit(datarep);
+coord_position=[];
+if strcmpi('y',BOXsize) && sum(ismember({'ATOMS', 'id','type','xs','ys','zs'},datasplit))==6
+    coord_tag={'ATOMS','type','xs','ys','zs'};
+else
+    coord_tag={'ATOMS','type','x','y','z'};
+end
+for i=1:5
+    if sum(ismember(datasplit,coord_tag(i)))==1
+        coord_position(length(coord_position)+1)=find(strcmp(datasplit,coord_tag(i)));
+    end
+end
+if length(coord_position)~=5
+    error('Something about atom id£¬type£¬x£¬y£¬z is lost, please check if the scale answer is right!')
+end
+if min(coord_position)==coord_position(1)
+    coord_position(1)=coord_position(1)-1;
+    for j=2:5
+        coord_position(j)=coord_position(j)-2;
+    end
+elseif coord_position(1)>coord_position(2) && coord_position(1)<coord_position(3)
+    for j=1:2
+        coord_position(j)=coord_position(j)-1;
+    end
+    for j=3:5
+        coord_position(j)=coord_position(j)-2;
+    end
+elseif max(coord_position)==coord_position(1)
+    for j=1:5
+        coord_position(j)=coord_position(j)-1;
+    end
+end
+
 trjdata=[];line=1;atomnumcopy=atomnum;
 while atomnumcopy
     dataline=fgetl(rawdatatrj);
@@ -130,9 +166,7 @@ while atomnumcopy
     datacellchar=char(datacell{1});
     datarep=strtrim(datacellchar);
     datasplit=strsplit(datarep);
-    for i=1:length(datasplit)
-        trjdata(line,i)=str2num(datasplit{1,i});
-    end
+    trjdata(line,:)=coord_position_get(coord_position,datasplit);
     line=line+1;
 end
 fprintf('\nlammpstrj_analysis is successfully finished')

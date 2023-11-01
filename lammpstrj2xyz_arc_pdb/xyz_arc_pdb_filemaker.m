@@ -407,7 +407,55 @@ while ii<=length(trjcollection)
     fprintf('\nStep2:Group %d trajectory %d is successfully processed by bondorder_deepmining, and tarBOinform is generated,\ncontinue running lammpstrj_analysis, please wait...\n',ii,trjcollection{1,ii});%bonds_analysis_speedupÍê³É
 
     
-    
+    trjrawdata=fopen(trjdataname,'r');
+    while ~feof(trjrawdata)
+        dataline=fgetl(trjrawdata);
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datarep=strtrim(datacellchar);
+        datasplit=strsplit(datarep);
+        if sum(ismember({'ATOMS', 'id','type'},datasplit))==3 
+            coord_position=[];
+            if strcmpi('y',BOXsize)
+                if sum(ismember({'ATOMS', 'id','type','xs','ys','zs'},datasplit))==6
+                    coord_tag={'ATOMS','type','xs','ys','zs'};
+                    for i=1:5
+                        if sum(ismember(datasplit,coord_tag(i)))==1
+                            coord_position(length(coord_position)+1)=find(strcmp(datasplit,coord_tag(i)));
+                        end
+                    end
+                end
+            elseif sum(ismember({'ATOMS', 'id','type','x','y','z'},datasplit))==6
+                coord_tag={'ATOMS','type','x','y','z'};
+                for i=1:5
+                    if sum(ismember(datasplit,coord_tag(i)))==1
+                        coord_position(length(coord_position)+1)=find(strcmp(datasplit,coord_tag(i)));
+                    end
+                end
+            else
+                error('Something about atom id¡¢type and atom coordinate are lost')
+            end
+        end
+    end
+    fclose(trjrawdata);
+    if min(coord_position)==coord_position(1)
+        coord_position(1)=coord_position(1)-1;
+        for j=2:5
+            coord_position(j)=coord_position(j)-2;
+        end
+    elseif coord_position(1)>coord_position(2) && coord_position(1)<coord_position(3)
+        for j=1:2
+            coord_position(j)=coord_position(j)-1;
+        end
+        for j=3:5
+            coord_position(j)=coord_position(j)-2;
+        end
+    elseif max(coord_position)==coord_position(1)
+        for j=1:5
+            coord_position(j)=coord_position(j)-1;
+        end
+    end
+	
     trjreadline=0;control=1;atomnum=trjatomnum;
     gap=9+atomnum;
     trjrawdata=fopen(trjdataname,'r');
@@ -525,9 +573,7 @@ while ii<=length(trjcollection)
         datacellchar=char(datacell{1});
         datarep=strtrim(datacellchar);
         datasplit=strsplit(datarep);
-        for i=1:length(datasplit)
-            trjdata(line,i)=str2num(datasplit{1,i});
-        end
+		trjdata(line,:)=coord_position_get(coord_position,datasplit);
         line=line+1;
     end
     if formatout==1
@@ -663,4 +709,4 @@ clear residuename residueseqname tarrow title xcoord xhi xlo xlength ycoord yhi 
 clear molecule comatomname mdfans symmetry groupname connect row connectivity i j k line trjatomnum trjcollection atomid_conv
 clear BOinform lineofmolecule numofmolecule tarBOrow tarmatchcol tartrjdata trjrow trjdataname trjlength trjmax trjmin
 clear trjmod trjnnum trjnum trjones trjper trjrawdata trjreadline trjstep MOLE lib base eleswapans eleswap boxsize formatout
-clear trjdata tarBOinform unwrapans
+clear trjdata tarBOinform unwrapans coord_tag coord_position

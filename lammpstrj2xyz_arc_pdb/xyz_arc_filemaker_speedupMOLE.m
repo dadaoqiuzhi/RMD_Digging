@@ -413,9 +413,7 @@ while ii<=length(trjcollection)
         datacellchar=char(datacell{1});
         datarep=strtrim(datacellchar);
         datasplit=strsplit(datarep);
-        for i=1:length(datasplit)
-            trjdata(line,i)=str2num(datasplit{1,i});
-        end
+		trjdata(line,:)=coord_position_get(coord_position,datasplit);
         line=line+1;
     end
     if formatout==1
