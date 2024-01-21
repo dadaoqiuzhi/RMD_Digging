@@ -12,7 +12,7 @@ disp('Repository adress of the Source code on github: https://github.com/dadaoqi
 disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. 3.ACS Appl. Mat. Interfaces 2022, 14.(4), 5959-5972.')
 disp('4.ACS Materials Letters 2023, 2174-2188. More work is coming!')
 disp('##################################################################################################################################')
-fprintf('This program is used to\n1.Export structure files of products or reactants\n2.Analyze and export reactants-products files\n3.Analyze special groups, bonds and species (in development)\n4.Analyze where the interested species go\n')
+fprintf('This program is used to\n1.Export structure files of products or reactants \n2.Analyze and export reactants-products files\n3.Analyze special groups, bonds and species (in development)\n4.Analyze where the interested species go\n')
 choi=input('Please select the option No.: \n');
 if choi==1 || choi==2 || choi==4
     formatout=input('\nPlease select the file format No.: 1.xyz 2.car  3.pdb\n');
@@ -25,7 +25,8 @@ datanamebond=input('File name of bonds file: \n','s');
 if choi==1 || choi==2 || choi==4
     datanametrj=input('\nFile name of lammpstrj file: \n','s');
 end
-trajper=input('\nPlease input the output frequency of BO information and trajectory file (Positive integer, see bonds or lammpstrj file):  \n');
+fprintf('\nPlease input the output frequency matrix of species, BO information and trajectory files (Positive integer, see species, bonds or lammpstrj file)');
+trajper=input('\neg., [400 400 400]:  \n');
 
 fprintf('Automatically read atom number from the *.lammpstrj file, please wait...')
 atomnum=atom_num_autoread(datanametrj); 
@@ -565,16 +566,16 @@ elseif choi==2 || choi==4
         end
     end
     if choi==2
-        fprintf('\nTarget species %s amount to %d in total (original number %d)',species{1},outputdatanew{floor((promptans3(1)-outputdatanew{2,1})/trajper+2),outcol},outputdatanew{2,outcol});
+        fprintf('\nTarget species %s amount to %d in total (original number %d)',species{1},outputdatanew{floor((promptans3(1)-outputdatanew{2,1})/trajper(1)+2),outcol},outputdatanew{2,outcol});
         numstop=input('\nLimit the exportation of reactants-products? If yes, program will be forced to terminate. y/n: \n','s');
         if strcmpi(numstop,'y')
-            fprintf('\nPlease input limited file number, <%d',outputdatanew{floor((promptans3(1)-outputdatanew{2,1})/trajper+2),outcol})
+            fprintf('\nPlease input limited file number, <%d',outputdatanew{floor((promptans3(1)-outputdatanew{2,1})/trajper(1)+2),outcol})
             numstop=input(':\n');
         else
             numstop=outcol;
         end
     elseif choi==4
-        fprintf('\nSince not all the species %d are depleted, please give the limited file number according to the species data, \nprogram will be forced to terminate.',outputdatanew{floor((promptans3(1)-outputdatanew{2,1})/trajper+2),outcol},min(cell2mat(outputdatanew(2:end,outcol))),outputdatanew{end,outcol});
+        fprintf('\nSince not all the species %d are depleted, please give the limited file number according to the species data, \nprogram will be forced to terminate.',outputdatanew{floor((promptans3(1)-outputdatanew{2,1})/trajper(1)+2),outcol},min(cell2mat(outputdatanew(2:end,outcol))),outputdatanew{end,outcol});
         numstop=input('\nPlease input the limited exported file number:\n');
     end
     fprintf('\nFor high efficiency, only search the trajectory frame with changed species number');%提高效率，只搜索有数目变化的帧
@@ -689,18 +690,20 @@ elseif choi==2 || choi==4
     while tarraw
         if choi==2
             if strcmpi(seekacc,'n')
-                tartrajectoryact=tartrajectorycopy(1)-loopnum*trajper;
+                tartrajectoryact=tartrajectorycopy(1)-loopnum*trajper(1);
+                tartrajectoryact = FrameNoCertification (tartrajectoryact,trajper,choi,outputdatanew);
             elseif strcmpi(seekacc,'y')
                 control=1;
                 while control
-                    tartrajectoryact=tartrajectorycopy(1)-loop*trajper;
+                    tartrajectoryact=tartrajectorycopy(1)-loop*trajper(1);
+                    tartrajectoryact = FrameNoCertification (tartrajectoryact,trajper,choi,outputdatanew);
                     loop=loop+1;
-                    if tartrajectoryact/trajper>=1 && outputdatanew{(tartrajectoryact-outputdatanew{2,1})/trajper+2,4}<outputdatanew{(trajectorynote(1,2)-outputdatanew{2,1})/trajper+2,4}
-                        fprintf('\nNew frame is found %d, species number %d is less than that of last frame %d, which has %d',outputdatanew{(tartrajectoryact-outputdatanew{2,1})/trajper+2,1},outputdatanew{(tartrajectoryact-outputdatanew{2,1})/trajper+2,4},outputdatanew{(trajectorynote(1,2)-outputdatanew{2,1})/trajper+2,1},outputdatanew{(trajectorynote(1,2)-outputdatanew{2,1})/trajper+2,4});
+                    if tartrajectoryact/trajper(1)>=1 && outputdatanew{(tartrajectoryact-outputdatanew{2,1})/trajper(1)+2,4}<outputdatanew{(trajectorynote(1,2)-outputdatanew{2,1})/trajper(1)+2,4}
+                        fprintf('\nNew frame is found %d, species number %d is less than that of last frame %d, which has %d',outputdatanew{(tartrajectoryact-outputdatanew{2,1})/trajper(1)+2,1},outputdatanew{(tartrajectoryact-outputdatanew{2,1})/trajper(1)+2,4},outputdatanew{(trajectorynote(1,2)-outputdatanew{2,1})/trajper(1)+2,1},outputdatanew{(trajectorynote(1,2)-outputdatanew{2,1})/trajper(1)+2,4});
                         trajectorynote(1,1)=trajectorynote(1,2);trajectorynote(1,2)=tartrajectoryact;
                         control=0;
                         break;
-                    elseif tartrajectoryact/trajper<1
+                    elseif tartrajectoryact/trajper(1)<1
                         error('Frame %d exceed the first timestep, meaning nonexistence, please check it!!!',tartrajectoryact);
                     end
                 end
@@ -708,15 +711,17 @@ elseif choi==2 || choi==4
             
         elseif choi==4
             if strcmpi(seekacc,'n')
-                tartrajectoryact=tartrajectorycopy(1)+loopnum*trajper;
+                tartrajectoryact=tartrajectorycopy(1)+loopnum*trajper(1);
+                tartrajectoryact = FrameNoCertification (tartrajectoryact,trajper,choi,outputdatanew);
             elseif strcmpi(seekacc,'y')
                 [row,~]=size(outputdatanew);
                 control=1;
                 while control
-                    tartrajectoryact=tartrajectorycopy(1)+loop*trajper;
+                    tartrajectoryact=tartrajectorycopy(1)+loop*trajper(1);
+                    tartrajectoryact = FrameNoCertification (tartrajectoryact,trajper,choi,outputdatanew);
                     loop=loop+1;
-                    if tartrajectoryact<=outputdatanew{row,1} && outputdatanew{(tartrajectoryact-outputdatanew{2,1})/trajper+2,4}<outputdatanew{(trajectorynote(1,2)-outputdatanew{2,1})/trajper+2,4}
-                        fprintf('\nNew frame is found %d, species number %d is less than that of last frame %d, which has %d',outputdatanew{(tartrajectoryact-outputdatanew{2,1})/trajper+2,1},outputdatanew{(tartrajectoryact-outputdatanew{2,1})/trajper+2,4},outputdatanew{(trajectorynote(1,2)-outputdatanew{2,1})/trajper+2,1},outputdatanew{(trajectorynote(1,2)-outputdatanew{2,1})/trajper+2,4});
+                    if tartrajectoryact<=outputdatanew{row,1} && outputdatanew{(tartrajectoryact-outputdatanew{2,1})/trajper(1)+2,4}<outputdatanew{(trajectorynote(1,2)-outputdatanew{2,1})/trajper(1)+2,4}
+                        fprintf('\nNew frame is found %d, species number %d is less than that of last frame %d, which has %d',outputdatanew{(tartrajectoryact-outputdatanew{2,1})/trajper(1)+2,1},outputdatanew{(tartrajectoryact-outputdatanew{2,1})/trajper(1)+2,4},outputdatanew{(trajectorynote(1,2)-outputdatanew{2,1})/trajper(1)+2,1},outputdatanew{(trajectorynote(1,2)-outputdatanew{2,1})/trajper(1)+2,4});
                         trajectorynote(1,1)=trajectorynote(1,2);trajectorynote(1,2)=tartrajectoryact;
                         control=0;
                         break;
@@ -732,7 +737,7 @@ elseif choi==2 || choi==4
             end
         end
         
-        if tartrajectoryact/trajper>=1
+        if tartrajectoryact/trajper(1)>=1
             tartrajectory=tartrajectoryact;
             if exist('fram_num_check','var') && strcmpi(rerun_ans,'y') && rerun_ans2==1
                 clear fram_num_check
@@ -757,9 +762,9 @@ elseif choi==2 || choi==4
             
             if sum(frameproact(:,5))~=0
                 if choi==2
-                    fprintf('\n\n\nNow is searching group %d reactants(%d)-products(%d), this is the hit group, already hits %d groups(including this group),\n%d groups in total to be processed, limited to export %d groups',loopnum,tartrajectory{1,1},tartrajectorycopy(1),pairnum+1,outputdatanew{floor((promptans3(1)-outputdatanew{2,1})/trajper+2),outcol},numstop);
+                    fprintf('\n\n\nNow is searching group %d reactants(%d)-products(%d), this is the hit group, already hits %d groups(including this group),\n%d groups in total to be processed, limited to export %d groups',loopnum,tartrajectory{1,1},tartrajectorycopy(1),pairnum+1,outputdatanew{floor((promptans3(1)-outputdatanew{2,1})/trajper(1)+2),outcol},numstop);
                 elseif choi==4
-                    fprintf('\n\n\nNow is searching group %d products(%d)-reactants(%d),this is the hit group,already hits %d groups(including this group), \nat most %d froups, limited to export %d groups',loopnum,tartrajectory{1,1},tartrajectorycopy(1),pairnum+1,outputdatanew{floor((promptans3(1)-outputdatanew{2,1})/trajper+2),outcol},numstop);
+                    fprintf('\n\n\nNow is searching group %d products(%d)-reactants(%d),this is the hit group,already hits %d groups(including this group), \nat most %d froups, limited to export %d groups',loopnum,tartrajectory{1,1},tartrajectorycopy(1),pairnum+1,outputdatanew{floor((promptans3(1)-outputdatanew{2,1})/trajper(1)+2),outcol},numstop);
                 end
                 loopnum=loopnum+1;
                 
