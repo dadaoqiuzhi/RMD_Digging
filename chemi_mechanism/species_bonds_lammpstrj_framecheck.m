@@ -176,7 +176,7 @@ if rerun_ans2==1
     species_frame_check2='n';
     if strcmpi(species_frame_checkans,'y')
         for iijj=3:size(outputdatanew,1)
-            if mod(outputdatanew{iijj,1}-outputdatanew{iijj-1,1},trajper)~=0
+            if mod(outputdatanew{iijj,1}-outputdatanew{iijj-1,1},trajper(1))~=0
                 fprintf('From the %d th frame, viz from %d timestep the arithmetical progression is damaged\n',iijj,outputdatanew{iijj,1})
                 fprintf('Frame No. of the %d th frame to %d th frame are:%d   %d   %d\n',iijj-1,iijj+1,outputdatanew{iijj-1,1},outputdatanew{iijj,1},outputdatanew{iijj+1,1})
                 msgbox('The arithmetical progression is damaged in species.* file. How to cope with the problem?')
@@ -190,7 +190,7 @@ if rerun_ans2==1
         end
         if strcmpi(species_frame_check2,'y')
             for jjkk=iijj+1:size(outputdatanew,1)
-                if mod(outputdatanew{jjkk,1}-outputdatanew{jjkk-1,1},trajper)~=0
+                if mod(outputdatanew{jjkk,1}-outputdatanew{jjkk-1,1},trajper(1))~=0
                     fprintf('For the destructive arithmetical progression, from %d th frame on, viz %d timestep, the arithmetical progression is damage again\n',jjkk,outputdatanew{jjkk,1})
                     msgbox('The arithmetical progression is damage again!')
                     break
@@ -204,11 +204,11 @@ if rerun_ans2==1
     if strcmpi(species_frame_check3,'y')
         for jjkk=ijk:size(outputdatanew,1)
             if tartrajectory==outputdatanew{jjkk,1}
-                tartrajectory=outputdatanew{jjkk-1,1}+trajper;
-                promptans3=outputdatanew{jjkk-1,1}+trajper;
+                tartrajectory=outputdatanew{jjkk-1,1}+trajper(1);
+                promptans3=outputdatanew{jjkk-1,1}+trajper(1);
                 fprintf('The initial target frame No. is modified to %d once more\n',tartrajectory)
             end
-            outputdatanew{jjkk,1}=outputdatanew{jjkk-1,1}+trajper;
+            outputdatanew{jjkk,1}=outputdatanew{jjkk-1,1}+trajper(1);
         end
         fprintf('The arithmetical progression problem is repaired for species.* file (outputnew), but not always guaranteed for 100% sure\n')
     end
