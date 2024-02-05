@@ -28,7 +28,8 @@ tarclass=input('Please select the option (a, b, c or d): \n','s');
 tarclass=lower(tarclass);
 sumans=input('Sum the data? y/n:\n','s');
 sumans=lower(sumans);
-datadelimiter={'C','H','O','N','+','-','M','ele','eleonly','He','Li','Be','B','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Pd','Ag','Cd','In','Sn','Sb','I','Xe','Cs','Ba','Pt','Au','Hg','Pb'};
+%long characters in datadelimiter should be list first to avoid find such case: (1) target Cl but find/match C, (2) target Na but find/match N
+datadelimiter={'eleonly','ele','Li','Be','He','Ne','Na','Mg','Cl','Ar','Ca','Sc','Ti','Al','Si','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Pd','Ag','Cd','In','Sn','Sb','Xe','Cs','Ba','Pt','Au','Hg','Pb','M','C','H','O','N','+','-','B','F','P','S','K','V','I'};
 outputdatast=outputdata(1,:);
 fprintf('\nif the exported data only have three column, not hit the interested species, please delet the irrelevant data in the work space\n')
 if tarclass=='a'||tarclass=='b'

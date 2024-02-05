@@ -72,7 +72,8 @@ end
 if exist('outputdata','var') && strcmpi(rerunans,'y')
     tic 
     disp('MWevolution_new is running, please wait...')
-    datadelimiter={'C','H','O','N','He','Li','Be','B','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Pd','Ag','Cd','In','Sn','Sb','I','Xe','Cs','Ba','Pt','Au','Hg','Pb'};
+	%long characters in datadelimiter should be list first to avoid find such case: (1) target Cl but find/match C, (2) target Na but find/match N
+    datadelimiter={'Li','Be','He','Ne','Na','Mg','Cl','Ar','Ca','Sc','Ti','Al','Si','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Pd','Ag','Cd','In','Sn','Sb','Xe','Cs','Ba','Pt','Au','Hg','Pb','M','C','H','O','N','B','F','P','S','K','V','I'};
     matchdataMD=[];[row,col]=size(outputdata);
     for i=4:col
         [C,matches]=strsplit(outputdata{1,i},datadelimiter,'CollapseDelimiters',false);
