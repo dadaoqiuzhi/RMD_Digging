@@ -440,7 +440,35 @@ while ii<=length(trjcollection)
               elementname=eleswap{lib,2};
           end
           atomid_conv=SysConvert(tarBOinform{trjreadline,1},base);
-          atomname=strcat(elementname,atomid_conv);
+          if elemax==2
+            if formatout==1 || formatout==2
+                if 238327>=atomnum
+                    atomname=strcat(elementname,atomid_conv);
+                else
+                    atomname=atomid_conv;
+                end
+            elseif formatout==3
+                if 3843>=atomnum
+                    atomname=strcat(elementname,atomid_conv);
+                else
+                    atomname=atomid_conv;
+                end
+            end
+        elseif elemax==1
+            if formatout==1 || formatout==2
+                if 14776335>=atomnum
+                    atomname=strcat(elementname,atomid_conv);
+                else
+                    atomname=atomid_conv;
+                end
+            elseif formatout==3
+                if 238327>=atomnum
+                    atomname=strcat(elementname,atomid_conv);
+                else
+                    atomname=atomid_conv;
+                end
+            end
+        end
           
           [trjrow,~]=size(trjdata);tartrjdata=[];
           for i=1:trjrow
