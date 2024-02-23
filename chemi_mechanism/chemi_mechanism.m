@@ -438,7 +438,7 @@ if choi==1 && strcmpi(promptans,'y')
         %unwrap
         if strcmpi(unwrapans,'y')
             load('BondRadii.mat');
-            trjdata=PBC_Unwrap(tarBOinform,trjdata,BOXsize,boxsize,element,BondRadii);
+            trjdata=PBC_Unwrap(tarBOinform,trjdata,BOXsize,boxsize,elementsequence,BondRadii);
         end
         if str2num(datarep)<=tartrajectory{1}
             if formatout==1
@@ -540,7 +540,7 @@ elseif choi==1 && strcmpi(promptans,'n')
         %unwrap
         if strcmpi(unwrapans,'y')
             load('BondRadii.mat');
-            trjdata=PBC_Unwrap(tarBOinform,trjdata,BOXsize,boxsize,element,BondRadii);
+            trjdata=PBC_Unwrap(tarBOinform,trjdata,BOXsize,boxsize,elementsequence,BondRadii);
         end
         if str2num(datarep)<=tartrajectory{1}
             if formatout==1
@@ -669,7 +669,7 @@ elseif choi==2 || choi==4
     %unwrap
     if strcmpi(unwrapans,'y')
         load('BondRadii.mat');
-        trjdata=PBC_Unwrap(tarBOinform,trjdata,BOXsize,boxsize,element,BondRadii);
+        trjdata=PBC_Unwrap(tarBOinform,trjdata,BOXsize,boxsize,elementsequence,BondRadii);
     end
     fclose(rawdatatrj);
     trjdatacopy=trjdata;
@@ -835,7 +835,7 @@ elseif choi==2 || choi==4
                  %unwrap
                  if strcmpi(unwrapans,'y')
                      load('BondRadii.mat');
-                     trjdata=PBC_Unwrap(tarBOinform,trjdata,BOXsize,boxsize,element,BondRadii);
+                     trjdata=PBC_Unwrap(tarBOinform,trjdata,BOXsize,boxsize,elementsequence,BondRadii);
                  end
                 fclose(rawdatatrj);
                 if choi==2

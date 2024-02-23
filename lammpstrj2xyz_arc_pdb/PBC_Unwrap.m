@@ -4,7 +4,7 @@
 %condition
 %version 1;2021.10.22
 
-function trjdata=PBC_Unwrap(unwrapans,tarBOinform,trjdata,BOXsize,boxsize,element)
+function trjdata=PBC_Unwrap(unwrapans,tarBOinform,trjdata,BOXsize,boxsize,elementsequence)
 if strcmpi(unwrapans,'y')
     load('BondRadii.mat');
 end
@@ -36,18 +36,18 @@ fprintf('\n3.Bokii, G. B. Kristallokhimiya ( Crystal Chemistry ). Moscow: Nauka,
 fprintf('\n4.Allinger, N. L.; Zhou, X.; Bergsma, J. J. Mol. Struct., Theochem., 1994, 312:69')
 fprintf('\n5.Zefirov, Yu V. Russ. J. Inorg. Chem., 2000, 45: 1552')
 fprintf('\n6.Batsanov, S. S. Russ. J. Inorg. Chem., 1991, 36: 1694; Inorg. Mater., 2001, 37: 871')
-for i=1:length(element)
-    for j=1:length(element)
+for i=1:length(elementsequence)
+    for j=1:length(elementsequence)
         if i<=j
             count5=size(RadiiData,1);
             RadiiData(count5+1,1)=i;
             RadiiData(count5+1,2)=j;
             ii=3;
             for k=1:size(BondRadii,2)
-                if strcmpi(element{i},BondRadii{1,k})
+                if strcmpi(elementsequence{i},BondRadii{1,k})
                     RadiiData(count5+1,ii)=BondRadii{2,k};
                     ii=ii+1;
-                elseif strcmpi(element{j},BondRadii{1,k})
+                elseif strcmpi(elementsequence{j},BondRadii{1,k})
                     RadiiData(count5+1,ii)=BondRadii{2,k};
                     ii=ii+1;
                 end
