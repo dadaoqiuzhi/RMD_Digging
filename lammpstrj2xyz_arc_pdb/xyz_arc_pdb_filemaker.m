@@ -42,6 +42,7 @@ if exist('fram_num_check','var')
     elseif strcmpi(rerun_ans2,'n')
         fprintf('According to your choice, pleae input orrect frame No. for reactant or product later on, eliminating the possible error about frame No. record and damaged arithmetic progression problem\n')
         msgbox('According to your choice, pleae input orrect frame No.!')
+		rerun_ans='n';
     elseif ~ismember(rerun_ans2,{'y','Y','n','N'})
         error('Illegal input, please check it!')
     end
