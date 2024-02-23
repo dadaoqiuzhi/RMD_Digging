@@ -9,7 +9,7 @@ disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (
 disp('4.ACS Materials Letters 2023, 2174-2188. More work is coming!')
 fprintf('One can obtain the interested species by this procedure without running species_analysis (need much memory), \nthe first three columns are always exported')
 
-species=input('Please input the molecular formula, should be lin line with the species file, especially the element sequence, \nmultiple molecular formulas can be seperated by white space: \n','s');
+species=input('\nPlease input the molecular formula, should be lin line with the species file, especially the element sequence, \nmultiple molecular formulas can be seperated by white space: \n','s');
 species=upper(species);
 species=strtrim(species);
 species=strsplit(species);
