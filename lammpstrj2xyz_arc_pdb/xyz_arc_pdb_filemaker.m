@@ -70,62 +70,70 @@ end
 
 if elemax==2
     if formatout==1 || formatout==2
-        fprintf('\nDifferent coding system is adopted according to the atom number (ASCII)\n');
-        if 262143>=atomnum && atomnum>32767
-            fprintf('64 base coding system is recommended for atom id');base=64;%
+        fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
+        if 238327>=atomnum && atomnum>32767
+            fprintf('62 base number system is recommended for atom id');base=62;
         elseif 32767>=atomnum && atomnum>4095
-            fprintf('32 base coding system is recommended for atom id');base=32;%
+            fprintf('32 base number system is recommended for atom id');base=32;
         elseif 4095>=atomnum && atomnum>999
-            fprintf('16 base coding system is recommended for atom id');base=16;%
+            fprintf('16 base number system is recommended for atom id');base=16;
         elseif 999>=atomnum
-            fprintf('10 base coding system is recommended for atom id');
-        elseif atomnum<0 || atomnum>32767
-            error('Atom number is less than 0 or larger than  262143. If larger, please check it and modify code accordingly!')
+            fprintf('10 base number system (decimalism) is recommended for atom id');
+        elseif atomnum<=916132831 || atomnum>238327
+            fprintf('\nAtom number is no more than 916132831 but larger than  238327. If larger, no element name is list in the number system, indicating 5 ASCII chars are used to encode\n')
+			base=62;
+		elseif atomnum > 916132831
+            error('Atom number exceeds 916132831, which can not be encoded. Please check it or contact the developer!')
         end
     elseif formatout==3
-        fprintf('\nDifferent coding system is adopted according to the atom number (ASCII)\n');
-        if 65535>=atomnum && atomnum>16383
-            fprintf('256 base coding system is recommended for atom id');base=256;
-        elseif 16383>=atomnum && atomnum>4095
-            fprintf('128 base coding system is recommended for atom id');base=128;
-        elseif 4095>=atomnum && atomnum>1023
-            fprintf('64 base coding system is recommended for atom id');base=64;
+        fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
+        if 3843>=atomnum && atomnum>1023
+            fprintf('62 base number system is recommended for atom id');base=62;
         elseif 1023>=atomnum && atomnum>255
-            fprintf('32 base coding system is recommended for atom id');base=32;
+            fprintf('32 base number system is recommended for atom id');base=32;
         elseif 255>=atomnum && atomnum>99
-            fprintf('16 base coding system is recommended for atom id');base=16;
+            fprintf('16 base number system is recommended for atom id');base=16;
         elseif 99>=atomnum
-            fprintf('10 base coding system is recommended for atom id');
-        elseif atomnum<0 || atomnum>65535
-            error('Atom number is less than 0 or larger than 65535. If larger, please check it and modify code accordingly!')
+            fprintf('10 base number system (decimalism) is recommended for atom id');
+        elseif atomnum<=14776335 || atomnum>3843
+            fprintf('\nAtom number is no more than 14776335 but larger than 3843. If larger, no element name is list in the number system, indicating 4 ASCII chars are used to encode\n')
+			base=62;
+		elseif atomnum > 14776335
+            error('Atom number exceeds 14776335, which can not be encoded. Please check it or contact the developer!')
         end
     end
 elseif elemax==1
     if formatout==1 || formatout==2
-        fprintf('\nDifferent coding system is adopted according to the atom number (ASCII)\n');
-        if 16777215>=atomnum && atomnum>1048575
-            fprintf('64 base coding system is recommended for atom id');base=64;
+        fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
+        if 14776335>=atomnum && atomnum>1048575
+            fprintf('62 base number system is recommended for atom id');base=62;
         elseif 1048575>=atomnum && atomnum>65535
-            fprintf('32 base coding system is recommended for atom id');base=32;
+            fprintf('32 base number system is recommended for atom id');base=32;
         elseif 65535>=atomnum && atomnum>9999
-            fprintf('16 base coding system is recommended for atom id');base=16;
+            fprintf('16 base number system is recommended for atom id');base=16;
         elseif 9999>=atomnum
-            fprintf('10 base coding system is recommended for atom id');
-        elseif atomnum<0 || atomnum>16777215
-            error('Atom number is less than 0 or larger than 16777215. If larger, please check it and modify code accordingly!')
+            fprintf('10 base number system (decimalism) is recommended for atom id');
+        elseif atomnum<=916132831 || atomnum>14776335
+            fprintf('\nAtom number is no more than 916132831 but larger than 14776335. If larger, no element name is list in the number system, indicating 5 ASCII chars are used to encode\n')
+			base=62;
+		elseif atomnum > 916132831
+            error('Atom number exceeds 916132831, which can not be encoded. Please check it or contact the developer!')
         end
     elseif formatout==3
-        fprintf('\nDifferent coding system is adopted according to the atom number (ASCII)\n');
-        if 262143>=atomnum && atomnum>32767
-            fprintf('64 base coding system is recommended for atom id');base=64;
+        fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
+        if 238327>=atomnum && atomnum>32767
+            fprintf('64 base number system is recommended for atom id');base=62;
         elseif 32767>=atomnum && atomnum>4095
-            fprintf('32 base coding system is recommended for atom id');base=32;
+            fprintf('32 base number system is recommended for atom id');base=32;
         elseif 4095>=atomnum && atomnum>999
-            fprintf('16 base coding system is recommended for atom id');base=16;
+            fprintf('16 base number system is recommended for atom id');base=16;
         elseif 999>=atomnum
-            fprintf('10 base coding system is recommended for atom id');
-        elseif atomnum<0 || atomnum>262143
-            error('Atom number is less than 0 or larger than 262143. If larger, please check it and modify code accordingly!')
+            fprintf('10 base number system (decimalism) is recommended for atom id');
+        elseif atomnum<= 14776335 || atomnum>238327
+            fprintf('Atom number is no more than 14776335 but larger than 238327. If larger, no element name is list in the number system, indicating 4 ASCII chars are used to encode')
+			base=62;
+		elseif atomnum > 14776335
+            error('Atom number exceeds 14776335, which can not be encoded. Please check it or contact the developer!')
         end
     end
 else

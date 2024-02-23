@@ -120,7 +120,7 @@ elseif elemax==1
     elseif formatout==3
         fprintf('\nDifferent number system is adopted according to the atom number (ASCII)\n');
         if 238327>=atomnum && atomnum>32767
-            fprintf('64 base number system is recommended for atom id');base=62;
+            fprintf('62 base number system is recommended for atom id');base=62;
         elseif 32767>=atomnum && atomnum>4095
             fprintf('32 base number system is recommended for atom id');base=32;
         elseif 4095>=atomnum && atomnum>999
