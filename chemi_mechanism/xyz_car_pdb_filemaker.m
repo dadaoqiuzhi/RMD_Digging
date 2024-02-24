@@ -75,8 +75,11 @@ while readline<=tarBOrow
             elementname=eleswap{lib,2};
         end
         atomid_conv=SysConvert(tarBOinform{readline,1},base);
-        if elemax==2
-            if formatout==1 || formatout==2
+        
+		if elemax==2
+            if formatout==1 
+                atomname=elementname;
+            elseif formatout==2
                 if 238327>=atomnum
                     atomname=strcat(elementname,atomid_conv);
                 else
@@ -90,7 +93,9 @@ while readline<=tarBOrow
                 end
             end
         elseif elemax==1
-            if formatout==1 || formatout==2
+            if formatout==1 
+                atomname=elementname;
+			elseif formatout==2
                 if 14776335>=atomnum
                     atomname=strcat(elementname,atomid_conv);
                 else
