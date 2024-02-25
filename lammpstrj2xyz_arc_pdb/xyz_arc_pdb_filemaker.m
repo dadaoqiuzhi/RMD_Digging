@@ -653,7 +653,10 @@ while ii<=length(trjcollection)
                 end
             end
         end
-          
+        if length(atomname)>5
+            error('The char length of atomname is larger than 5, please check it!')
+        end
+		
           [trjrow,~]=size(trjdata);tartrjdata=[];
           for i=1:trjrow
               if trjdata(i,1)==tarBOinform{trjreadline,1}
