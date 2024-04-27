@@ -34,7 +34,7 @@ end
 line=3;
 while ~feof(rawdata)
     dataline=fgetl(rawdata);
-    if ~isempty(dataline)
+    if ~isempty(dataline) && ischar(dataline) && length(dataline) > 1
         datacell=textscan(dataline,'%s','delimiter','\n');
         datacellchar=char(datacell{1});
         datadel=strrep(datacellchar,'#','');

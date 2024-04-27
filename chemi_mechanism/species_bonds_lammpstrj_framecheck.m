@@ -163,7 +163,7 @@ if ~exist('fram_num_check','var') && strcmpi(rerun_ans,'y')
         else
             error('Illegal method selection, please check it!')
         end
-        fprintf('The frame No. problem in species.* file (outputnew) has been disposed\n')
+        fprintf('\nThe frame No. problem in species.* file (outputnew) has been disposed\n')
     end
     
     clear atomnumcopy control datacell datacellchar dataline datasplit found gap i line unfound ans checkframe1 checkframe2 framecheck

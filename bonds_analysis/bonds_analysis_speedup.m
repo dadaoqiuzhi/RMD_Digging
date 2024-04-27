@@ -13,7 +13,7 @@ fprintf('This program will read the BO information of a specified or all (not re
 dataname=input('Please input the file name to be processed: \n','s');
 trajper=input('Please input the output frequency of BO information (Positive integer): \n');
 tartrajectory=input('\nPlease input the timestep of the specified trajectory: \n');
-atomnum=input('Please input atom number: \n');
+atomnum=atom_num_autoread(dataname);
 disp('bonds_analysis_speedup is running, please wait...')
 tartrajectory={tartrajectory(1)};
 if mod(tartrajectory{1},trajper)~=0

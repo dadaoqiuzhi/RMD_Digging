@@ -37,7 +37,7 @@ end
 line=3;
 while ~feof(rawdata)
     dataline=fgetl(rawdata);
-    if ~isempty(dataline)
+    if ~isempty(dataline) && ischar(dataline) && length(dataline) > 1
         datacell=textscan(dataline,'%s','delimiter','\n');
         datacellchar=char(datacell{1});
         datadel=strrep(datacellchar,'#','');
@@ -62,6 +62,8 @@ while ~feof(rawdata)
         for i=1:length(indexapp)
             outputdata{line,i+datacol}=datalinenum(indexapp(i));
         end
+    else
+        break
     end
     line=line+1;
 end

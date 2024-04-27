@@ -55,7 +55,7 @@ outputdatanew(2,:)=outputdata_copy(2,:);
 
 while ~feof(rawdata)
     dataline=fgetl(rawdata);
-    if ~isempty(dataline)
+    if ~isempty(dataline) && ischar(dataline) && length(dataline) > 1
         datacell=textscan(dataline,'%s','delimiter','\n');
         datacellchar=char(datacell{1});
         datadel=strrep(datacellchar,'#','');
@@ -80,6 +80,8 @@ while ~feof(rawdata)
             end
         end
         outputdatanew(size(outputdatanew,1)+1,:)=outputdata_copy(2,:);
+    else
+        break
     end
 end
 fclose(rawdata);

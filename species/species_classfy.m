@@ -16,17 +16,17 @@ disp('##########################################################################
 
 disp('When species_analysis is executed, this procedure can obtain the interested species')
 
-fprintf('\n(1)C20 means species with 20 C,C42+ denotes species with C number larger than 42, C100- is species with C less than 100')
-fprintf('\n(2)M100 indicates species with Mw of 100, M125+ denotes Mw larger than 125, M400- is species less than 400')
+fprintf('\n(1)C20 means species with 20 C,C42+ denotes species with C number larger than 42, C100- is species with C less than 100, \nC42-100 is species with 42-100 C')
+fprintf('\n(2)M100 indicates species with Mw of 100, M125+ denotes Mw larger than 125, M400- is species less than 400, \nM125-400 is species with Mw between 125-400')
 fprintf('\n(3)eleC are species have C, eleCO are species have C and O')
 fprintf('\n(4)eleonlyCH are species only have C and H, eleonlyCO are species only have C and O')
-fprintf('\n\nMethods to filter out the interested species: \na:C1,C20,C42+,C100-,+ means >=,- means <\n')
-fprintf('b:M100,M125+,M400-\n')
+fprintf('\n\nMethods to filter out the interested species: \na:C1,C20,C42+,C100-,C42-100,+ means >=,- means <, xx-yy means xx>= & <=yy\n')
+fprintf('b:M100,M125+,M400-,M125-400,+ means >=,- means <, xx-yy means xx>= & <=yy\n')
 fprintf('c:eleC,eleCO\n')
 fprintf('d:eleonlyC,eleonlyCO\n\n\n')
 tarclass=input('Please select the option (a, b, c or d): \n','s');
 tarclass=lower(tarclass);
-sumans=input('Sum the data? y/n:\n','s');
+sumans=input('Sum the screened species data? y/n:\n','s');
 sumans=lower(sumans);
 %long characters in datadelimiter should be list first to avoid find such case: (1) target Cl but find/match C, (2) target Na but find/match N
 datadelimiter={'eleonly','ele','Li','Be','He','Ne','Na','Mg','Cl','Ar','Ca','Sc','Ti','Al','Si','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Pd','Ag','Cd','In','Sn','Sb','Xe','Cs','Ba','Pt','Au','Hg','Pb','M','C','H','O','N','+','-','B','F','P','S','K','V','I'};
@@ -41,15 +41,26 @@ if tarclass=='a'||tarclass=='b'
         error('Not match the option, please check input or complete the parameter in datadelimiter')
     end
     Clength=length(C);
-    if Clength==2
+    if Clength==2 
         classidcell={};
         classidcell{1}=matches{1};
         classidcell{2}=C{2};
-    else
+    end
+    if Clength==3 
+        if ~isempty(C{3})
         classidcell={};
         classidcell{1}=matches{1};
         classidcell{2}=C{2};
         classidcell{3}=matches{2};
+        classidcell{4}=C{3};
+        elseif isempty(C{3})
+        classidcell={};
+        classidcell{1}=matches{1};
+        classidcell{2}=C{2};
+        classidcell{3}=matches{2};
+        else
+            error('error input, please check it!')
+        end
     end
     fprintf('\nspecies_classfy is running, please wait...\n')
 end
@@ -57,7 +68,7 @@ end
 
 if tarclass=='c' || tarclass=='d'
     classid=input('Please input the specific requirements according to the selected methods c or d, e.g. eleonlyCH, eleCO: \n','s');
-    [C,matches]=strsplit(classid,datadelimiter,'CollapseDelimiters',false);
+    [~,matches]=strsplit(classid,datadelimiter,'CollapseDelimiters',false);
     classidcell={};
     for i=1:length(matches)
         classidcell{i}=matches{i};
@@ -65,7 +76,7 @@ if tarclass=='c' || tarclass=='d'
     fprintf('\nspecies_classfy is running, please wait...\n')
 end
 
-matchdatacol=[]; kk=1;[row,col]=size(outputdata);
+matchdatacol=[]; kk=1;[~,col]=size(outputdata);
 for i=4:col
     [C,matches]=strsplit(outputdatast{i},datadelimiter,'CollapseDelimiters',false);
     classmatch={};
@@ -95,25 +106,33 @@ for i=4:col
                     matchnum(length(matchnum)+1,1)=str2num(classmatch{j,2});
                 end
             end
-            if length(classidcell)==2 && sum(matchnum)==str2num(classidcell{2})
+            if length(classidcell)==2 && matchnum==str2num(classidcell{2})
                 matchdatacol(kk)=i;
                 kk=kk+1;
             elseif length(classidcell)==3
                 memcheck=ismember(classidcell,{'+'});
                 if sum(memcheck)==1
-                    if sum(matchnum)>=str2num(classidcell{2})
+                    if matchnum>=str2num(classidcell{2})
                         matchdatacol(kk)=i;
                         kk=kk+1;
                     end
                 end
                 memcheck=ismember(classidcell,{'-'});
                 if sum(memcheck)==1
-                    if sum(matchnum)<str2num(classidcell{2})
+                    if matchnum<str2num(classidcell{2})
                         matchdatacol(kk)=i;
                         kk=kk+1;
                     end
                 end
-            end
+            elseif length(classidcell)==4
+                memcheck=ismember(classidcell,{'-'});
+                if sum(memcheck)==1
+                    if str2num(classidcell{2})<=matchnum && matchnum<=str2num(classidcell{4})
+                        matchdatacol(kk)=i;
+                        kk=kk+1;
+                    end
+                end
+            end 
         end
     end
     
@@ -139,6 +158,15 @@ for i=4:col
             memcheck=ismember(classidcell,{'-'});
             if sum(memcheck)==1
                 if datamw<mw
+                    matchdatacol(kk)=i;
+                    kk=kk+1;
+                end
+            end
+        end
+        if length(classidcell)==4
+            memcheck=ismember(classidcell,{'-'});
+            if sum(memcheck)==1
+                if datamw >= str2num(classidcell{2}) && datamw <= str2num(classidcell{4})
                     matchdatacol(kk)=i;
                     kk=kk+1;
                 end
@@ -204,8 +232,9 @@ disp('Sum of data are saved in sumdata')
 
 
 fprintf('\nResults of species_classfy are saved in dataexport, sum of data are saved in sumdata')
-fprintf('\nMore complex data abstraction can be performed by copying data in dataexport to outputdata and go on!\n')
+fprintf('\nMore complex data abstraction can be performed by renaming dataexport to outputdata and changing the raw outputdata to other name (eg. outputdata_raw). Go on!\n')
 msgbox('species_classfy is successfully finished!');
 
-% clear C classid classidcell classmatch Clength col datadelimiter dataoutcol dataoutcolchar dataoutputcol dataoutputrow sumsum
-% clear dataoutrow filename i j k kk matches matchnum matchrow memcheck outputdatast row sumcheck tarclass saveans sumans a b mw
+clear classid classidcell classmatch Clength col datadelimiter dataoutcol dataoutcolchar dataoutputcol dataoutputrow sumsum
+clear dataoutrow filename i j k kk matches matchnum matchrow memcheck outputdatast sumcheck tarclass saveans sumans a b mw
+clear matchdatacol C row 
