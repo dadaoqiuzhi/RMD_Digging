@@ -146,6 +146,7 @@ if strcmpi(rerun_ans,'y')
     clear atomnumcopy control datacell datacellchar dataline datasplit found gap i line unfound ans checkframe1 checkframe2 framecheck
     clear outputans dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol check_control checkframe fram_num_check2
 else
+	num_modify = 0;
     fprintf('The frame No. problem in lammpstrj.* file has been disposed and reused\n')
 end
  
