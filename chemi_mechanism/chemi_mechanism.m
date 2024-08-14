@@ -12,7 +12,7 @@ disp('Repository adress of the Source code on github: https://github.com/dadaoqi
 disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (2021) 41287-41302. 3.ACS Appl. Mat. Interfaces 2022, 14.(4), 5959-5972.')
 disp('4.ACS Materials Letters 2023, 2174-2188. More work is coming!')
 disp('##################################################################################################################################')
-fprintf('This program is used to\n1.Export structure files of products or reactants \n2.Analyze and export reactants-products files\n3.Analyze special groups, bonds and species (in development)\n4.Analyze where the interested species go\n')
+fprintf('This program is used to\n1.Export structure files of products or reactants \n2.Analyze and export products->reactants files\n3.Analyze special groups, bonds and species (in development)\n4.Analyze where the interested species go (reactants->products)\n')
 choi=input('Please select the option No.: \n');
 if choi==1 || choi==2 || choi==4
     formatout=input('\nPlease select the file format No.: 1.xyz 2.car  3.pdb\n');
@@ -965,4 +965,5 @@ clear row3 row4 row5 row6 rowcopy rowfram spacegroupname species tarelenummatch 
 clear tartrjdata title trajper loop datanamespe i j seekacc sperunans trajectorynote producttname col maxchoi maxdata outputdata_copy
 clear atomid_conv base boxsize counter datanamecar eleswap eleswapans modcounter moddivid formatout datarep errorexe fram_num_check
 clear rerun_ans sperunans2 outputdatanew_frame rerun_ans2 species_frame_checkans unwrapans species_frame_check2 readline MOLE
-clear iijj elemax datalinenum datacellnum control checknum check_control_origin 
+clear iijj elemax datalinenum datacellnum control checknum check_control_origin coord_position coord_tag outputdatanew row species_copy
+clear tarBOinformcopy2 tarBOinformcopy3 tarBOinformfullcopy trjdata trjdatacopy tarBOinformcopy ans
