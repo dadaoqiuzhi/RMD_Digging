@@ -123,6 +123,11 @@ while atomnum
 end
 fclose(rawdata);
 fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata, search line number is recorded in readline.')
+
+if size(bondoutdata,2) > 15 %delet redundant blank column
+    bondoutdata(:,16:end)=[];
+end
+
 outputans=input('Export data to Excel? Much time is required for large data and the Excel should be closed.y/n: \n','s');
 outputans=lower(outputans);
 if outputans=='y'

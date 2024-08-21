@@ -192,6 +192,10 @@ if outputans=='y'
 end
 fprintf('\nbonds_analysis is successfully finished. BO information is saved inbondoutdata.\n')
 
+if size(bondoutdata,2) > 15 %delet redundant blank column
+    bondoutdata(:,16:end)=[];
+end
+
 clear bondnumdata C datacell datacellchar datadel datadelimiter dataline dataname datarep datasplit datasplitupper
 clear i j k kk matches rawdata outputans dataoutrow dataoutcol dataoutcolchar dataoutputrow dataoutputcol filename
 clear tartrajectory readmethod datainsplit control trajper
