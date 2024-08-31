@@ -1,4 +1,4 @@
-%scrit file name  statisave 
+%scrit file name  statisave_matrix 
 %purpose:
 %This program is used to  statistically average a given file
 %version 1;2018.7.15
@@ -17,7 +17,7 @@ else
     disp('Illegal input! Please check it.')
 end
 avesteps=input('Step/Span number used to average the data, should be a positive integer: \n');
-disp('statisave is running...')
+disp('statisave_matrix is running...')
 if iscell(datasource)
     if ischar(datasource{1,1})
         datasource(1,:)=[];
@@ -32,7 +32,7 @@ for i=1:imax
         datastatis{i,j}=mean(datasource(avesteps*(i-1)+1:avesteps*i,j));
     end
 end
-disp('statisave is successfully accomplished')
+disp('statisave_matrix is successfully accomplished')
 fprintf('\nResult is saved in datastatis matrix\n')
 
 clear avesteps datacol datarow i j imax
