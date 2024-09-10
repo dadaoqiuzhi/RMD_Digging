@@ -10,7 +10,7 @@ disp('References: 1.Fuel 287 (2021) 119484. 2.ACS Appl. Mat. Interfaces 13(34) (
 disp('4.ACS Materials Letters 2023, 2174-2188. More work is coming!')
 disp('##################################################################################################################################')
 
-MDans=input('\nPlease select the option No.: 1. only MW   2.only molecular weight distribution (MWD)  3.both 1 and 2: \n');
+MDans=input('\nPlease select the option No.: 1. only MW and mass fraction of specified species   2.only molecular weight distribution (MWD)  3.both 1 and 2: \n');
 
 if MDans==1 || MDans==3
     massshresholdans=input('\n Limit the Mw threshold value of species used to calculate? y/n: \n','s');
@@ -94,16 +94,24 @@ if exist('outputdata','var') && strcmpi(rerunans,'y')
         end
         matchdataMD(i-3)=molecuweight(classmatch);
     end
-    
+    molenum=outputdata(2,4:end);%每种分子的数量
+    molenum=cell2mat(molenum);
+    for k=1:col-3
+        molenum(2,k)=molenum(1,k)*matchdataMD(k);%每种分子的总重量
+    end
+    M_total = sum(molenum(2,:));
+
     if MDans==1 || MDans==3
         MD=[];Mn=0;Mw=0;molenum={};
         Mn_num=0;Mw_num=0;
+        M_fraction = [];
         for i=2:row
             Mn=0;Mw=0;
             molenum={};
             Mn_num=0;
             Mw_num=0;
-            
+            Mn_part_total = 0;
+
             molenum=outputdata(i,4:end);
             molenum=cell2mat(molenum);
             for k=1:col-3
@@ -116,6 +124,7 @@ if exist('outputdata','var') && strcmpi(rerunans,'y')
                     Mn=Mn+molenum(1,j)*matchdataMD(j)/sum(molenum(1,:));
                     Mw=Mw+molenum(2,j)*matchdataMD(j)/sum(molenum(2,:));
                 end
+                Mn_part_total = sum(molenum(2,:));
             elseif strcmpi(massshresholdans,'y')
                 if massshresholdans2==1
                     for j=1:col-3
@@ -124,6 +133,7 @@ if exist('outputdata','var') && strcmpi(rerunans,'y')
                             Mn_num=Mn_num+molenum(1,j);
                             Mw=Mw+molenum(2,j)*matchdataMD(j);
                             Mw_num=Mw_num+molenum(2,j);
+                            Mn_part_total = Mn_part_total + molenum(2,j);
                         end
                     end
                 elseif massshresholdans2==2
@@ -133,6 +143,7 @@ if exist('outputdata','var') && strcmpi(rerunans,'y')
                             Mn_num=Mn_num+molenum(1,j);
                             Mw=Mw+molenum(2,j)*matchdataMD(j);
                             Mw_num=Mw_num+molenum(2,j);
+                            Mn_part_total = Mn_part_total + molenum(2,j);
                         end
                     end
                 elseif massshresholdans2==3
@@ -142,6 +153,7 @@ if exist('outputdata','var') && strcmpi(rerunans,'y')
                             Mn_num=Mn_num+molenum(1,j);
                             Mw=Mw+molenum(2,j)*matchdataMD(j);
                             Mw_num=Mw_num+molenum(2,j);
+                            Mn_part_total = Mn_part_total + molenum(2,j);
                         end
                     end
                 end
@@ -163,9 +175,10 @@ if exist('outputdata','var') && strcmpi(rerunans,'y')
                     MD(i-1,2)=Mw/Mw_num;
                 end
             end
-            
+            M_fraction(size(M_fraction,1)+1,1) = Mn_part_total/M_total;
         end
     end
+
     
     if MDans==2 || MDans==3
         
@@ -344,6 +357,7 @@ end
 
 if MDans==1 || MDans==3
     fprintf('\nMWevolution is successfully finished. Mn and Mw is saved in MD matrix\n')
+    fprintf('\nMass fraction data are saved in M_fraction\n')
 end
 if (exist('outputdata','var') && strcmpi(rerunans,'y')) && (MDans==2 || MDans==3)
     fprintf('\nMWD data is saved in MWDdata, MW in the first column, molecular number in the second column, frame No. is saved in STEP. \n delzero procedure can be used to handle the 0 value\n');
@@ -351,7 +365,7 @@ elseif (~exist('outputdata','var') || strcmpi(rerunans,'n')) && (MDans==2 || MDa
     fprintf('\nMWD is exported in the MWD_*.txt\n')
 end
 if MDans==1
-    msgbox('MW calculation is finished');
+    msgbox('MW and mass fraction calculations are finished');
 elseif MDans==2
     msgbox('MWD calculation is finished');
 elseif MDans==3
@@ -363,4 +377,4 @@ fprintf('\nTotal task time: %.2f s\n',toc)
 clear C col i j k matches Mn Mw row MWDans dumpevery maxstep minstep MWDfram MWDans MWDdatacopy Mw_num Mn_num massshresholdans
 clear m datadelimiter classmatch MDans molenum matchdataMD filename rerunans tic toc
 clear datacell datacellchar datacellnum datadel dataline datalinenum dataname datarep datasplit indexapp massshreshold massshresholdans2
-clear rawdata ans
+clear rawdata ans Mn_part_total

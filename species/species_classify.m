@@ -227,10 +227,6 @@ if sumans=='y'
     end
 end
 fprintf('\nspecies_classfy is successfully finished\n')
-disp('Sum of data are saved in sumdata')
-
-
-
 fprintf('\nResults of species_classfy are saved in dataexport, sum of data are saved in sumdata')
 fprintf('\nMore complex data abstraction can be performed by renaming dataexport to outputdata and changing the raw outputdata to other name (eg. outputdata_raw). Go on!\n')
 msgbox('species_classfy is successfully finished!');
