@@ -1,8 +1,8 @@
 # RMD_Digging: A Toolkit to Remove the Barriers in the Way of Scientific Calculations and Analysis  
 # <span style="color: red"> Notice: An upgrade version RMD_Digging_v3.1_dev has been released! This version is more fast and robust, with more practical functions and little bugs. It is also aimed to alleviate the memory consumption in many tasks. Both versions with respective English and Chinese language will be provided. Enjoy it. </span>
 # Welcome to join our QQ group: 948210961. 
-=
-:star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star::star:
+
+:rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket::rocket:
 ## Development Target
 
 RMD_Digging is developed by the MATLAB language. It is aimed to provide pre-processing and post-processing tools for the reactive molecular dynamics (ReaxFF) simulations performed on the LAMMPS platform. Its functions involve formatting the reactive force field parameters, statistic anasysis of structures, trajectories and mechanisms and output of the visualization files. Besides, extra modelling by other softwares can be performed by preparing corresponding input files. The following softwares are used to realize these goals, including Materials studio, VMD and Gaussian. Let's make it more versatile, powerful and robust together!
