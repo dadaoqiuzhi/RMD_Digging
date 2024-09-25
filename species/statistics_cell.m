@@ -75,7 +75,11 @@ if strcmpi(ans_consistent,'n')
     end
     disp('Results of statistics_cell is saved in outdatastat')
 end
-
+if strcmpi(ans_consistent,'y')
+    disp('Results of statistics_cell is saved in datastatis')
+else
+    disp('Results of statistics_cell is saved in outdatastat')
+end
 
 
 % outputans=input('Export results to Excel? y/n: n','s');
