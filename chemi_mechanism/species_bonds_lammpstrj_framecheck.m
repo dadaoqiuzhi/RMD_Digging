@@ -33,7 +33,7 @@ if ~exist('fram_num_check','var') && strcmpi(rerun_ans,'y')
                 while unfound
                     dataline=fgetl(rawdata);
                     while isempty(dataline)
-                        dataline=fgetl(rawdatatrj);
+                        dataline=fgetl(rawdata);
                     end
                     readline=readline+1;
                     i=i+1;
@@ -96,6 +96,9 @@ if ~exist('fram_num_check','var') && strcmpi(rerun_ans,'y')
         unfound=1;
         while unfound
             dataline=fgetl(rawdatatrj);
+            while isempty(dataline)%可能存在ITEM: TIMESTEP行前空行
+                dataline=fgetl(rawdatatrj);
+            end
             readline=readline+1;
             i=i+1;
             if i==gap+1
