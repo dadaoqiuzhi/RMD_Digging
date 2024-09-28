@@ -14,7 +14,7 @@ dataname=input('\nFilename name of *.lammpstrj file: \n','s');
 trajper=input('\nPlease input the output frequency of BO information and trajectory file (Positive integer, see bonds or lammpstrj file):\n');
 tartrajectory=input('\nPlease input the timestep of the specified trajectory: \n');
 tartrajectory={tartrajectory(1)};
-atomnum==atom_num_autoread(dataname);
+atomnum=atom_num_autoread(dataname);
 if mod(tartrajectory{1},trajper)~=0
     control=0;
     fprintf('\nnonexistent trajectory, please check it!!!\n')
@@ -50,7 +50,7 @@ else
         while unfound
             dataline=fgetl(rawdata);
             while isempty(dataline)
-                dataline=fgetl(rawdatatrj);
+                dataline=fgetl(rawdata);
             end
             readline=readline+1;
             i=i+1;

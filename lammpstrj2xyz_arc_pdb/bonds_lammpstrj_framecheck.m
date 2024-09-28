@@ -32,6 +32,9 @@ if strcmpi(rerun_ans,'y')
                 unfound=1;
                 while unfound
                     dataline=fgetl(rawdata);
+                    while isempty(dataline)
+                        dataline=fgetl(rawdata);
+                    end
                     readline=readline+1;
                     i=i+1;
                     if i==gap+1
@@ -90,6 +93,9 @@ if strcmpi(rerun_ans,'y')
         unfound=1;
         while unfound
             dataline=fgetl(rawdatatrj);
+            while isempty(rawdatatrj)
+                dataline=fgetl(rawdata);
+            end
             readline=readline+1;
             i=i+1;
             if i==gap+1

@@ -43,6 +43,9 @@ else
         unfound=1;
         while unfound
             dataline=fgetl(rawdata);
+            while isempty(dataline)
+                dataline=fgetl(rawdata);
+            end
             readline=readline+1;
             i=i+1;
             if i==gap+1

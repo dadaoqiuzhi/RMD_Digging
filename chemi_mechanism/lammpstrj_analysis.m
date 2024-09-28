@@ -44,6 +44,9 @@ elseif str2num(datarep)<tartrajectory{1}
         unfound=1;
         while unfound
             dataline=fgetl(rawdatatrj);
+            while isempty(dataline)%可能存在ITEM: TIMESTEP行前空行
+                dataline=fgetl(rawdatatrj);
+            end
             readline=readline+1;
             i=i+1;
             if i==gap+1
