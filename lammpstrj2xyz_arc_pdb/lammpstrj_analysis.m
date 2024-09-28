@@ -134,7 +134,7 @@ while atomnum
     dataline=fgetl(rawdata);
     readline=readline+1;
     atomnum=atomnum-1;
-    if atomnum<=0
+    if atomnum<0
         break;
     end
     datacell=textscan(dataline,'%s','delimiter','\n');

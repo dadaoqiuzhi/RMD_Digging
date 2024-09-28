@@ -73,8 +73,8 @@ for j=2:datacol
 end
 dataoutput(:,1)=dataoutput(:,1)*timestep/1000;
 
-toc;
-fprintf('loglammps is end. Total task time: %.2f s\n',toc)
+Elapsedtime = toc;
+fprintf('loglammps is end. Total task time: %.2f s\n',Elapsedtime)
 disp('The averaged data is saved indataoutput')
 
 % [dataoutrow,dataoutcol]=size(dataoutput);
@@ -85,4 +85,4 @@ disp('The averaged data is saved indataoutput')
 % xlswrite(filename,dataoutput,dataoutputrow:dataoutputcol)
 
 clear datacol datacolumn dataname datarow i j rawdata re thermoper timestep avesteps coloum_num data datacell datacellchar
-clear dataline datarep datasplit fid imax imaxend ans
+clear dataline datarep datasplit fid imax imaxend ans Elapsedtime

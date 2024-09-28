@@ -955,8 +955,8 @@ end
 fprintf('chemi_mechanism is successfully finished');
 msgbox('chemi_mechanism is successfully finished');
 
-toc 
-fprintf('\nTotal task time: %.2f s\n',toc)
+Elapsedtime = toc;
+fprintf('\nTotal task time: %.2f s\n',Elapsedtime)
 
 clear blockNO bondset bondsetdata BOXsize choi colframe datanamebond datanametrj date elementsequence fidBO fileheader frame frameproact
 clear ii irow jj lenbloc lenframe loopnum m molecomp numreactant numstop numzero outcol pairnum PBC PBCa PBCalpha PBCb PBCbeta PBCc

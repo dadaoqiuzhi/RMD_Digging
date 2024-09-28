@@ -83,10 +83,11 @@ msgbox('Species is successfully sorted and imported!');
 fprintf('\nspecies_capture can screen out the interested species data, species_classfy can obtain the interested species with specifically structure characterization\n')
 fprintf('\nData is saved in outputdata\n')
 fprintf('\nspecies_analysis is successfully finished\n\n')
-toc 
-fprintf('\nTotal task time: %.2f s\n',toc)
+Elapsedtime = toc;
+fprintf('\nTotal task time: %.2f s\n',Elapsedtime)
 
 clear datacell datacellchar datacellnum datacol datadel datafirstrow dataline datalinenum datanow filename ans
 clear dataoutcol dataoutcolchar dataoutputcol dataoutputrow datarow datarep datarow datasec datasplit statans
 clear i j k line rawdata charcor datadelimiter dataoutrow matches outputans dataname indexapp indexcol indexovlp
+clear Elapsedtime
 

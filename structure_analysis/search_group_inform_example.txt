@@ -1,0 +1,190 @@
+#example C: 1, O:2, H:3 N:4 F:5 Cl:6
+#1st number: line number, 0 is always for the first line, a positive one indicates the adjacent central atom comes from which line in the block, where the central atom is a bonded one with other central atom. Ascending order is mandatory.
+#2nd number: central atom type.
+#3rd number: number of bonds.
+#4th to ... number:  atom types of the bonded atom.
+#444n: n>=1, a mark for the central atom, which must be connected to other central atoms with the same mark. n is for many possible cases 
+#555n: n>=1, a mark for the nth bonded atom, which must be the same atom for other place with the same mark, or connected to each other. 555n should not be reused in one block (n is for many possible cases). 888 and 6666 should not be used for these bonded atoms.
+#66n: for the case where number of bond >=n, otherwise must be the actual number if the bonded atom types is empty/null, eg. 1 2, 2 3, etc. Importantly, n must >= the number of the explicitly written bonded atoms, otherwise it does not work.
+#6666: represents that the bonded atom types are restrained, which must be limited to these specied by the subsequent number. These numbers must be placed to the end if 444n and/or 555n exists. Only one 6666 can be used in one line.
+#888:  for any atom type, here denotes 1, 2 or 3, 888 must be placed to the end at any time.
+#9999: for end mark of the block for one group. By this mark, one can write multiple groups to be analyzed in the same one task.
+#
+#NOTE: 
+#All key words must sit behind the specific bonded atom types.
+#Bonded atoms with only one bond like H, F, Cl etc. are not suggested to be further written in the following lines, unless they are indispensible for the structure indentification, in which case, the corresponding input should be matched.
+#All comments must be deleted for the formal document, that is the file provided to MATLAB must be digital.
+
+# C-O-H, alcoholic hydroxyl group
+0 2 2 1 3        #bonding relationship consists of central atom type, number of bond, atom types of the bonded atoms, begin from the central atom and try to indentify the wanted group with the least steps
+9999             #9999 for end mark.
+
+# *-CH3, methyl group
+0 1 4 3 3 3 888     #888 for any atom type, here denotes 1, 2 or 3, 888 must be placed to the end at any time.
+9999
+
+# -C-O-H, alcoholic hydroxyl group AND *-CH3, methyl group
+0 2 2 1 3        
+9999            
+0 1 4 3 3 3 888 
+9999
+
+# -C≡C-H, alkynyl group
+0 1 2 1 3
+9999
+
+# -C(=O)-H, aldehyde group
+0 1 2 2 3
+9999
+
+# C-O-C, ether group
+0 2 2 1 1
+9999
+
+# *-N=N-*, aldehyde group
+0 4 2 4 888
+1 4 2 4 888
+9999
+
+# *-O-O-*, peroxy
+0 2 2 2 888
+1 2 2 2 888
+9999
+
+# *-C(=O)-O-H, carboxyl group
+0 1 3 2 2 888
+1 2 2 1 3 
+1 2 1 1
+9999
+
+# *-C(=O)-O-*, ester group
+0 1 3 2 2 888
+1 2 1 1 
+1 2 2 1 6666 1 4   #6666 represents that the bonded atom types are restrained, which must be limited to these specied by the subsequent number
+9999
+
+# *-C(=O)-N-*, amide group 
+0 1 3 2 4 888
+1 2 1 1
+1 4 662     #662 for the case where number of bond >=2
+9999
+
+# *-N=C=O, isocyanic acid group
+0 1 2 2 4
+1 2 1 1
+1 4 2 1 888
+9999
+
+# *-N-C(=O)-O-*, isocyanate group
+0 1 3 2 2 4
+1 2 1 1
+1 2 2 1 888
+1 4 3 1 888
+9999
+
+# C-C(=O)-C, carbonyl group
+0 1 3 2 1 1
+1 2 1 1 
+1 1 664          #66n for the case where number of bond >=n, otherwise must be the actual number if the bonded atom types is empty/null, eg. 1 2, 2 3, etc
+1 1 664         
+9999
+
+
+# *-O-C(=O)-O-*, carbonate group
+0 1 3 2 2 2
+1 2 1 1
+1 2 2 1 888
+1 2 2 1 888
+9999
+
+#*-CH2-CH3 ethylene group
+0 1 4 3 3 3 1
+1 1 4 1 3 3 888
+9999
+
+#*-CH2-CH2-CH3 propyl group
+0 1 4 3 3 3 1
+1 1 4 3 3 1 1  
+2 1 4 3 3 1 888
+9999
+
+# *-C(CH3)3 tertiary butyl group
+0 1 4 1 1 1 888
+1 1 4 3 3 3 1 
+1 1 4 3 3 3 1
+1 1 4 3 3 3 1
+9999
+
+#   /O\  
+# *-CH-CH- ethylene oxide
+0 2 2 1 1
+1 1 4 2 3 1 888 4441 #444n is a mark for the central atom, which must be connected to other central atoms with the same mark
+1 1 4 2 3 1 888 4441
+9999
+
+#   /CH2\  
+# *-CH——CH- cyclopropyl group
+0 1 4 3 3 1 1
+1 1 4 3 1 1 888 4441
+1 1 4 3 1 1 888 4441
+9999
+
+#monosubstituted phenyl group, begin from the para-position of the substituted group
+#               CH==CH
+#             —C/    \CH
+#               \CH==/CH
+0 1 3 3 1 1
+1 1 3 3 1 1
+1 1 3 3 1 1
+2 1 3 3 1 1 5551 #5551 is a mark for the bonded atom, which must be connected to other bonded atoms with the same mark
+3 1 3 3 1 1 5551
+4 1 3 1 1 6666 1 2 
+9999
+#Another method is to find out all C-H bonds, theoretically and simply, the total number of C-H bonds is divided by 5 can give the counts of monosubstituented phenyl group. Be careful if the system is complex and disturbed by other situation. 
+
+#5-ethylidene 2-norbornene in EPDM polymer material, the double bond C-CH=CH-C
+0 1 3 3 1 1
+1 1 3 3 1 1
+1 1 661 888
+2 1 661 888
+9999
+
+#5-ethylidene 2-norbornene in EPDM polymer material, the ring structure. Begin from the -CH2- bridge
+0 1 4 3 3 1 1
+1 1 4 3 1 1 1
+1 1 4 3 1 1 1
+2 1 4 3 3 1 1 4441
+2 1 4 3 1 1 888 4442
+3 1 4 3 3 1 1 4441
+3 1 4 3 1 1 888 4442
+9999
+
+#       |---N(-O•)---|
+#(CH3)2-C-CH2-CH-CH2-C-(CH3)2
+#             |
+#             *                               TMPO, begin from the N-O•
+0 4 3 2 1 1
+1 2 1 888
+1 1 4 4 1 1 1
+1 1 4 4 1 1 1
+3 1 4 3 3 3 1
+3 1 4 3 3 3 1
+3 1 4 3 3 1 1 5554
+4 1 4 3 3 3 1
+4 1 4 3 3 3 1
+4 1 4 3 3 1 1 5554
+9999
+
+# F2-C=C-(FCl)
+0 1 3 1 5 5
+1 1 3 1 5 6
+1 5 1 1
+1 5 1 1
+2 5 1 1
+2 6 1 1
+9999
+
+
+
+
+

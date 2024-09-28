@@ -371,10 +371,10 @@ elseif MDans==2
 elseif MDans==3
     msgbox('MW AND MWD calculation is finished');
 end
-toc 
-fprintf('\nTotal task time: %.2f s\n',toc)
+Elapsedtime = toc;
+fprintf('\nTotal task time: %.2f s\n',Elapsedtime)
 
 clear C col i j k matches Mn Mw row MWDans dumpevery maxstep minstep MWDfram MWDans MWDdatacopy Mw_num Mn_num massshresholdans
-clear m datadelimiter classmatch MDans molenum matchdataMD filename rerunans tic toc
+clear m datadelimiter classmatch MDans molenum matchdataMD filename rerunans tic toc Elapsedtime
 clear datacell datacellchar datacellnum datadel dataline datalinenum dataname datarep datasplit indexapp massshreshold massshresholdans2
 clear rawdata ans Mn_part_total

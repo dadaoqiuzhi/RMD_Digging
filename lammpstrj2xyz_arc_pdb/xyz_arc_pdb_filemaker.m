@@ -741,8 +741,8 @@ elseif formatout==3
 end
 msgbox('Done£¡xyz_arc_pdb_filemaker is successfully finished');
 
-toc 
-fprintf('\nTotal task time: %.2f s\n',toc)
+Elapsedtime = toc;
+fprintf('\nTotal task time: %.2f s\n',Elapsedtime)
 
 clear ans atomnum bondnumdata control datacell datacellchar datadel dataline dataname datarep datasplit found gap i j k kk line 
 clear outputans rawdata tartrajectory trajper unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename
@@ -754,4 +754,4 @@ clear residuename residueseqname tarrow title xcoord xhi xlo xlength ycoord yhi 
 clear molecule comatomname mdfans symmetry groupname connect row connectivity i j k line trjatomnum trjcollection atomid_conv
 clear BOinform lineofmolecule numofmolecule tarBOrow tarmatchcol tartrjdata trjrow trjdataname trjlength trjmax trjmin
 clear trjmod trjnnum trjnum trjones trjper trjrawdata trjreadline trjstep MOLE lib base eleswapans eleswap boxsize formatout
-clear trjdata tarBOinform unwrapans coord_tag coord_position
+clear trjdata tarBOinform unwrapans coord_tag coord_position Elapsedtime
