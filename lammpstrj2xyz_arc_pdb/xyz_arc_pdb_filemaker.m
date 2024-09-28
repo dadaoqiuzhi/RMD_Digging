@@ -294,6 +294,18 @@ while ii<=length(trjcollection)
                 if str2num(datasplit{1,2})==trjcollection{1,ii}
                     control=0;
                 end
+                a0 = ftell(rawdata);
+                dataline=fgetl(rawdata);%前进两行获取原子数
+                a1 = ftell(rawdata);
+                dataline=fgetl(rawdata);
+                a2 = ftell(rawdata);
+                datacell=textscan(dataline,'%s','delimiter','\n');
+                datacellchar=char(datacell{1});
+                datadel=strrep(datacellchar,'#','');
+                datarep=strtrim(datadel);
+                datasplit=strsplit(datarep);
+                atomnum = str2double(datasplit{length(datasplit)});
+                fseek(rawdata,-(a2-a0),'cof');%回退两行
             else
                 error('bonds_analysis_speedup found a line does not belong to a timestep line, please check it!!!')
             end
@@ -490,6 +502,18 @@ while ii<=length(trjcollection)
                 if str2num(datarep)==trjcollection{1,ii}+num_modify
                     control=0;
                 end
+                a0 = ftell(trjrawdata);
+                dataline=fgetl(trjrawdata);%前进两行获取原子数
+                a1 = ftell(trjrawdata);
+                dataline=fgetl(trjrawdata);
+                a2 = ftell(trjrawdata);
+                datacell=textscan(dataline,'%s','delimiter','\n');
+                datacellchar=char(datacell{1});
+                datadel=strrep(datacellchar,'#','');
+                datarep=strtrim(datadel);
+                datasplit=strsplit(datarep);
+                atomnum = str2double(datasplit{length(datasplit)});
+                fseek(trjrawdata,-(a2-a0),'cof');%回退两行
             else
                 error('lammpstrj_analysis found a line does not belong to a timestep line, please check it!!!！');
             end
@@ -754,4 +778,4 @@ clear residuename residueseqname tarrow title xcoord xhi xlo xlength ycoord yhi 
 clear molecule comatomname mdfans symmetry groupname connect row connectivity i j k line trjatomnum trjcollection atomid_conv
 clear BOinform lineofmolecule numofmolecule tarBOrow tarmatchcol tartrjdata trjrow trjdataname trjlength trjmax trjmin
 clear trjmod trjnnum trjnum trjones trjper trjrawdata trjreadline trjstep MOLE lib base eleswapans eleswap boxsize formatout
-clear trjdata tarBOinform unwrapans coord_tag coord_position Elapsedtime
+clear trjdata tarBOinform unwrapans coord_tag coord_position Elapsedtime a0 a1 a2

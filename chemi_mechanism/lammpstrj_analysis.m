@@ -189,4 +189,4 @@ fprintf('\nAtom coordinate of the target trajecrory is saved in trjdata');
 
 
 clear atomnumcopy control datacell datacellchar dataline datasplit found gap i line unfound ans
-clear outputans dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol 
+clear outputans dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol a0 a1 a2

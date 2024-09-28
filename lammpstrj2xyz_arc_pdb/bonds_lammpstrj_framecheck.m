@@ -58,6 +58,18 @@ if strcmpi(rerun_ans,'y')
                     else
                         check_control=check_control-1;
                     end
+                    a0 = ftell(rawdata);
+                    dataline=fgetl(rawdata);%前进两行获取原子数
+                    a1 = ftell(rawdata);
+                    dataline=fgetl(rawdata);
+                    a2 = ftell(rawdata);
+                    datacell=textscan(dataline,'%s','delimiter','\n');
+                    datacellchar=char(datacell{1});
+                    datadel=strrep(datacellchar,'#','');
+                    datarep=strtrim(datadel);
+                    datasplit=strsplit(datarep);
+                    atomnum = str2double(datasplit{length(datasplit)});
+                    fseek(rawdata,-(a2-a0),'cof');%回退两行
                 else
                     disp('Not a timestep line，please check the file or code!')
                     return;
@@ -117,6 +129,18 @@ if strcmpi(rerun_ans,'y')
             else
                 check_control=check_control-1;
             end
+            a0 = ftell(rawdatatrj);
+            dataline=fgetl(rawdatatrj);%前进两行获取原子数
+            a1 = ftell(rawdatatrj);
+            dataline=fgetl(rawdatatrj);
+            a2 = ftell(rawdatatrj);
+            datacell=textscan(dataline,'%s','delimiter','\n');
+            datacellchar=char(datacell{1});
+            datadel=strrep(datacellchar,'#','');
+            datarep=strtrim(datadel);
+            datasplit=strsplit(datarep);
+            atomnum = str2double(datasplit{length(datasplit)});
+            fseek(rawdatatrj,-(a2-a0),'cof');%回退两行
         else
             disp('Not a timestep line，please check the file or code!')
             return;
@@ -156,3 +180,4 @@ else
     fprintf('The frame No. problem in lammpstrj.* file has been disposed and reused\n')
 end
  
+clear  a0 a1 a2
