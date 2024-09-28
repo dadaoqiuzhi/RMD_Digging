@@ -67,6 +67,18 @@ elseif str2num(datarep)<tartrajectory{1}
             elseif str2num(datarep)>tartrajectory{1}
                 error('The frame No. appointed according to species.* file exceeds that in lammpstrj.* file, please check it!')
             end
+            a0 = ftell(rawdatatrj);
+            dataline=fgetl(rawdatatrj);
+            a1 = ftell(rawdatatrj);
+            dataline=fgetl(rawdatatrj);
+            a2 = ftell(rawdatatrj);
+            datacell=textscan(dataline,'%s','delimiter','\n');
+            datacellchar=char(datacell{1});
+            datadel=strrep(datacellchar,'#','');
+            datarep=strtrim(datadel);
+            datasplit=strsplit(datarep);
+            atomnum = str2double(datasplit{length(datasplit)});
+            fseek(rawdatatrj,-(a2-a0),'cof');
         else
             disp('This is not a line with timestep information, please check it!!!')
             return;

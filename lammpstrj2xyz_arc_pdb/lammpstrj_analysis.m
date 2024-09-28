@@ -66,6 +66,18 @@ else
             if str2num(datarep)==tartrajectory{1}
                 control=0;
             end
+            a0 = ftell(rawdata);
+            dataline=fgetl(rawdata);
+            a1 = ftell(rawdata);
+            dataline=fgetl(rawdata);
+            a2 = ftell(rawdata);
+            datacell=textscan(dataline,'%s','delimiter','\n');
+            datacellchar=char(datacell{1});
+            datadel=strrep(datacellchar,'#','');
+            datarep=strtrim(datadel);
+            datasplit=strsplit(datarep);
+            atomnum = str2double(datasplit{length(datasplit)});
+            fseek(rawdata,-(a2-a0),'cof');
         else
             disp('Not a timestep line, please check it!!!')
             return;
