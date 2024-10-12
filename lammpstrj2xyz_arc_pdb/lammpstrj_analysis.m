@@ -180,4 +180,4 @@ end
 
 clear atomnum control datacell datacellchar dataline dataname datarep datasplit found gap i line rawdata tartrajectory trajper unfound ans
 clear outputans dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename BOXsize boxsize PBCa PBCb PBCc coord_tag coord_position
-clear j a0 a1 a2
+clear j a0 a1 a2 datadel

@@ -261,6 +261,8 @@ fprintf('\nxyz_arc_pdb_filemaker is running, p;ease wait...\n')
 tic;
 
 ii=1;
+atomnum=atom_num_autoread(trjdataname);
+trjatomnum = atomnum;
 rawdata=fopen(bonddataname,'r');
 dataline=fgetl(rawdata);datacell=textscan(dataline,'%s','delimiter','\n');
 datacellchar=char(datacell{1});datadel=strrep(datacellchar,'#','');
@@ -270,45 +272,55 @@ while ii<=length(trjcollection)
     fprintf('\nxyz_arc_pdb_filemaker is searching for Group %d trajectory: %d,%d trajectories in total\n',ii,trjcollection{1,ii},trjlength);
     control=1;atomnum=trjatomnum;
     gap=8+atomnum;
-    readline=1;
     if ii>=2
         dataline=fgetl(rawdata);
         dataline=fgetl(rawdata);
         datacell=textscan(dataline,'%s','delimiter','\n');
         datacellchar=char(datacell{1});datadel=strrep(datacellchar,'#','');
         datarep=strtrim(datadel);
+        a0 = ftell(rawdata);
+        dataline=fgetl(rawdata);
+        a1 = ftell(rawdata);
+        dataline=fgetl(rawdata);
+        a2 = ftell(rawdata);
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datadel=strrep(datacellchar,'#','');
+        datarep=strtrim(datadel);
+        datasplit=strsplit(datarep);
+        atomnum = str2double(datasplit{length(datasplit)});
+        trjatomnum = atomnum;
+        fseek(rawdata,-(a2-a0),'cof');
     end
     datasplit=strsplit(datarep);
     if str2num(datasplit{1,2})==trjcollection{1,ii}
         control=0;
     else
         while control
+            atomnum=trjatomnum;
+            gap=8+atomnum;
             dataline=textscan(rawdata,'%q',1,'headerlines',gap-1,'delimiter','\n');
-            readline=readline+gap;
-            if mod(readline-1,gap)==0
-                datacell=dataline;
-                datacellchar=char(datacell{1});
-                datadel=strrep(datacellchar,'#','');
-                datarep=strtrim(datadel);
-                datasplit=strsplit(datarep);
-                if str2num(datasplit{1,2})==trjcollection{1,ii}
-                    control=0;
-                end
-                a0 = ftell(rawdata);
-                dataline=fgetl(rawdata);%前进两行获取原子数
-                a1 = ftell(rawdata);
-                dataline=fgetl(rawdata);
-                a2 = ftell(rawdata);
-                datacell=textscan(dataline,'%s','delimiter','\n');
-                datacellchar=char(datacell{1});
-                datadel=strrep(datacellchar,'#','');
-                datarep=strtrim(datadel);
-                datasplit=strsplit(datarep);
-                atomnum = str2double(datasplit{length(datasplit)});
-                fseek(rawdata,-(a2-a0),'cof');%回退两行
-            else
-                error('bonds_analysis_speedup found a line does not belong to a timestep line, please check it!!!')
+            datacell=dataline;
+            datacellchar=char(datacell{1});
+            datadel=strrep(datacellchar,'#','');
+            datarep=strtrim(datadel);
+            datasplit=strsplit(datarep);
+            if str2num(datasplit{1,2})==trjcollection{1,ii}
+                control=0;
             end
+            a0 = ftell(rawdata);
+            dataline=fgetl(rawdata);
+            a1 = ftell(rawdata);
+            dataline=fgetl(rawdata);
+            a2 = ftell(rawdata);
+            datacell=textscan(dataline,'%s','delimiter','\n');
+            datacellchar=char(datacell{1});
+            datadel=strrep(datacellchar,'#','');
+            datarep=strtrim(datadel);
+            datasplit=strsplit(datarep);
+            atomnum = str2double(datasplit{length(datasplit)});
+            trjatomnum = atomnum;
+            fseek(rawdata,-(a2-a0),'cof');
         end
     end
     dataline=textscan(rawdata,'%q',1,'headerlines',5,'delimiter','\n');
@@ -321,7 +333,6 @@ while ii<=length(trjcollection)
     line=2;
     while atomnum
         dataline=fgetl(rawdata);
-        readline=readline+1;
         atomnum=atomnum-1;
         datacell=textscan(dataline,'%s','delimiter','\n');
         datacellchar=char(datacell{1});
@@ -477,15 +488,12 @@ while ii<=length(trjcollection)
         end
     end
 	
-    trjreadline=0;control=1;atomnum=trjatomnum;
-    gap=9+atomnum;
+    trjreadline=0;
+    control=1;
+    atomnum=atom_num_autoread(trjdataname);
     trjrawdata=fopen(trjdataname,'r');
     dataline=fgetl(trjrawdata);
-    readline=readline+1;
-    trjreadline=trjreadline+1;
     dataline=fgetl(trjrawdata);
-    readline=readline+1;
-    trjreadline=trjreadline+1;
     datacell=textscan(dataline,'%s','delimiter','\n');
     datacellchar=char(datacell{1});
     datarep=strtrim(datacellchar);
@@ -493,30 +501,27 @@ while ii<=length(trjcollection)
         control=0;
     else
         while control
+            gap=9+atomnum;
             dataline=textscan(trjrawdata,'%q',1,'headerlines',gap-1,'delimiter','\n');
-            trjreadline=trjreadline+gap;
-            if mod(trjreadline-2,gap)==0
-                datacell=dataline;
-                datacellchar=char(datacell{1});
-                datarep=strtrim(datacellchar);
-                if str2num(datarep)==trjcollection{1,ii}+num_modify
-                    control=0;
-                end
-                a0 = ftell(trjrawdata);
-                dataline=fgetl(trjrawdata);%前进两行获取原子数
-                a1 = ftell(trjrawdata);
-                dataline=fgetl(trjrawdata);
-                a2 = ftell(trjrawdata);
-                datacell=textscan(dataline,'%s','delimiter','\n');
-                datacellchar=char(datacell{1});
-                datadel=strrep(datacellchar,'#','');
-                datarep=strtrim(datadel);
-                datasplit=strsplit(datarep);
-                atomnum = str2double(datasplit{length(datasplit)});
-                fseek(trjrawdata,-(a2-a0),'cof');%回退两行
-            else
-                error('lammpstrj_analysis found a line does not belong to a timestep line, please check it!!!！');
+            datacell=dataline;
+            datacellchar=char(datacell{1});
+            datarep=strtrim(datacellchar);
+            if str2num(datarep)==trjcollection{1,ii}+num_modify
+                control=0;
             end
+            a0 = ftell(trjrawdata);
+            dataline=fgetl(trjrawdata);%前进两行获取原子数
+            a1 = ftell(trjrawdata);
+            dataline=fgetl(trjrawdata);
+            a2 = ftell(trjrawdata);
+            datacell=textscan(dataline,'%s','delimiter','\n');
+            datacellchar=char(datacell{1});
+            datadel=strrep(datacellchar,'#','');
+            datarep=strtrim(datadel);
+            datasplit=strsplit(datarep);
+            atomnum = str2double(datasplit{length(datasplit)});
+            trjatomnum = atomnum;
+            fseek(trjrawdata,-(a2-a0),'cof');%回退两行
         end
     end
     %
@@ -599,8 +604,6 @@ while ii<=length(trjcollection)
     trjdata=[];line=1;
     while atomnum
         dataline=fgetl(trjrawdata);
-        readline=readline+1;
-        trjreadline=trjreadline+1;
         atomnum=atomnum-1;
         datacell=textscan(dataline,'%s','delimiter','\n');
         datacellchar=char(datacell{1});
@@ -634,7 +637,6 @@ while ii<=length(trjcollection)
                 fprintf(fid,'\n%3s   %5d      %3s %s%4d%s','TER',MOLE,'MOL','A',MOLE,'A');
             end
             trjreadline=trjreadline+1;
-            readline=readline+1;
             MOLE=MOLE+1;
         else
           elementname=charnum_match(element,numseq,tarBOinform{trjreadline,2});%
@@ -717,7 +719,6 @@ while ii<=length(trjcollection)
               fprintf(fid,'\n%4s  %5d %4s %3s  %4d    %8.03f%8.03f%8.03f%6.02f%6.02f          %2s%2.01f','ATOM',atomNO,atomname,'MOL',MOLE,xcoord,ycoord,zcoord,1.00,0.00,elementname,charge);
           end
           trjreadline=trjreadline+1;
-          readline=readline+1;
         end
     end
     
