@@ -12,7 +12,7 @@ if strcmpi(rerun_ans,'y')
     check_control=check_control_origin;
     control=1;
     rawdata=fopen(bonddataname,'r');
-    atomnum=atom_num_autoread(trjdataname);
+    atomnum=atom_num_autoreadbond(bonddataname);
     dataline=fgetl(rawdata);
     datacell=textscan(dataline,'%s','delimiter','\n');
     datacellchar=char(datacell{1});
@@ -81,7 +81,7 @@ if strcmpi(rerun_ans,'y')
     check_control=check_control_origin;
     control=1;
     rawdatatrj=fopen(trjdataname,'r');
-    atomnum=atom_num_autoread(trjdataname);
+    atomnum=atom_num_autoreadtrj(trjdataname);
     dataline=fgetl(rawdatatrj);
     dataline=fgetl(rawdatatrj);
     datacell=textscan(dataline,'%s','delimiter','\n');

@@ -12,10 +12,8 @@ if ~exist('fram_num_check','var') && strcmpi(rerun_ans,'y')
     check_control=check_control_origin;
     control=1;
     rawdata=fopen(datanamebond,'r');
-    readline=0;
-    gap=8+atomnum;
+    atomnum = atom_num_autoreadbond(datanamebond);
     dataline=fgetl(rawdata);
-    readline=readline+1;
     datacell=textscan(dataline,'%s','delimiter','\n');
     datacellchar=char(datacell{1});
     datadel=strrep(datacellchar,'#','');
@@ -28,6 +26,7 @@ if ~exist('fram_num_check','var') && strcmpi(rerun_ans,'y')
             control=0;
         else
             while control
+                gap=8+atomnum;
                 i=1;
                 unfound=1;
                 while unfound
@@ -35,45 +34,39 @@ if ~exist('fram_num_check','var') && strcmpi(rerun_ans,'y')
                     while isempty(dataline)
                         dataline=fgetl(rawdata);
                     end
-                    readline=readline+1;
                     i=i+1;
                     if i==gap+1
                         unfound=0;
                         break;
                     end
                 end
-                if mod(readline-1,gap)==0
-                    if feof(rawdata)
-                        fprintf('\nReach the last line of bond.* file, please check the atom number or timestep. Sometimes timestep is not recorded as it is, eg. 29,429... other than 0,400...\n')
-                        error('Check the aforementioned information!')
-                    end
-                    datacell=textscan(dataline,'%s','delimiter','\n');
-                    datacellchar=char(datacell{1});
-                    datadel=strrep(datacellchar,'#','');
-                    datarep=strtrim(datadel);
-                    datasplit=strsplit(datarep);
-                    fram_num_check(size(fram_num_check,1)+1,1)=str2num(datasplit{1,2});
-                    if check_control==0
-                        control=0;
-                    else
-                        check_control=check_control-1;
-                    end
-                    a0 = ftell(rawdata);
-                    dataline=fgetl(rawdata);%前进两行获取原子数
-                    a1 = ftell(rawdata);
-                    dataline=fgetl(rawdata);
-                    a2 = ftell(rawdata);
-                    datacell=textscan(dataline,'%s','delimiter','\n');
-                    datacellchar=char(datacell{1});
-                    datadel=strrep(datacellchar,'#','');
-                    datarep=strtrim(datadel);
-                    datasplit=strsplit(datarep);
-                    atomnum = str2double(datasplit{length(datasplit)});
-                    fseek(rawdata,-(a2-a0),'cof');
-                else
-                    disp('Not a timestep line，please check the file or code!')
-                    return;
+                if feof(rawdata)
+                    fprintf('\nReach the last line of bond.* file, please check the atom number or timestep. Sometimes timestep is not recorded as it is, eg. 29,429... other than 0,400...\n')
+                    error('Check the aforementioned information!')
                 end
+                datacell=textscan(dataline,'%s','delimiter','\n');
+                datacellchar=char(datacell{1});
+                datadel=strrep(datacellchar,'#','');
+                datarep=strtrim(datadel);
+                datasplit=strsplit(datarep);
+                fram_num_check(size(fram_num_check,1)+1,1)=str2num(datasplit{1,2});
+                if check_control==0
+                    control=0;
+                else
+                    check_control=check_control-1;
+                end
+                a0 = ftell(rawdata);
+                dataline=fgetl(rawdata);%前进两行获取原子数
+                a1 = ftell(rawdata);
+                dataline=fgetl(rawdata);
+                a2 = ftell(rawdata);
+                datacell=textscan(dataline,'%s','delimiter','\n');
+                datacellchar=char(datacell{1});
+                datadel=strrep(datacellchar,'#','');
+                datarep=strtrim(datadel);
+                datasplit=strsplit(datarep);
+                atomnum = str2double(datasplit{length(datasplit)});
+                fseek(rawdata,-(a2-a0),'cof');
             end
         end
     end
@@ -91,19 +84,17 @@ if ~exist('fram_num_check','var') && strcmpi(rerun_ans,'y')
     check_control=check_control_origin;
     control=1;
     rawdatatrj=fopen(datanametrj,'r');
-    readline=0;
-    gap=9+atomnum;
+    atomnum = atom_num_autoreadtrj(datanametrj);
     
     dataline=fgetl(rawdatatrj);
-    readline=readline+1;
     dataline=fgetl(rawdatatrj);
-    readline=readline+1;
     datacell=textscan(dataline,'%s','delimiter','\n');
     datacellchar=char(datacell{1});
     datarep=strtrim(datacellchar);
     fram_num_check2(size(fram_num_check2,1)+1,1)=str2num(datarep);
     check_control=check_control-1;
     while check_control
+        gap=9+atomnum;
         i=1;
         unfound=1;
         while unfound
@@ -111,43 +102,37 @@ if ~exist('fram_num_check','var') && strcmpi(rerun_ans,'y')
             while isempty(dataline)%可能存在ITEM: TIMESTEP行前空行
                 dataline=fgetl(rawdatatrj);
             end
-            readline=readline+1;
             i=i+1;
             if i==gap+1
                 unfound=0;
                 break;
             end
         end
-        if mod(readline-2,gap)==0
-            if feof(rawdatatrj)
-                fprintf('Reach the last line of lammpstrj.* file, please check the atom number or timestep. Sometimes timestep is not recorded as it is, eg. 29,429... other than 0,400...\n')
-                error('Check the aforementioned information!')
-            end
-            datacell=textscan(dataline,'%s','delimiter','\n');
-            datacellchar=char(datacell{1});
-            datarep=strtrim(datacellchar);
-            fram_num_check2(size(fram_num_check2,1)+1,1)=str2num(datarep);
-            if check_control==0
-                control=0;
-            else
-                check_control=check_control-1;
-            end
-            a0 = ftell(rawdatatrj);
-            dataline=fgetl(rawdatatrj);%前进两行获取原子数
-            a1 = ftell(rawdatatrj);
-            dataline=fgetl(rawdatatrj);
-            a2 = ftell(rawdatatrj);
-            datacell=textscan(dataline,'%s','delimiter','\n');
-            datacellchar=char(datacell{1});
-            datadel=strrep(datacellchar,'#','');
-            datarep=strtrim(datadel);
-            datasplit=strsplit(datarep);
-            atomnum = str2double(datasplit{length(datasplit)});
-            fseek(rawdatatrj,-(a2-a0),'cof');%回退两行
-        else
-            disp('Not a timestep line，please check the file or code!')
-            return;
+        if feof(rawdatatrj)
+            fprintf('Reach the last line of lammpstrj.* file, please check the atom number or timestep. Sometimes timestep is not recorded as it is, eg. 29,429... other than 0,400...\n')
+            error('Check the aforementioned information!')
         end
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datarep=strtrim(datacellchar);
+        fram_num_check2(size(fram_num_check2,1)+1,1)=str2num(datarep);
+        if check_control==0
+            control=0;
+        else
+            check_control=check_control-1;
+        end
+        a0 = ftell(rawdatatrj);
+        dataline=fgetl(rawdatatrj);%前进两行获取原子数
+        a1 = ftell(rawdatatrj);
+        dataline=fgetl(rawdatatrj);
+        a2 = ftell(rawdatatrj);
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datadel=strrep(datacellchar,'#','');
+        datarep=strtrim(datadel);
+        datasplit=strsplit(datarep);
+        atomnum = str2double(datasplit{length(datasplit)});
+        fseek(rawdatatrj,-(a2-a0),'cof');%回退两行
     end
     fclose(rawdatatrj);
     fprintf('The appointed frame No. in lammpstrj.* file (%d in total) has been read\n',check_control_origin)

@@ -18,13 +18,11 @@ else
 end
 fprintf('\nlammpstrj_analysis is running, please wait...')
 
-readline=0;
+atomnum=atom_num_autoreadtrj(datanametrj);
 gap=9+atomnum;
 
 dataline=fgetl(rawdatatrj);
-readline=readline+1;
 dataline=fgetl(rawdatatrj);
-readline=readline+1;
 datacell=textscan(dataline,'%s','delimiter','\n');
 datacellchar=char(datacell{1});
 datarep=strtrim(datacellchar);
@@ -40,6 +38,7 @@ elseif str2num(datarep)>tartrajectory{1}
     return;
 elseif str2num(datarep)<tartrajectory{1}
     while control
+        gap=9+atomnum;
         i=1;
         unfound=1;
         while unfound
@@ -47,42 +46,36 @@ elseif str2num(datarep)<tartrajectory{1}
             while isempty(dataline)%可能存在ITEM: TIMESTEP行前空行
                 dataline=fgetl(rawdatatrj);
             end
-            readline=readline+1;
             i=i+1;
             if i==gap+1
                 unfound=0;
                 break;
             end
         end
-        if mod(readline-2,gap)==0
-            if feof(rawdatatrj)
-                fprintf('\nThe last line of lammpstrj.* file is reached. Please check if the atom number or timestep is correct.\n The timestep in species.* and lammpstrj.* maybe inconsistent, eg. 29,429...\n')
-                error('As above, please check it!')
-            end
-            datacell=textscan(dataline,'%s','delimiter','\n');
-            datacellchar=char(datacell{1});
-            datarep=strtrim(datacellchar);
-            if str2num(datarep)==tartrajectory{1}
-                control=0;
-            elseif str2num(datarep)>tartrajectory{1}
-                error('The frame No. appointed according to species.* file exceeds that in lammpstrj.* file, please check it!')
-            end
-            a0 = ftell(rawdatatrj);
-            dataline=fgetl(rawdatatrj);
-            a1 = ftell(rawdatatrj);
-            dataline=fgetl(rawdatatrj);
-            a2 = ftell(rawdatatrj);
-            datacell=textscan(dataline,'%s','delimiter','\n');
-            datacellchar=char(datacell{1});
-            datadel=strrep(datacellchar,'#','');
-            datarep=strtrim(datadel);
-            datasplit=strsplit(datarep);
-            atomnum = str2double(datasplit{length(datasplit)});
-            fseek(rawdatatrj,-(a2-a0),'cof');
-        else
-            disp('This is not a line with timestep information, please check it!!!')
-            return;
+        if feof(rawdatatrj)
+            fprintf('\nThe last line of lammpstrj.* file is reached. Please check if the atom number or timestep is correct.\n The timestep in species.* and lammpstrj.* maybe inconsistent, eg. 29,429...\n')
+            error('As above, please check it!')
         end
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datarep=strtrim(datacellchar);
+        if str2num(datarep)==tartrajectory{1}
+            control=0;
+        elseif str2num(datarep)>tartrajectory{1}
+            error('The frame No. appointed according to species.* file exceeds that in lammpstrj.* file, please check it!')
+        end
+        a0 = ftell(rawdatatrj);
+        dataline=fgetl(rawdatatrj);
+        a1 = ftell(rawdatatrj);
+        dataline=fgetl(rawdatatrj);
+        a2 = ftell(rawdatatrj);
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datadel=strrep(datacellchar,'#','');
+        datarep=strtrim(datadel);
+        datasplit=strsplit(datarep);
+        atomnum = str2double(datasplit{length(datasplit)});
+        fseek(rawdatatrj,-(a2-a0),'cof');
     end
 end
 %
@@ -172,7 +165,6 @@ end
 trjdata=[];line=1;atomnumcopy=atomnum;
 while atomnumcopy
     dataline=fgetl(rawdatatrj);
-    readline=readline+1;
     atomnumcopy=atomnumcopy-1;
     if atomnumcopy<=0
         break;

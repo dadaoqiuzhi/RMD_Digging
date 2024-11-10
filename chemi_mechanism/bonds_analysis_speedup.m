@@ -21,10 +21,8 @@ else
 end
 
 rawdata=fopen(datanamebond,'r');
-readline=0;
-gap=8+atomnum;
+atomnum=atom_num_autoreadbond(datanamebond);
 dataline=fgetl(rawdata);
-readline=readline+1;
 datacell=textscan(dataline,'%s','delimiter','\n');
 datacellchar=char(datacell{1});
 datadel=strrep(datacellchar,'#','');
@@ -34,6 +32,7 @@ if str2num(datasplit{1,2})==tartrajectory{1}
     control=0;
 else
     while control 
+        gap=8+atomnum;
         i=1;
         unfound=1;
         while unfound
@@ -41,51 +40,44 @@ else
             while isempty(dataline)%可能存在ITEM: TIMESTEP行前空行
                 dataline=fgetl(rawdata);
             end
-            readline=readline+1;
             i=i+1;
             if i==gap+1
                 unfound=0;
                 break;
             end
         end
-        if mod(readline-1,gap)==0
-            if feof(rawdata)
-                fprintf('\nThe last line of bonds.* file is reached. Please check if the atom number or timestep is correct.\n The timestep in species.* and bond.* maybe inconsistent, eg. 29,429...\n')
-                error('As above, please check it!')
-            end
-            datacell=textscan(dataline,'%s','delimiter','\n');
-            datacellchar=char(datacell{1});
-            datadel=strrep(datacellchar,'#','');
-            datarep=strtrim(datadel);
-            datasplit=strsplit(datarep);
-            if str2num(datasplit{1,2})==tartrajectory{1}
-                control=0;
-            elseif str2num(datasplit{1,2})>tartrajectory{1}
-                error('The frame No. appointed according to species.* file exceeds that in bonds.* file, please check it!')
-            end
-            a0 = ftell(rawdata);
-            dataline=fgetl(rawdata);
-            a1 = ftell(rawdata);
-            dataline=fgetl(rawdata);
-            a2 = ftell(rawdata);
-            datacell=textscan(dataline,'%s','delimiter','\n');
-            datacellchar=char(datacell{1});
-            datadel=strrep(datacellchar,'#','');
-            datarep=strtrim(datadel);
-            datasplit=strsplit(datarep);
-            atomnum = str2double(datasplit{length(datasplit)});
-            fseek(rawdata,-(a2-a0),'cof');
-        else
-            disp('This is not a line with timestep, please check it!!!')
-            return;
+        if feof(rawdata)
+            fprintf('\nThe last line of bonds.* file is reached. Please check if the atom number or timestep is correct.\n The timestep in species.* and bond.* maybe inconsistent, eg. 29,429...\n')
+            error('As above, please check it!')
         end
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datadel=strrep(datacellchar,'#','');
+        datarep=strtrim(datadel);
+        datasplit=strsplit(datarep);
+        if str2num(datasplit{1,2})==tartrajectory{1}
+            control=0;
+        elseif str2num(datasplit{1,2})>tartrajectory{1}
+            error('The frame No. appointed according to species.* file exceeds that in bonds.* file, please check it!')
+        end
+        a0 = ftell(rawdata);
+        dataline=fgetl(rawdata);
+        a1 = ftell(rawdata);
+        dataline=fgetl(rawdata);
+        a2 = ftell(rawdata);
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datadel=strrep(datacellchar,'#','');
+        datarep=strtrim(datadel);
+        datasplit=strsplit(datarep);
+        atomnum = str2double(datasplit{length(datasplit)});
+        fseek(rawdata,-(a2-a0),'cof');
     end
 end
 
 found=6;
 while found
     dataline=fgetl(rawdata);
-    readline=readline+1;
     found=found-1;
 end
 
@@ -99,7 +91,6 @@ end
 line=2;atomnumcopy=atomnum;
 while atomnumcopy
     dataline=fgetl(rawdata);
-    readline=readline+1;
     atomnumcopy=atomnumcopy-1;
     if atomnumcopy<=0
         break;
@@ -146,6 +137,6 @@ if size(bondoutdata,2) > 15 %delet redundant blank column
     bondoutdata(:,16:end)=[];
 end
 
-fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata, search line number is recorded in readline\n')
+fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata\n')
 clear atomnumcopy ans bondnumdata control datacell datacellchar datadel dataline datarep datasplit found gap i j k kk line 
 clear outputans unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename a0 a1 a2

@@ -1,10 +1,10 @@
-%scrit file name atom_num_autoread
+%scrit file name atom_num_autoreadtrj
 %purpose:
 %This program is used to read atom number in the simulation box
 %automatically
 %version 1;2023.09.05
 
-function atomnum=atom_num_autoread(datanametrj)
+function atomnum=atom_num_autoreadtrj(datanametrj)
 rawdatatrj=fopen(datanametrj,'r');
 for i=1:3
     dataline=fgetl(rawdatatrj);

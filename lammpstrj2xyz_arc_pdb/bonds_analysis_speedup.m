@@ -26,11 +26,9 @@ else
 end
 
 
-readline=0;
 gap=8+atomnum;
 rawdata=fopen(dataname,'r');
 dataline=fgetl(rawdata);
-readline=readline+1;
 datacell=textscan(dataline,'%s','delimiter','\n');
 datacellchar=char(datacell{1});
 datadel=strrep(datacellchar,'#','');
@@ -40,6 +38,7 @@ if str2num(datasplit{1,2})==tartrajectory{1}
     control=0;
 else
     while control
+        gap=8+atomnum;
         i=1;
         unfound=1;
         while unfound
@@ -47,45 +46,38 @@ else
             while isempty(dataline)
                 dataline=fgetl(rawdata);
             end
-            readline=readline+1;
             i=i+1;
             if i==gap+1
                 unfound=0;
                 break;
             end
         end
-        if mod(readline-1,gap)==0
-            datacell=textscan(dataline,'%s','delimiter','\n');
-            datacellchar=char(datacell{1});
-            datadel=strrep(datacellchar,'#','');
-            datarep=strtrim(datadel);
-            datasplit=strsplit(datarep);
-            if str2num(datasplit{1,2})==tartrajectory{1}
-                control=0;
-            end
-            a0 = ftell(rawdata);
-            dataline=fgetl(rawdata);
-            a1 = ftell(rawdata);
-            dataline=fgetl(rawdata);
-            a2 = ftell(rawdata);
-            datacell=textscan(dataline,'%s','delimiter','\n');
-            datacellchar=char(datacell{1});
-            datadel=strrep(datacellchar,'#','');
-            datarep=strtrim(datadel);
-            datasplit=strsplit(datarep);
-            atomnum = str2double(datasplit{length(datasplit)});
-            fseek(rawdata,-(a2-a0),'cof');
-        else
-            disp('Not timestep row, please check it!!!')
-            return;
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datadel=strrep(datacellchar,'#','');
+        datarep=strtrim(datadel);
+        datasplit=strsplit(datarep);
+        if str2num(datasplit{1,2})==tartrajectory{1}
+            control=0;
         end
+        a0 = ftell(rawdata);
+        dataline=fgetl(rawdata);
+        a1 = ftell(rawdata);
+        dataline=fgetl(rawdata);
+        a2 = ftell(rawdata);
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datadel=strrep(datacellchar,'#','');
+        datarep=strtrim(datadel);
+        datasplit=strsplit(datarep);
+        atomnum = str2double(datasplit{length(datasplit)});
+        fseek(rawdata,-(a2-a0),'cof');
     end
 end
 
 found=6;
 while found
     dataline=fgetl(rawdata);
-    readline=readline+1;
     found=found-1;
 end
 
@@ -99,7 +91,6 @@ end
 line=2;
 while atomnum
     dataline=fgetl(rawdata);
-    readline=readline+1;
     atomnum=atomnum-1;
     datacell=textscan(dataline,'%s','delimiter','\n');
     datacellchar=char(datacell{1});
@@ -137,7 +128,7 @@ while atomnum
     line=line+1;
 end
 fclose(rawdata);
-fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata, search line number is recorded in readline.')
+fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata')
 
 if size(bondoutdata,2) > 15 %delet redundant blank column
     bondoutdata(:,16:end)=[];
@@ -154,7 +145,7 @@ if outputans=='y'
     xlswrite(filename,bondoutdata,dataoutputrow:dataoutputcol)
     fprintf('\nbonds_analysis is successfully finished, BO information etc. are exported to Excel:output_mydata.\n')
 end
-fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata, search line number is recorded in readline.\n')
+fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata.\n')
 clear ans atomnum bondnumdata control datacell datacellchar datadel dataline dataname datarep datasplit found gap i j k kk line 
 clear outputans rawdata tartrajectory trajper unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename
 clear a0 a1 a2

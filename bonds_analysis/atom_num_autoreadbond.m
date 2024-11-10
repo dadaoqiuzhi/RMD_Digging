@@ -1,10 +1,10 @@
-%scrit file name atom_num_autoread
+%scrit file name atom_num_autoreadbond
 %purpose:
 %This program is used to read atom number in the simulation box
 %automatically
 %version 1;2024.04.04
 
-function atomnum=atom_num_autoread(dataname)
+function atomnum=atom_num_autoreadbond(dataname)
 fprintf('\nRead atom number from bond.* file, please wait...\n')
 rawdata=fopen(dataname,'r');
 for i=1:3

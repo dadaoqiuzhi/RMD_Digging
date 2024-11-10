@@ -31,13 +31,10 @@ end
 
 disp('lammpstrj_analysis is running, please wait...')
 
-readline=0;
 gap=9+atomnum;
 rawdata=fopen(dataname,'r');
 dataline=fgetl(rawdata);
-readline=readline+1;
 dataline=fgetl(rawdata);
-readline=readline+1;
 datacell=textscan(dataline,'%s','delimiter','\n');
 datacellchar=char(datacell{1});
 datarep=strtrim(datacellchar);
@@ -45,6 +42,7 @@ if str2num(datarep)==tartrajectory{1}
     control=0;
 else
     while control
+        gap=9+atomnum;
         i=1;
         unfound=1;
         while unfound
@@ -52,36 +50,30 @@ else
             while isempty(dataline)
                 dataline=fgetl(rawdata);
             end
-            readline=readline+1;
             i=i+1;
             if i==gap+1
                 unfound=0;
                 break;
             end
         end
-        if mod(readline-2,gap)==0
-            datacell=textscan(dataline,'%s','delimiter','\n');
-            datacellchar=char(datacell{1});
-            datarep=strtrim(datacellchar);
-            if str2num(datarep)==tartrajectory{1}
-                control=0;
-            end
-            a0 = ftell(rawdata);
-            dataline=fgetl(rawdata);
-            a1 = ftell(rawdata);
-            dataline=fgetl(rawdata);
-            a2 = ftell(rawdata);
-            datacell=textscan(dataline,'%s','delimiter','\n');
-            datacellchar=char(datacell{1});
-            datadel=strrep(datacellchar,'#','');
-            datarep=strtrim(datadel);
-            datasplit=strsplit(datarep);
-            atomnum = str2double(datasplit{length(datasplit)});
-            fseek(rawdata,-(a2-a0),'cof');
-        else
-            disp('Not a timestep line, please check it!!!')
-            return;
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datarep=strtrim(datacellchar);
+        if str2num(datarep)==tartrajectory{1}
+            control=0;
         end
+        a0 = ftell(rawdata);
+        dataline=fgetl(rawdata);
+        a1 = ftell(rawdata);
+        dataline=fgetl(rawdata);
+        a2 = ftell(rawdata);
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datadel=strrep(datacellchar,'#','');
+        datarep=strtrim(datadel);
+        datasplit=strsplit(datarep);
+        atomnum = str2double(datasplit{length(datasplit)});
+        fseek(rawdata,-(a2-a0),'cof');
     end
 end
 
@@ -89,7 +81,6 @@ found=7;
 boxsize=[];
 while found
     dataline=fgetl(rawdata);
-    readline=readline+1;
     found=found-1;
 	if found<=3 && found>=1 
         datacell=textscan(dataline,'%s','delimiter','\n');
@@ -144,7 +135,6 @@ end
 trjdata=[];line=1;
 while atomnum
     dataline=fgetl(rawdata);
-    readline=readline+1;
     atomnum=atomnum-1;
     if atomnum<0
         break;

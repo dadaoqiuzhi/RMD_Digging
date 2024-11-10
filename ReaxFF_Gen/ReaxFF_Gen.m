@@ -11,6 +11,9 @@ fprintf('Paste data from literatures into the input.txt, one blank Line for each
 fidin=fopen('input.txt','r');
 fidout=fopen('output.txt','w');
 charset=input('\ncell of elements involved, e.g.{"C","H","O"}:\n');
+example= '{''C'', ''H'', ''O''}';
+fprintf('Please input cell of elements involved, eg.:%s\n',example)
+charset=input('\nPlease input：\n');
 
 while ~feof(fidin)%Number of general parameters
     str=fgetl(fidin);

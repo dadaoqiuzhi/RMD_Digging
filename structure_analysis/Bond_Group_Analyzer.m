@@ -14,7 +14,7 @@ fprintf('Please update the corresponding search_bond_inform.txt or search_group_
 fprintf('\nPlease update the corresponding search_bond_inform.txt file based on the atom type numerical number according to the requirements and examples, \nwith one line for each chemical bond type')
 fprintf('\nPlease update the corresponding search_group_inform.txt file based on the requirements and examples')
 dataname=input('\n请输入要处理的bonds.*文件名：\n','s');
-atomnum=atom_num_autoread(dataname);
+atomnum=atom_num_autoreadbond(dataname);
 fprintf('\n1.Analyze chemical bonds  2.Analyze functional groups  3.Both 1 and 2')
 Ana_choi = input('\nPlease select the analysis option1-3：\n');
 

@@ -29,7 +29,7 @@ fprintf('\nPlease input the output frequency matrix of species, BO information a
 trajper=input('\neg., [400 400 400]:  \n');
 
 fprintf('Automatically read atom number from the *.lammpstrj file, please wait...')
-atomnum=atom_num_autoread(datanametrj); 
+atomnum=atom_num_autoreadtrj(datanametrj); 
 
 check_control_origin=input('\nPlease input the number for frame No. check of bonds.* and *.lammpstrj files compared with species file£¬\navoiding mismatch induced error, >=5 is suggested: \n');
 if check_control_origin <4

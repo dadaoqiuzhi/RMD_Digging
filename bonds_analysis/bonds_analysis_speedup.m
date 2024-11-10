@@ -13,7 +13,7 @@ fprintf('This program will read the BO information of a specified or all (not re
 dataname=input('Please input the file name to be processed: \n','s');
 trajper=input('Please input the output frequency of BO information (Positive integer): \n');
 tartrajectory=input('\nPlease input the timestep of the specified trajectory: \n');
-atomnum=atom_num_autoread(dataname);
+atomnum=atom_num_autoreadbond(dataname);
 disp('bonds_analysis_speedup is running, please wait...')
 tartrajectory={tartrajectory(1)};
 if mod(tartrajectory{1},trajper)~=0
@@ -25,11 +25,9 @@ else
 end
 
 
-readline=0;
 gap=8+atomnum;
 rawdata=fopen(dataname,'r');
 dataline=fgetl(rawdata);
-readline=readline+1;
 datacell=textscan(dataline,'%s','delimiter','\n');
 datacellchar=char(datacell{1});
 datadel=strrep(datacellchar,'#','');
@@ -39,6 +37,7 @@ if str2num(datasplit{1,2})==tartrajectory{1}
     control=0;
 else
     while control
+        gap=8+atomnum;
         i=1;
         unfound=1;
         while unfound
@@ -46,45 +45,38 @@ else
             while isempty(dataline)
                 dataline=fgetl(rawdata);
             end
-            readline=readline+1;
             i=i+1;
             if i==gap+1
                 unfound=0;
                 break;
             end
         end
-        if mod(readline-1,gap)==0
-            datacell=textscan(dataline,'%s','delimiter','\n');
-            datacellchar=char(datacell{1});
-            datadel=strrep(datacellchar,'#','');
-            datarep=strtrim(datadel);
-            datasplit=strsplit(datarep);
-            if str2num(datasplit{1,2})==tartrajectory{1}
-                control=0;
-            end
-            a0 = ftell(rawdata);
-            dataline=fgetl(rawdata);
-            a1 = ftell(rawdata);
-            dataline=fgetl(rawdata);
-            a2 = ftell(rawdata);
-            datacell=textscan(dataline,'%s','delimiter','\n');
-            datacellchar=char(datacell{1});
-            datadel=strrep(datacellchar,'#','');
-            datarep=strtrim(datadel);
-            datasplit=strsplit(datarep);
-            atomnum = str2double(datasplit{length(datasplit)});
-            fseek(rawdata,-(a2-a0),'cof');
-        else
-            disp('Not timestep row, please check it!!!')
-            return;
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datadel=strrep(datacellchar,'#','');
+        datarep=strtrim(datadel);
+        datasplit=strsplit(datarep);
+        if str2num(datasplit{1,2})==tartrajectory{1}
+            control=0;
         end
+        a0 = ftell(rawdata);
+        dataline=fgetl(rawdata);
+        a1 = ftell(rawdata);
+        dataline=fgetl(rawdata);
+        a2 = ftell(rawdata);
+        datacell=textscan(dataline,'%s','delimiter','\n');
+        datacellchar=char(datacell{1});
+        datadel=strrep(datacellchar,'#','');
+        datarep=strtrim(datadel);
+        datasplit=strsplit(datarep);
+        atomnum = str2double(datasplit{length(datasplit)});
+        fseek(rawdata,-(a2-a0),'cof');
     end
 end
 
 found=6;
 while found
     dataline=fgetl(rawdata);
-    readline=readline+1;
     found=found-1;
 end
 
@@ -98,7 +90,6 @@ end
 line=2;
 while atomnum
     dataline=fgetl(rawdata);
-    readline=readline+1;
     atomnum=atomnum-1;
     if atomnum<0
         break;
