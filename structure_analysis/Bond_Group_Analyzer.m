@@ -20,7 +20,7 @@ Ana_choi = input('\nPlease select the analysis option1-3：\n');
 
 Species_restrain = input('\nAre there restrictions on analyzing the structure of molecules, such as molecular weight, composition, etc? y/n(not applicable now):\n','s');
 
-fprintf('\nPlease select the method number for exporting frames: \n1. Export all frames'
+fprintf('\nPlease select the method number for exporting frames: \n1. Export all frames')
 fprintf('\n2. Frame number determined by arithmetic difference method (including the first and last frames)')
 fprintf('\n3. Manually input frames with time steps\n')
 bond_frame = input('');
@@ -135,6 +135,11 @@ while ~feof(rawdata)
                 datacellchar=char(datacell{1});
                 datarep=strtrim(datacellchar);
                 datasplit=strsplit(datarep);
+                if isscalar(datasplit) 
+                    if strcmpi(datasplit,'#')
+                        break
+                    end
+                end
                 bondnumdata = datasplit(1:str2num(datasplit{3})+3);
                 bondnumdata = str2num(char(bondnumdata))';
                 bondoutdata(size(bondoutdata,1)+1,1:size(bondnumdata,2)) = bondnumdata;
