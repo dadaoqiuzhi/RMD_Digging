@@ -272,7 +272,7 @@ elseif Ana_choi == 2
     msgbox('Group analysis task is completed!');
 elseif Ana_choi == 3
     msgbox('Chemical bond and functional group analysis tasks are completed!');
-    fprintf('\nBond_Group_Analyzer program is sinished')
+    fprintf('\nBond_Group_Analyzer program is finished')
     fprintf('\nThe data is stored in bond_output, and the column order of the chemical bond data is consistent with the row order of search_bond_inform.txt')
     fprintf('\nThe data is stored in group_output, and the column order of the chemical bond data is consistent with the row order of search_group_inform.txt')
 end
