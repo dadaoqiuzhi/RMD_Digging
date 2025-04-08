@@ -41,7 +41,10 @@ else
     tarbondnum=row-tartrjnum;
 end
 
-separator={'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'};
+separator = {};
+for i = 1:size(bondoutdata,2)
+    separator{1,i}='#';%to seperate the BO of different species
+end
 bondoutdata(row+1,:)=separator(1,:);
 tarelenummatch={};tarBOinform={};lineofelenum=1;
 while ~ischar(bondoutdata{tartrjnum+1,1})

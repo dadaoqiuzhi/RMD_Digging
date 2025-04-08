@@ -84,9 +84,6 @@ end
 bondoutdata={};
 bondoutdata{1,1}='Timestep';
 bondoutdata{1,2}=tartrajectory{1};
-for i=3:15
-    bondoutdata{1,i}=[];
-end
 
 line=2;atomnumcopy=atomnum;
 while atomnumcopy
@@ -105,13 +102,15 @@ while atomnumcopy
         for i=1:str2num(datasplit{1,3})
             bondnumdata(1,i+3)=datasplit(1,i+3);
         end
-        bondnumdata(1,8)=datasplit(1,i+4);
+        bondnumdata(1,length(bondnumdata)+1)=datasplit(1,i+4);
+        bondlength = length(bondnumdata);
         k=i+5;
         for j=1:str2num(datasplit{1,3})
-            bondnumdata(1,j+8)=datasplit(1,k);
+            bondnumdata(1,j+bondlength)=datasplit(1,k);
             k=k+1;
         end
-        bondnumdata(1,13:15)=datasplit(1,k:k+2);
+        bondlength = length(bondnumdata);
+        bondnumdata(1,bondlength+1:bondlength+3)=datasplit(1,k:k+2);
     else
         bondnumdata(1,8)=datasplit(1,4);
         bondnumdata(1,13)=datasplit(1,5);
@@ -133,10 +132,7 @@ while atomnumcopy
 end
 fclose(rawdata);
 
-if size(bondoutdata,2) > 15 %delet redundant blank column
-    bondoutdata(:,16:end)=[];
-end
 
 fprintf('\nbonds_analysis_speedup is successfully finished, BO information is saved in bondoutdata\n')
 clear atomnumcopy ans bondnumdata control datacell datacellchar datadel dataline datarep datasplit found gap i j k kk line 
-clear outputans unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename a0 a1 a2
+clear outputans unfound dataoutrow dataoutcol dataoutputrow dataoutcolchar dataoutputcol filename a0 a1 a2 bondlength
