@@ -162,7 +162,7 @@ if exist('outputdata','var') && strcmpi(rerunans,'y')
             
             if strcmpi(massshresholdans,'n')
                 MD(i-1,1)=Mn;
-                MD(i-1,2)=Mw;
+                MD(i,2)=Mw;
             elseif strcmpi(massshresholdans,'y')
                 if Mn_num==0
                     MD(i-1,1)=0;
@@ -300,7 +300,7 @@ else
                 
             if strcmpi(massshresholdans,'n')
                 MD(size(MD,1)+1,1)=Mn;
-                MD(size(MD,1)+1,2)=Mw;
+                MD(size(MD,1),2)=Mw;
             elseif strcmpi(massshresholdans,'y')
                 if Mn_num==0
                     MD(size(MD,1)+1,1)=0;
