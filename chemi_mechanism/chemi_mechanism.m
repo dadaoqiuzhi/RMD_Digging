@@ -223,6 +223,7 @@ if choi==1 || choi==2 || choi==4
             end
         else
             promptans='n';
+            fprintf('Frame is not too much, all will be exported')
         end
     elseif choi==2 || choi==4
         promptans='y';promptans2=4;
@@ -463,7 +464,7 @@ if choi==1 && strcmpi(promptans,'y')
 elseif choi==1 && strcmpi(promptans,'n')
     rowcopy=0;[~,lenframe]=size(frame);
     rawdatatrj=fopen(datanametrj,'r');
-    for irow=2:lenframe
+    for irow=1:lenframe
         rowcopy=rowcopy+1;
         fprintf('\n\nchemi_mechanism is running, please wait...');
         fprintf('\ntrajectory frame(s) in total. Now group %d is being processing\n',prompt,rowcopy);
@@ -501,9 +502,9 @@ elseif choi==1 && strcmpi(promptans,'n')
             end
         end
         bondsetdata=length(bondset);
-        if bondsetdata~=outputdatanew{irow,4}
+        if bondsetdata~=frame{2,irow}
             if bondsetdata==0
-                fprintf('\n\nWarning!!!No species is found through bonds file, but species file record it(number:%d).Possible reason:\nNevery parameter of "fix reax/c/bonds" in the in.* file is not match with the Nrepeat"fix reax/c/species"\n. Another possible reason element mapping or type error',outputdatanew{irow,4});
+                fprintf('\n\nWarning!!!No species is found through bonds file, but species file record it(number:%d).Possible reason:\nNevery parameter of "fix reax/c/bonds" in the in.* file is not match with the Nrepeat"fix reax/c/species"\n. Another possible reason element mapping or type error',frame{2,irow});
                 fprintf('\nSolution:Nrepeat of "fix reax/c/species" in the in.* file should be 1, and Nevery(species)=Nfreq(species)=Nevery(bonds)\nReplace the mapping element to the expected one before data processing\n');
                 errorexe=input('Ignore this problem and continue?y/n: \n','s');
 				msgbox('Target species is not found! How to cope with this problem?');
@@ -513,10 +514,10 @@ elseif choi==1 && strcmpi(promptans,'n')
                     error('Please see the aforesaid analysis and solution,please check it!!!');
                 end
             else
-                fprintf('\nCaution:target species number (%d) is not consistent with that of species recordation(%d)!!!\n',bondsetdata,outputdatanew{irow,4});
+                fprintf('\nCaution:target species number (%d) is not consistent with that of species recordation(%d)!!!\n',bondsetdata,frame{2,irow});
             end
         else
-            fprintf('Target species number(%d) is consistent with that of species recordation(%d)',bondsetdata,outputdatanew{irow,4});
+            fprintf('Target species number(%d) is consistent with that of species recordation(%d)',bondsetdata,frame{2,irow});
         end
         [tarraw,~]=size(tarBOinform);ii=1;jj=1;
         while tarraw
