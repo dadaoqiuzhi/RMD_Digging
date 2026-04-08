@@ -260,7 +260,7 @@ while ~feof(rawdata)
     end
 end
 fclose(rawdata);
-
+bond_output(:,2:end) = bond_output(:,2:end)/2;
 
 
 

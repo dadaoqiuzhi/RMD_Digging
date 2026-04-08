@@ -228,8 +228,10 @@ else
     tic %
     disp('MWevolution_new is running, please wait...')
     datadelimiter={'C','H','O','N','He','Li','Be','B','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Pd','Ag','Cd','In','Sn','Sb','I','Xe','Cs','Ba','Pt','Au','Hg','Pb'};
-    rawdata=fopen(dataname,'r');
+    Mn_part_total = 0;
+	rawdata=fopen(dataname,'r');
     MD=[];
+	M_fraction = [];
     while ~feof(rawdata)
         MW_fileread
         matchdataMD=[];[~,col]=size(outputdata_temp);
@@ -256,17 +258,20 @@ else
         if MDans==1 || MDans==3
             Mn=0;Mw=0;molenum={};
             Mn_num=0;Mw_num=0;
+			Mn_part_total = 0;
             molenum=outputdata_temp(2,4:end);
             molenum=cell2mat(molenum);
             for k=1:col-3
                 molenum(2,k)=molenum(1,k)*matchdataMD(k);
             end
-            
+            M_total = sum(molenum(2,:));
+			
             if strcmpi(massshresholdans,'n')
                 for j=1:col-3
                     Mn=Mn+molenum(1,j)*matchdataMD(j)/sum(molenum(1,:));
                     Mw=Mw+molenum(2,j)*matchdataMD(j)/sum(molenum(2,:));
                 end
+				Mn_part_total = sum(molenum(2,:));
             elseif strcmpi(massshresholdans,'y')
                 if massshresholdans2==1
                     for j=1:col-3
@@ -275,6 +280,7 @@ else
                             Mn_num=Mn_num+molenum(1,j);
                             Mw=Mw+molenum(2,j)*matchdataMD(j);
                             Mw_num=Mw_num+molenum(2,j);
+							Mn_part_total = Mn_part_total + molenum(2,j);
                         end
                     end
                 elseif massshresholdans2==2
@@ -284,6 +290,7 @@ else
                             Mn_num=Mn_num+molenum(1,j);
                             Mw=Mw+molenum(2,j)*matchdataMD(j);
                             Mw_num=Mw_num+molenum(2,j);
+							Mn_part_total = Mn_part_total + molenum(2,j);
                         end
                     end
                 elseif massshresholdans2==3
@@ -293,6 +300,7 @@ else
                             Mn_num=Mn_num+molenum(1,j);
                             Mw=Mw+molenum(2,j)*matchdataMD(j);
                             Mw_num=Mw_num+molenum(2,j);
+							Mn_part_total = Mn_part_total + molenum(2,j);
                         end
                     end
                 end
@@ -313,7 +321,7 @@ else
                     MD(size(MD,1),2)=Mw/Mw_num;
                 end                
             end
-            
+            M_fraction(size(M_fraction,1)+1,1) = Mn_part_total/M_total;
         end
         
         if MDans==2 || MDans==3
