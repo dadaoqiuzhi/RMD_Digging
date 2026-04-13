@@ -148,13 +148,13 @@ if choi==1 || choi==2 || choi==4
         PBCchoi=input('\nPlease input periodic boundary condition, ON/OFF: \n','s');PBCchoi=upper(PBCchoi);
         if strcmp(PBCchoi,'ON')
             PBC='PBC=ON';
-            disp('Periodic boundary condition, eg."PBC   33.4531   33.4531   33.4531   90.0000   90.0000   90.0000 (P1)"');
+            disp('Periodic boundary condition, eg."90.0000   90.0000   90.0000 (P1)"');
             PBCalpha=input('Periodic boundary condition, alpha, four decimal digits: ');
-            disp('Periodic boundary condition, eg."PBC   33.4531   33.4531   33.4531   90.0000   90.0000   90.0000 (P1)"');
+            disp('Periodic boundary condition, eg."90.0000   90.0000   90.0000 (P1)"');
             PBCbeta=input('Periodic boundary condition, beta, four decimal digits:\n');
-            disp('Periodic boundary condition, eg."PBC   33.4531   33.4531   33.4531   90.0000   90.0000   90.0000 (P1)"');
+            disp('Periodic boundary condition, eg."90.0000   90.0000   90.0000 (P1)"');
             PBCgamma=input('Periodic boundary condition, gamma, four decimal digits:\n');
-            disp('Periodic boundary condition, eg."PBC   33.4531   33.4531   33.4531   90.0000   90.0000   90.0000 (P1)"');
+            disp('Periodic boundary condition, eg."90.0000   90.0000   90.0000 (P1)"');
             spacegroupname=input('Point group name, eg."(P1)": \n','s');spacegroupname=upper(spacegroupname);
         elseif strcmp(PBCchoi,'OFF')
             PBC='PBC=OFF';
