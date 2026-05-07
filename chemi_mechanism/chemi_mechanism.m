@@ -401,7 +401,7 @@ if choi==1 && strcmpi(promptans,'y')
         bondsetdata=length(bondset);
         if bondsetdata~=frame{2,irow}
             if bondsetdata==0
-                fprintf('\n\nWarning!!!No species is found through bonds file, but species file record it(number:%d).Possible reason:\nNevery parameter of "fix reax/c/bonds" in the in.* file is not match with the Nrepeat"fix reax/c/species"\n. Another possible reason element mapping or type error',frame{2,irow});
+                fprintf('\n\nWarning!!!No species is found through bonds file, but species file record it(number:%d).Possible reason:\nNevery parameter of "fix reax/c/bonds" in the in.* file is not match with the Nrepeat"fix reax/c/species"\n. Another possible reason element mapping or type or element sequence error',frame{2,irow});
                 fprintf('\nSolution:Nrepeat of "fix reax/c/species" in the in.* file should be 1, and Nevery(species)=Nfreq(species)=Nevery(bonds)\nReplace the mapping element to the expected one before data processing\n');
                 msgbox('Target species is not found!How to cope with this problem?');
 				errorexe=input('Ignore this problem and continue?y/n: \n','s');
@@ -504,7 +504,7 @@ elseif choi==1 && strcmpi(promptans,'n')
         bondsetdata=length(bondset);
         if bondsetdata~=frame{2,irow}
             if bondsetdata==0
-                fprintf('\n\nWarning!!!No species is found through bonds file, but species file record it(number:%d).Possible reason:\nNevery parameter of "fix reax/c/bonds" in the in.* file is not match with the Nrepeat"fix reax/c/species"\n. Another possible reason element mapping or type error',frame{2,irow});
+                fprintf('\n\nWarning!!!No species is found through bonds file, but species file record it(number:%d).Possible reason:\nNevery parameter of "fix reax/c/bonds" in the in.* file is not match with the Nrepeat"fix reax/c/species"\n. Another possible reason element mapping or type or element sequence error',frame{2,irow});
                 fprintf('\nSolution:Nrepeat of "fix reax/c/species" in the in.* file should be 1, and Nevery(species)=Nfreq(species)=Nevery(bonds)\nReplace the mapping element to the expected one before data processing\n');
                 errorexe=input('Ignore this problem and continue?y/n: \n','s');
 				msgbox('Target species is not found! How to cope with this problem?');
@@ -632,7 +632,7 @@ elseif choi==2 || choi==4
     bondsetdata=length(bondset);
     if bondsetdata~=frame{2,1}
         if bondsetdata==0
-            fprintf('\n\nWarning!!!No species is found through bonds file, but species file record it(number:%d).Possible reason:\nNevery parameter of "fix reax/c/bonds" in the in.* file is not match with the Nrepeat"fix reax/c/species"\n.Another possible reason element mapping or type error',frame{2,1});
+            fprintf('\n\nWarning!!!No species is found through bonds file, but species file record it(number:%d).Possible reason:\nNevery parameter of "fix reax/c/bonds" in the in.* file is not match with the Nrepeat"fix reax/c/species"\n.Another possible reason element mapping or type or element sequence error',frame{2,1});
             fprintf('\nSolution:Nrepeat of "fix reax/c/species" in the in.* file should be 1, and Nevery(species)=Nfreq(species)=Nevery(bonds)\nReplace the mapping element to the expected one before data processing\n');
             msgbox('Target species is not found!How to cope with this problem?');
 			errorexe=input('Ignore this problem and continue?y/n: \n','s');
